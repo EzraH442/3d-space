@@ -1,0 +1,12 @@
+{
+  "name": "3d-space",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "setup": "meson setup build",
+    "compile": "cd build && meson compile"
+  },
+  "author": "",
+  "license": "ISC"
+}
