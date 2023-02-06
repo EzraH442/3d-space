@@ -1,3 +1,5 @@
+#pragma once
+
 struct Vec3d {
   int x;
   int y;

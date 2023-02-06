@@ -1,12 +1,18 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <iostream>
-#include "renderer.cpp"
+#include "src/renderer.cpp"
+#include "include/sphere.h"
+
+void renderPointEzra(sf::RenderWindow& window, Sphere s) {
+  sf::CircleShape shape(20.0f);
+  shape.setFillColor(s.getColor());
+}
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works!");
-    Point p({10, 10, 10}, sf::Color::Blue);
+    Sphere s({10, 10, 10}, 4);
 
     while (window.isOpen())
     {
@@ -19,7 +25,7 @@ int main()
 
         window.clear();
 
-        renderPointEzra(window, p);
+        renderPointEzra(window, s);
         window.display();
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {

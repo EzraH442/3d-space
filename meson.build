@@ -2,14 +2,10 @@ project('3d-space', 'cpp')
 
 sfml_dep = dependency('sfml-all')
 
+include = include_directories('include')
+
 subdir('src')
 
-pkg_mod = import('pkgconfig')
-pkg_mod.generate(
-  libraries: foolib,
-  version: '1.0',
-  name: 'libfoobar',
-  filebase: 'foobar'
-)
+dep = declare_dependency(include_directories: include, sources: foo_sources, dependencies: sfml_dep)
 
-executable('3d-space', src, dependencies: [sfml_dep])
+executable('3d-space', 'main.cpp', dependencies: [dep])
