@@ -1,6 +1,5 @@
 #include <iostream>
 #include "SDL_render.h"
-#include "src/renderer.cpp"
 
 #include <SDL.h>
 

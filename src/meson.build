@@ -1,5 +1,6 @@
 foo_sources = [
-'src/renderer.cpp',
-'src/worldobject.cpp',
-'src/color.cpp'
+  './src/color.cpp',
+  './src/pieces/tetris_piece.cpp',
+  './src/pieces/t_piece.cpp',
+  './src/pieces/piece_multiarray.cpp',
 ]

@@ -1,5 +1,7 @@
 #include "pieces/tetris_piece.h"
 
+AbstractTetrisPiece3D::~AbstractTetrisPiece3D() {};
+
 void AbstractTetrisPiece3D::rotateXY(int r) {
   dataArray.rotateXY(r);
 }
