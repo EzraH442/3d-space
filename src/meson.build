@@ -7,4 +7,6 @@ foo_sources = [
   './src/pieces/l_piece.cpp',
   './src/pieces/j_piece.cpp',
   './src/pieces/piece_multiarray.cpp',
+  './src/vector_3d.cpp',
+  './src/render/line.cpp'
 ]
