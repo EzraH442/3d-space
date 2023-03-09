@@ -39,7 +39,7 @@ private:
 };
 
 
-#include "pieces/t_piece.h"
+#include "pieces/z_piece.h"
 
 int main() {
     Framework fw(800, 800);
@@ -48,9 +48,8 @@ int main() {
 
     SDL_Event event;
 
-    t_piece t = t_piece();
+    z_piece t = z_piece();
 
-    t.rotateXY(1);
     t.log();
 
     // while(!(event.type == SDL_QUIT)){
