@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "setup": "meson setup build",
-    "compile": "cd build && meson compile"
+    "setup": "meson --reconfigure build",
+    "compile": "cd build && meson compile",
+    "start": "./build/3d-space"
   },
   "author": "",
   "license": "ISC"

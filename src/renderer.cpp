@@ -1,6 +1,4 @@
-#pragma once
-
-#include "include/sphere.h"
+#include "structs.cpp"
 
 struct Camera {
   Vec3d pos;

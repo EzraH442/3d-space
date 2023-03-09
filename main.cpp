@@ -1,6 +1,5 @@
 #include <iostream>
 #include "src/renderer.cpp"
-#include "include/sphere.h"
 
 #include <SDL.h>
 
@@ -42,14 +41,11 @@ public:
     }
 
 private:
-    int height;     // Height of the window
-    int width;      // Width of the window
-    SDL_Renderer *renderer = NULL;      // Pointer for the renderer
-    SDL_Window *window = NULL;      // Pointer for the window
+    int height;
+    int width;
+    SDL_Renderer *renderer = NULL;
+    SDL_Window *window = NULL;
 };
-
-
-
 
 // void renderPointEzra(sf::RenderWindow& window, Sphere s) {
 //   sf::CircleShape shape(20.0f);
@@ -57,14 +53,14 @@ private:
 // }
 
 int main() {
-    Framework fw(200, 400);
+    Framework fw(800, 800);
 
     fw.draw_circle(200, 100, 50);
 
-    SDL_Event event;    // Event variable
+    SDL_Event event;
 
     while(!(event.type == SDL_QUIT)){
-        SDL_Delay(10);  // setting some Delay
+        SDL_Delay(10);
         SDL_PollEvent(&event);  // Catching the poll event.
     }
 
