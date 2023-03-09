@@ -1,5 +1,5 @@
 
-#include "pieces/piece_multiarray.h"
+#include "pieces/piece_multiarray.hpp"
 
 PieceMultiarray::PieceMultiarray() {
   data.fill(0);

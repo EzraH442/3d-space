@@ -1,4 +1,4 @@
-#include "include/color.h"
+#include "include/color.hpp"
 #include <algorithm>
 #include <cctype>
 #include <sstream>

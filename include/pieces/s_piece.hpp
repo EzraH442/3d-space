@@ -1,5 +1,5 @@
 #pragma once
-#include "tetris_piece.h"
+#include "tetris_piece.hpp"
 
 class s_piece : public AbstractTetrisPiece3D {
   public:

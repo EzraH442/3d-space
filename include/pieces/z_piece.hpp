@@ -1,9 +1,8 @@
-#pragma once
-#include "tetris_piece.h"
+#include "tetris_piece.hpp"
 
-class t_piece : public AbstractTetrisPiece3D {
+class z_piece : public AbstractTetrisPiece3D {
   public:
-    t_piece();
+    z_piece();
   public:
     bool canRotateXY() override;
     bool canRotateXZ() override;

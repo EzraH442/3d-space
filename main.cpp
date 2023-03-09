@@ -39,7 +39,7 @@ private:
 };
 
 
-#include "pieces/z_piece.h"
+#include "pieces/z_piece.hpp"
 
 int main() {
     Framework fw(800, 800);

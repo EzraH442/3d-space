@@ -1,4 +1,4 @@
-#include "pieces/z_piece.h"
+#include "pieces/z_piece.hpp"
 
 z_piece::z_piece() {
   dataArray.setFilled(0, 0, 0);

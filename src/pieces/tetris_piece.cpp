@@ -1,4 +1,4 @@
-#include "pieces/tetris_piece.h"
+#include "pieces/tetris_piece.hpp"
 
 AbstractTetrisPiece3D::~AbstractTetrisPiece3D() {};
 

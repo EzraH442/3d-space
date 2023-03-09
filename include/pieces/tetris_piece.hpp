@@ -1,5 +1,5 @@
 #pragma once
-#include "piece_multiarray.h"
+#include "piece_multiarray.hpp"
 
 class AbstractTetrisPiece3D {
   protected:

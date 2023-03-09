@@ -1,5 +1,5 @@
 #pragma once
-#include "pieces/t_piece.h"
+#include "pieces/t_piece.hpp"
 
 t_piece::t_piece() {
   dataArray.setFilled(0, 1, 0);
