@@ -51,13 +51,14 @@ int main() {
 
     PieceMultiarray b = PieceMultiarray();
 
-    b.setFilled(1, 0, 0, 1);
-    b.setFilled(1, 1, 0, 1);
-    b.setFilled(1, 2, 0, 1);
+    b.setFilled(0, 0, 1, 1);
+    b.setFilled(0, 1, 1, 1);
+    b.setFilled(1, 1, 1, 1);
+    b.setFilled(2, 1, 1, 1);
 
     b.log();
 
-    b.rotateXY(1);
+    b.rotateXY(-1);
 
     b.log();
     // while(!(event.type == SDL_QUIT)){
