@@ -41,6 +41,7 @@ private:
 
 
 #include "src/piece_multiarray.cpp"
+#include "src/t_piece.cpp"
 
 int main() {
     Framework fw(800, 800);
@@ -49,18 +50,11 @@ int main() {
 
     SDL_Event event;
 
-    PieceMultiarray b = PieceMultiarray();
+    t_piece t = t_piece();
 
-    b.setFilled(0, 0, 1, 1);
-    b.setFilled(0, 1, 1, 1);
-    b.setFilled(1, 1, 1, 1);
-    b.setFilled(2, 1, 1, 1);
+    t.rotateXY(1);
+    t.log();
 
-    b.log();
-
-    b.rotateXY(-1);
-
-    b.log();
     // while(!(event.type == SDL_QUIT)){
     //     SDL_Delay(10);
     //     SDL_PollEvent(&event);  // Catching the poll event.

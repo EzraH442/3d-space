@@ -12,7 +12,7 @@ class PieceMultiarray {
     }
 
     void log() {
-      std::cout << "---\n";
+      std::cout << "--- piece\n";
       for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
           for (int k = 0; k < 3; k++) {
@@ -24,6 +24,14 @@ class PieceMultiarray {
       }
     }
 
+    void logRaw() {
+      std::cout << "--- piece\n";
+      for (auto &i : data) {
+        std::cout << i << " ";
+      }
+      std::cout << "\n";
+    }
+
     bool isFilled(int x, int y, int z) {
       return data.at(x + y*3 + z*9);
     }
@@ -32,7 +40,7 @@ class PieceMultiarray {
       return data.at(n);
     }
 
-    bool setFilled(int x, int y, int z, int filled) {
+    bool setFilled(int x, int y, int z, int filled=1) {
       return data.at(x + y*3 + z*9) = filled;
     }
 
@@ -40,7 +48,6 @@ class PieceMultiarray {
       return data.at(n) = filled;
     }
 
-    // r=1 -> clockwise, r=-1 -> counter-clockwise
     void rotateXY(int r) {
       PieceMultiarray rotated = PieceMultiarray();
 
@@ -66,10 +73,52 @@ class PieceMultiarray {
     } 
 
     void rotateXZ(int r) {
+      PieceMultiarray rotated = PieceMultiarray();
+
+      if (r == 1) {
+        for (int y = 0; y < 3; y++) {
+          for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+              rotated.setFilled(2-j, y, i, isFilled(i, y, j));
+            }
+          }
+        }
+      } else {
+        for (int y = 0; y < 3; y++) {
+          for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+              rotated.setFilled(j, y, 2-i, isFilled(i, y, j));
+            }
+          }
+        }
+      }
+
+      data = rotated.data;
 
     }
 
     void rotateYZ(int r) {
+      PieceMultiarray rotated = PieceMultiarray();
+
+      if (r == 1) {
+        for (int x = 0; x < 3; x++) {
+          for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+              rotated.setFilled(x, 2-j, i, isFilled(x, i ,j));
+            }
+          }
+        }
+      } else {
+        for (int x = 0; x < 3; x++) {
+          for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+              rotated.setFilled(x, j, 2-i, isFilled(x, i, j));
+            }
+          }
+        }
+      }
+
+      data = rotated.data;
 
     }
 
