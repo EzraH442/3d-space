@@ -40,8 +40,7 @@ private:
 };
 
 
-#include "src/piece_multiarray.cpp"
-#include "src/t_piece.cpp"
+#include "pieces/t_piece.h"
 
 int main() {
     Framework fw(800, 800);
