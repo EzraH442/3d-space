@@ -1,10 +1,10 @@
 #include "include/worldobject.h"
 
-sf::Color WorldObject::getColor() {
+Color WorldObject::getColor() {
   return color;
 }
 
-void WorldObject::setColor(sf::Color color) {
+void WorldObject::setColor(Color color) {
   this->color = color;
 }
 

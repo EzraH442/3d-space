@@ -6,7 +6,7 @@
 abstract class "WorldObject" {
   move();
   rotate();
-  sf::Color color;
+  Color color;
 }
 
 WorldObject --|> Shape
@@ -54,7 +54,7 @@ class Camera {
 
 Renderer -- World: < uses object data 
 Renderer -- Camera: < uses camera position data
-Renderer - Window : > produce SFML objects
+Renderer - Window : > produce renderable objects
 
 @enduml
 
@@ -78,3 +78,10 @@ Manipulator - World: processes data to modify shapes data >
 Manipulator -- InputHandler: uses event data <
 Manipulator -- Camera: < uses camera position data
 @enduml
+
+## maybe
+dot / cross products?
+
+graphing? $f(x, y) = z$
+
+run in browser with webassembly?

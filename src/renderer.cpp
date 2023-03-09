@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 #include "include/sphere.h"
 
 struct Camera {
