@@ -1,3 +1,7 @@
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -15,6 +19,7 @@
 #include "src/render/line.cpp"
 
 #include "src/render/camera.cpp"
+
 class Framework{
 public:
     Framework(int height_, int width_): height(height_), width(width_) {
@@ -134,52 +139,24 @@ private:
 };
 
 
+Framework fw(800, 800);
 
-int main() {
-
-    std::vector<Line> lines;
-    
-    Board b;
-
-    Cube cube(Color(255, 255, 255), {0,0,0});
-
-    b.addCube(0, 0, 0, cube);
-
-    int cameraPos = 0;
-    Camera c;
-
-    for (int i = 0; i < 11; i++) {
-        lines.push_back(Line({0,i*10,0}, {100,i*10,0}));
-    }
-
-    for (int i = 0; i < 11; i++) {
-        lines.push_back(Line({i*10, 0 ,0}, {i*10, 100, 0}));
-    }
-
-    int boardHeight = 200;
-    lines.push_back(Line({0,0,0}, {0,0,boardHeight}));
-    lines.push_back(Line({100,0,0}, {100,0,boardHeight}));
-    lines.push_back(Line({0,100,0}, {0,100,boardHeight}));
-    lines.push_back(Line({100,100,0}, {100,100,boardHeight}));
-
-    Framework fw(800, 800);
+std::unordered_map<int, bool> keys;
+std::unordered_map<int, bool> mouse;
+Camera c;
+std::vector<Line> lines;
+int cameraPos = 0;
+Cube cube(Color(255, 255, 255), {0,0,0});
 
 
-    std::unordered_map<int, bool> keys;
-    std::unordered_map<int, bool> mouse;
-
-    SDL_Event event;
-
-    while(!(event.type == SDL_QUIT)){
-        SDL_Delay(50);
-
-        if (event.type == SDL_KEYDOWN) {
-            keys[event.key.keysym.sym] = true;
+void process_event(SDL_Event *event) {
+        if (event->type == SDL_KEYDOWN) {
+            keys[event->key.keysym.sym] = true;
         }
-        if (event.type == SDL_KEYUP) {
-            keys[event.key.keysym.sym] = false;
+        if (event->type == SDL_KEYUP) {
+            keys[event->key.keysym.sym] = false;
 
-            int key = event.key.keysym.sym; 
+            int key = event->key.keysym.sym; 
             if (key == SDLK_RIGHT || key == SDLK_d) {
                 cameraPos = (cameraPos + 1) % 4;
             }
@@ -188,11 +165,11 @@ int main() {
             }
         }
 
-        if (event.type == SDL_MOUSEWHEEL) {
-            if (event.wheel.y > 0) {
+        if (event->type == SDL_MOUSEWHEEL) {
+            if (event->wheel.y > 0) {
                 c.changeHeight(1);
             }
-            if (event.wheel.y < 0) {
+            if (event->wheel.y < 0) {
                 c.changeHeight(-1);
             }
         }
@@ -215,22 +192,57 @@ int main() {
             std::cout << "down\n";
             c.changeOffset(-1);
         }
+}
 
-        SDL_SetRenderDrawColor(fw.renderer, 0, 0, 0, 0);
-        SDL_RenderClear(fw.renderer);
+void process_input() {
+    SDL_Event event;
 
-        SDL_SetRenderDrawColor(fw.renderer, 255, 255, 255, 255);
-
-        for (int i = 0; i < lines.size(); i++) {
-            fw.draw_line(lines[i], c, cameraPos);
-        }
-
-        fw.draw_cube(cube, c, cameraPos);
-
-        SDL_RenderPresent(fw.renderer);
-
-        SDL_PollEvent(&event);
+    while (SDL_PollEvent(&event)) {
+        process_event(&event);
     }
+}
+
+void main_loop() {
+    process_input();
+
+    SDL_SetRenderDrawColor(fw.renderer, 0, 0, 0, 0);
+    SDL_RenderClear(fw.renderer);
+
+    SDL_SetRenderDrawColor(fw.renderer, 255, 255, 255, 255);
+
+    for (int i = 0; i < lines.size(); i++) {
+        fw.draw_line(lines[i], c, cameraPos);
+    }
+
+    fw.draw_cube(cube, c, cameraPos);
+
+    SDL_RenderPresent(fw.renderer);
+}
+
+int main() {
+
+    for (int i = 0; i < 11; i++) {
+        lines.push_back(Line({0,i*10,0}, {100,i*10,0}));
+    }
+
+    for (int i = 0; i < 11; i++) {
+        lines.push_back(Line({i*10, 0 ,0}, {i*10, 100, 0}));
+    }
+
+    int boardHeight = 200;
+    lines.push_back(Line({0,0,0}, {0,0,boardHeight}));
+    lines.push_back(Line({100,0,0}, {100,0,boardHeight}));
+    lines.push_back(Line({0,100,0}, {0,100,boardHeight}));
+    lines.push_back(Line({100,100,0}, {100,100,boardHeight}));
+
+    #ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop(main_loop, 0, 1);
+    #else
+    while (1) {
+        SDL_Delay(50);
+        main_loop();
+    }
+    #endif
 
     return 0;
 }

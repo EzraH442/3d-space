@@ -1,11 +1,14 @@
 project('3d-space', 'cpp')
 
-sdl2_dep = dependency('sdl2')
-
 include = include_directories('include')
 
 subdir('src')
 
-dep = declare_dependency(include_directories: include, sources: foo_sources, dependencies: [sdl2_dep])
-
-executable('3d-space', 'main.cpp', dependencies: [dep])
+if meson.is_cross_build()
+  dep = declare_dependency(include_directories: include, sources: foo_sources, dependencies: [])
+  executable('3d-space', 'main.cpp', dependencies: [dep], link_args: ['-o','out.html'])
+else
+  sdl2_dep = dependency('sdl2')
+  dep = declare_dependency(include_directories: include, sources: foo_sources, dependencies: [sdl2_dep])
+  executable('3d-space', 'main.cpp', dependencies: [dep])
+endif

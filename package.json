@@ -4,10 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "setup": "meson --reconfigure build",
-    "compile": "cd build && meson compile",
-    "start": "./build/3d-space"
+    "setup": "meson setup --wipe build",
+    "setup-wasm": "meson setup --wipe --cross-file wasm.ini build-wasm",
+    "compile": "meson compile -C build",
+    "compile-wasm": "meson compile -C build-wasm",
+    "start": "./build/3d-space",
+    "start-wasm": "emrun ./build-wasm/out.html"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
 }
