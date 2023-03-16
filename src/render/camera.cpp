@@ -1,21 +1,30 @@
 #include <vector_3d.hpp>
 
 class Camera {
-  int height = 500;
+  int height = 300;
   int length = 100; // total length of "board / playing area"
-  int offset = 100;
+  int offset = 25;
 
   public:
   
     Camera() {};
 
     void changeHeight(int n) {
-      if (height + n <= 300 || height + n >= 600) return;
+      if (height + n <= 300 || height + n >= 500) return;
       height += n;
     }
 
     void changeOffset(int n) {
+      if (offset + n <= 0 || offset + n >= 100) return;
       offset += n;
+    }
+
+    int getHeight() {
+      return height;
+    }
+
+    int getOffset() {
+      return offset;
     }
 
     Vec3d getPos(int dir) {
