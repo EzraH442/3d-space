@@ -7,5 +7,5 @@ struct Line {
   Vec3d start, end;
   Color color;
   Line(Vec3d start, Vec3d end, int thickness = 1);
-  Line(Vec3d start, Vec3d end, Color c, int thickness = 1);
+  Line(Vec3d start, Vec3d end, Color &c, int thickness = 1);
 };

@@ -6,5 +6,5 @@ Line::Line(Vec3d start, Vec3d end, int t):
   color = Color();
 }
 
-Line::Line(Vec3d start, Vec3d end, Color c, int t): 
+Line::Line(Vec3d start, Vec3d end, Color &c, int t): 
   thickness(t), start(start), end(end), color(c) {}
