@@ -6,19 +6,18 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "SDL_events.h"
-#include "SDL_keycode.h"
-#include "SDL_render.h"
 
 #include <SDL.h>
+#include <SDL_events.h>
+#include <SDL_keycode.h>
+#include <SDL_render.h>
+#include <SDL_video.h>
 
-#include "src/board/board.cpp"
-#include "SDL_video.h"
 #include "vector_3d.hpp"
-
-#include "src/render/line.cpp"
-
-#include "src/render/camera.cpp"
+#include "render/line.hpp"
+#include "render/cube.hpp"
+#include "render/camera.hpp"
+#include "board/board.hpp"
 
 class Framework{
 public:
@@ -50,34 +49,8 @@ public:
     }
 
     void draw_cube(Cube c, Camera &camera, int direction) {
-        const Vec3d p1 = c.pos;
-        const Vec3d p2 = c.pos + Vec3d{10, 0, 0};
-        const Vec3d p3 = c.pos + Vec3d{10, 10, 0};
-        const Vec3d p4 = c.pos + Vec3d{0, 10 ,0};
-
-        const Vec3d p5 = c.pos + Vec3d{0, 0, 10};
-        const Vec3d p6 = c.pos + Vec3d{10, 0, 10};
-        const Vec3d p7 = c.pos + Vec3d{10, 10, 10};
-        const Vec3d p8 = c.pos + Vec3d{0, 10, 10};
-
-        std::vector<Line> lines = {
-            Line(p1, p2),
-            Line(p2, p3),
-            Line(p3, p4),
-            Line(p4, p1),
-
-            Line(p5, p6),
-            Line(p6, p7),
-            Line(p7, p8),
-            Line(p8, p5),
-
-            Line(p1, p5),
-            Line(p2, p6),
-            Line(p3, p7),
-            Line(p4, p8),
-        };
-
-        for (auto &l : lines) {
+        // c.log();
+        for (Line l : c.toLines()) {
             draw_line(l, camera, direction);
         }
     }
@@ -146,8 +119,8 @@ std::unordered_map<int, bool> mouse;
 Camera c;
 std::vector<Line> lines;
 int cameraPos = 0;
-Cube cube(Color(255, 255, 255), {0,0,0});
 
+Cube cube(Vec3d({0,0,0}), Color(), Color(0,0,0));
 
 void process_event(SDL_Event *event) {
         if (event->type == SDL_KEYDOWN) {
@@ -185,12 +158,13 @@ void process_event(SDL_Event *event) {
         // }
 
         if (keys[SDLK_UP] || keys[SDLK_w]) {
-            std::cout << "up\n";
             c.changeOffset(1);
         }
         if (keys[SDLK_DOWN] || keys[SDLK_s]) {
-            std::cout << "down\n";
             c.changeOffset(-1);
+        }
+        if (event->type == SDL_QUIT) {
+            SDL_Quit();
         }
 }
 

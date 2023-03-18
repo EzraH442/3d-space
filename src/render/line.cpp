@@ -1,10 +1,10 @@
-#include "color.hpp"
-#include "vector_3d.hpp"
+#include "render/line.hpp"
 
-class Line {
-  public:
-    Line(Vec3d start_, Vec3d end_):start(start_), end(end_) {}
-    Vec3d start;
-    Vec3d end;
-    Color color();
-};
+Line::Line(Vec3d start, Vec3d end, int t): 
+  thickness(t), start(start), end(end) 
+{
+  color = Color();
+}
+
+Line::Line(Vec3d start, Vec3d end, Color c, int t): 
+  thickness(t), start(start), end(end), color(c) {}
