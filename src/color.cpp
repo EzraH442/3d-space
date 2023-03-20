@@ -1,65 +1,35 @@
 #include "color.hpp"
-#include <algorithm>
-#include <cctype>
-#include <sstream>
-#include <string>
-#include <regex>
-#include <sys/types.h>
+
+#include <iostream>
+
+Color Color::Black = Color(0, 0, 0);
+Color Color::White = Color(255, 255, 255);
+Color Color::Cyan = Color(0, 255, 255);
+Color Color::Blue = Color(0, 0, 255);
+Color Color::Orange = Color(255, 127, 0);
+Color Color::Yellow = Color(255, 255, 0);
+Color Color::Green = Color(0, 255, 0);
+Color Color::Purple = Color(128, 0, 128);
+Color Color::Red = Color(255, 0, 0);
 
 Color::Color() {
-  this->r = 0;
-  this->g = 0;
-  this->b = 0;
-  this->a = 0;
+  r = 255;
+  g = 255;
+  b = 255;
+  a = 255;
 }
 
-Color::Color(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a) {
+Color::Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
   this->r = r;
   this->g = g;
   this->b = b;
   this->a = a;
 }
 
-Color::Color(u_int8_t r, u_int8_t g, u_int8_t b) {
+Color::Color(Uint8 r, Uint8 g, Uint8 b) {
+  std::cout << std::to_string(r) << "\n";
   this->r = r;
   this->g = g;
   this->b = b;
-  this->a = 255;
-}
-
-struct RGB {
-  int r;
-  int g;
-  int b;
-};
-
-RGB hexToRGB(std::string s) {
-  std::transform(s.begin(), s.end(), s.begin(), ::tolower);
-  std::regex re("^#[a-f0-9]{6}");
-  std::smatch m;
-  std::regex_search(s, m, re);
-  std::string match = m[0];
-  uint v = std::stoul("0x"+match.substr(1, 6), nullptr, 16);
-  
-  int r = ((v >> 16) & 0xFF) / 255.0;
-  int g = ((v >> 8) & 0xFF) / 255.0;
-  int b = ((v) & 0xFF) / 255.0;
-
-  return {r, g, b};
-}
-
-Color::Color(std::string s, u_int8_t a) {
-  RGB rgb = hexToRGB(s);
-  r = rgb.r;
-  g = rgb.g;
-  b = rgb.b;
-  this->a = a;
-}
-
-Color::Color(std::string s) {
-  RGB rgb = hexToRGB(s);
-  r = rgb.r;
-  g = rgb.g;
-  b = rgb.b;
-  this->a = 255;
+  a = 255;
 }

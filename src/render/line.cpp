@@ -1,10 +1,9 @@
 #include "render/line.hpp"
 
-Line::Line(Vec3d start, Vec3d end, int t): 
-  thickness(t), start(start), end(end) 
-{
-  color = Color();
+Line::Line(const Vec3d &start, const Vec3d &end, int t)
+    : thickness(t), start(start), end(end) {
+  color = Color::White;
 }
 
-Line::Line(Vec3d start, Vec3d end, Color &c, int t): 
-  thickness(t), start(start), end(end), color(c) {}
+Line::Line(const Vec3d &start, const Vec3d &end, const Color &c, int t)
+    : thickness(t), start(start), end(end), color(c) {}

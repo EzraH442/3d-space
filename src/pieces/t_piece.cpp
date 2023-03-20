@@ -1,4 +1,3 @@
-#pragma once
 #include "pieces/t_piece.hpp"
 
 t_piece::t_piece() {

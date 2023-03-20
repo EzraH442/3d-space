@@ -1,8 +1,10 @@
 #pragma once
+
 #include <array>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
 #include "render/cube.hpp"
 
 class Board {
@@ -15,6 +17,6 @@ class Board {
 
   void addCube(int pos, Cube &c);
   void addCube(int x, int y, int z, Cube &c);
-  std::vector<std::pair<Vec3d, Cube>> getCubes() const;
-  std::vector<Line> getLines() const;
+  const std::unordered_map<int, Cube> getCubes() const;
+  const std::vector<Line> getLines() const;
 };

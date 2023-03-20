@@ -1,20 +1,23 @@
 #pragma once
 
-#include <cstdint>
 #include <string>
 
-class Color {
-  private:
-  uint8_t r;
-  uint8_t g;
-  uint8_t b;
-  uint8_t a;
+#include "SDL_stdinc.h"
 
-  public:
+struct Color {
+  static Color White;
+  static Color Black;
+  static Color Cyan;
+  static Color Blue;
+  static Color Orange;
+  static Color Yellow;
+  static Color Green;
+  static Color Purple;
+  static Color Red;
+
+  uint8_t r, g, b, a;
+
   Color();
-  Color(uint8_t, uint8_t, uint8_t, uint8_t);
-  Color(uint8_t, uint8_t, uint8_t);
-  Color(std::string s);
-  Color(std::string s, uint8_t a);
-
+  Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+  Color(Uint8 r, Uint8 g, Uint8 b);
 };
