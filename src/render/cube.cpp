@@ -1,10 +1,13 @@
 #include "render/cube.hpp"
 
-Cube::Cube() {
+Cube::Cube() : strokeColor(Color::White), fillColor(Color::Purple) {
   points.fill({0, 0, 0});
-  strokeColor = Color::White;
-  fillColor = Color::Purple;
 }
+
+Cube::Cube(const Cube &cube)
+    : points(cube.points),
+      strokeColor(cube.strokeColor),
+      fillColor(cube.fillColor) {}
 
 Cube::Cube(std::array<Vec3d, 8> points, Color &sc, Color &fc)
     : points(points), strokeColor(sc), fillColor(fc) {}

@@ -4,7 +4,8 @@
 
 #include "SDL_stdinc.h"
 
-struct Color {
+class Color {
+ public:
   static Color White;
   static Color Black;
   static Color Cyan;
@@ -15,9 +16,10 @@ struct Color {
   static Color Purple;
   static Color Red;
 
-  uint8_t r, g, b, a;
+  const Uint8 r, g, b, a;
 
   Color();
+  Color(const Color&);
   Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
   Color(Uint8 r, Uint8 g, Uint8 b);
 };

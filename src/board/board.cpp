@@ -29,12 +29,12 @@ Board::Board() {
 
 void Board::addCube(int pos, Cube &c) {
   cubePositions[pos] = 1;
-  cubes[pos] = c;
+  cubes.insert({1, c});
 }
 
 void Board::addCube(int x, int y, int z, Cube &c) {
   cubePositions[x + 10 * y + 100 * z] = 1;
-  cubes[x + 10 * y + 100 * z] = c;
+  cubes.insert({1, c});
 }
 
 const std::unordered_map<int, Cube> Board::getCubes() const { return cubes; }
