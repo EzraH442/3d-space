@@ -12,8 +12,8 @@ class Camera {
 
     void changeHeight(int n);
     void changeOffset(int n);
-    int getHeight();
-    int getOffset();
+    int getHeight() const;
+    int getOffset() const;
 
-    Vec3d getPos(int dir);
+    Vec3d getPos(int dir) const;
 };

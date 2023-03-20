@@ -13,15 +13,15 @@ void Camera::changeOffset(int n) {
   offset += n;
 }
 
-int Camera::getHeight() {
+int Camera::getHeight() const {
   return height;
 }
 
-int Camera::getOffset() {
+int Camera::getOffset() const {
   return offset;
 }
 
-Vec3d Camera::getPos(int dir) {
+Vec3d Camera::getPos(int dir) const {
   if (dir == 0) return {length + offset, length + offset, height};
   else if (dir == 1) return {0 - offset, length + offset, height};
   else if (dir == 2) return {0 - offset, 0 - offset, height};

@@ -51,13 +51,23 @@ public:
     SDL_RenderPresent(renderer);
   }
 
-  void draw_cube(Cube c, Camera &camera, int direction) {
-    for (Line l : c.toLines()) {
+  void draw_board(Board &b, Camera &camera, int direction) {
+    for (const auto &p : b.getCubes()) {
+      draw_cube(p.second, camera, direction);
+    }
+
+    for (const auto &l: b.getLines()) {
       draw_line(l, camera, direction);
     }
   }
 
-  void draw_line(Line &l, Camera &c, int direction) {
+  void draw_cube(const Cube &c, const Camera &camera, int direction) {
+    for (const Line &l : c.toLines()) {
+      draw_line(l, camera, direction);
+    }
+  }
+
+  void draw_line(const Line &l, const Camera &c, int direction) {
     float d = 500.f;
     Vec3d cameraPos = c.getPos(direction);
     int offset = c.getOffset();
@@ -121,12 +131,18 @@ int cameraPos = 0;
 Color white = Color();
 Color black = Color(0,0,0);
 
+Board b;
+
 Cube cube(Vec3d({0,0,0}), white, black);
+Cube cube2(Vec3d({1,0,0}), white, black);
+Cube cube3(Vec3d({2,0,0}), white, black);
+Cube cube4(Vec3d({3,0,0}), white, black);
 
 void process_event(SDL_Event *event) {
   switch(event->type) {
     case SDL_QUIT:
       SDL_Quit();
+
       break;
 
     case SDL_KEYDOWN: {
@@ -184,27 +200,17 @@ void main_loop() {
     fw.draw_line(lines[i], c, cameraPos);
   }
 
-  fw.draw_cube(cube, c, cameraPos);
+  fw.draw_board(b, c, cameraPos);
 
   SDL_RenderPresent(fw.renderer);
 }
 
 int main() {
 
-  for (int i = 0; i < 11; i++) {
-    lines.push_back(Line({0,i*10,0}, {100,i*10,0}));
-  }
-
-  for (int i = 0; i < 11; i++) {
-    lines.push_back(Line({i*10, 0 ,0}, {i*10, 100, 0}));
-  }
-
-  int boardHeight = 200;
-  lines.push_back(Line({0,0,0}, {0,0,boardHeight}));
-  lines.push_back(Line({100,0,0}, {100,0,boardHeight}));
-  lines.push_back(Line({0,100,0}, {0,100,boardHeight}));
-  lines.push_back(Line({100,100,0}, {100,100,boardHeight}));
-
+  b.addCube(0,0,0,cube);
+  b.addCube(1,0,0,cube2);
+  b.addCube(2,0,0,cube3);
+  b.addCube(3,0,0,cube4);
   #ifdef __EMSCRIPTEN__
   emscripten_set_main_loop(main_loop, 0, 1);
   #else

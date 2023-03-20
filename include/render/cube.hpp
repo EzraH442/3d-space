@@ -13,6 +13,6 @@ class Cube {
     Cube();
     Cube(std::array<Vec3d, 8> points, Color &strokeColor, Color &fillColor);
     Cube(Vec3d pos, Color &strokeColor, Color &fillColor);
-    std::array<Line, 12> toLines();
+    const std::array<Line, 12> toLines() const;
     void log();
 };
