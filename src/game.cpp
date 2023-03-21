@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+#include <cmath>
+
 #include "pieces/abstract_tetris_piece.hpp"
 #include "pieces/j_piece.hpp"
 #include "pieces/tetris_piece.hpp"
@@ -56,3 +58,13 @@ int Game::tryHold() {
     return 2;
   }
 }
+
+void Game::tryMoveX(int n) { currentPiecePos.x += n; }
+
+void Game::tryMoveY(int n) { currentPiecePos.y += n; }
+
+void Game::tryRotateXY(int r) { currentPiece->rotateXY(r); }
+
+void Game::tryRotateXZ(int r) { currentPiece->rotateXZ(r); }
+
+void Game::tryRotateYZ(int r) { currentPiece->rotateYZ(r); }

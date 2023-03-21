@@ -1,5 +1,7 @@
 #include "render/cube.hpp"
 
+#include <vector>
+
 Cube::Cube() : strokeColor(Color::White), fillColor(Color::Purple) {
   points.fill({0, 0, 0});
 }
@@ -27,22 +29,31 @@ Cube::Cube(const Vec3d &pos, const Color &sc, const Color &fc)
   points = {p1, p2, p3, p4, p5, p6, p7, p8};
 }
 
-const std::array<Line, 12> Cube::toLines() const {
-  std::array<Line, 12> lines = {
-      Line(points[0] * 10, points[1] * 10, strokeColor),
-      Line(points[1] * 10, points[2] * 10, strokeColor),
-      Line(points[2] * 10, points[3] * 10, strokeColor),
-      Line(points[3] * 10, points[0] * 10, strokeColor),
-      Line(points[4] * 10, points[5] * 10, strokeColor),
-      Line(points[5] * 10, points[6] * 10, strokeColor),
-      Line(points[6] * 10, points[7] * 10, strokeColor),
-      Line(points[7] * 10, points[4] * 10, strokeColor),
-      Line(points[0] * 10, points[4] * 10, strokeColor),
-      Line(points[1] * 10, points[5] * 10, strokeColor),
-      Line(points[2] * 10, points[6] * 10, strokeColor),
-      Line(points[3] * 10, points[7] * 10, strokeColor),
-  };
-  return lines;
+const std::vector<Line> Cube::toLines(int direction) const {
+  std::vector<Line> ret;
+
+  // always draw top 4 lines
+  for (int i = 0; i < 4; i++) {
+    ret.push_back(
+        Line(points[i + 4] * 10, points[4 + (i + 1) % 4] * 10, strokeColor));
+  }
+
+  // draw 3 vertical lines
+  for (int i = 0; i < 4; i++) {
+    if (direction != i) {
+      ret.push_back(Line(points[i] * 10, points[i + 4] * 10, strokeColor));
+    }
+  }
+
+  // don't draw the two lower lines that are behind
+  for (int i = 0; i < 4; i++) {
+    if (!(direction == i || direction == ((i + 1) % 4))) {
+      ret.push_back(
+          Line(points[i] * 10, points[(i + 1) % 4] * 10, strokeColor));
+    }
+  }
+
+  return ret;
 }
 
 void Cube::log() {

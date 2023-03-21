@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <vector>
 
 #include "color.hpp"
 #include "line.hpp"
@@ -17,6 +18,6 @@ class Cube {
   Cube(std::array<Vec3d, 8> points, const Color &strokeColor,
        const Color &fillColor);
   Cube(const Vec3d &pos, const Color &strokeColor, const Color &fillColor);
-  const std::array<Line, 12> toLines() const;
+  const std::vector<Line> toLines(int direction) const;
   void log();
 };

@@ -66,7 +66,7 @@ class Framework {
   }
 
   void draw_cube(const Cube &c, const Camera &camera, int direction) {
-    for (const Line &l : c.toLines()) {
+    for (const Line &l : c.toLines(direction)) {
       draw_line(l, camera, direction);
     }
 
@@ -164,27 +164,28 @@ void process_event(SDL_Event *event) {
 
       // piece rotations
       else if (key == SDLK_w) {
-        g.currentPiece->rotateXY(1);
+        g.tryRotateXY(1);
       } else if (key == SDLK_x) {
-        g.currentPiece->rotateXY(-1);
+        g.tryRotateXY(-1);
       } else if (key == SDLK_a) {
-        g.currentPiece->rotateXZ(1);
+        g.tryRotateXZ(1);
       } else if (key == SDLK_d) {
-        g.currentPiece->rotateXZ(-1);
+        g.tryRotateXZ(-1);
       } else if (key == SDLK_z) {
-        g.currentPiece->rotateYZ(1);
+        g.tryRotateYZ(1);
       } else if (key == SDLK_e) {
-        g.currentPiece->rotateYZ(-1);
+        g.tryRotateYZ(-1);
       }
 
       // piece movement
       else if (key == SDLK_i) {
+        g.tryMoveY(1);
       } else if (key == SDLK_j) {
-        g.currentPiece->rotateXY(-1);
+        g.tryMoveX(1);
       } else if (key == SDLK_k) {
-        g.currentPiece->rotateXZ(1);
-      } else if (key == SDLK_k) {
-        g.currentPiece->rotateXZ(-1);
+        g.tryMoveY(-1);
+      } else if (key == SDLK_l) {
+        g.tryMoveX(-1);
       }
 
       // soft and hard drop
