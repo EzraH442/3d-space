@@ -49,13 +49,12 @@ bool Board::hasCubeInPosition(int x, int y, int z) const {
 }
 
 int Board::getHighestInColumn(int x, int y) const {
-  int highest = -1;
   for (int i = 19; i >= 0; i--) {
     if (hasCubeInPosition(x, y, i)) {
-      highest = i;
+      return i;
     }
   }
-  return highest;
+  return -1;
 }
 
 void Board::handleDrop(const AbstractTetrisPiece3d *piece, const Vec3d &pos) {
@@ -66,10 +65,13 @@ void Board::handleDrop(const AbstractTetrisPiece3d *piece, const Vec3d &pos) {
 
   for (const auto &v : absPos) {
     int columnHeight = getHighestInColumn(v.x, v.y);
+    std::cout << "column heigth is " << columnHeight << "\n";
     if (columnHeight > highest) {
       highest = columnHeight;
     }
   }
+
+  std::cout << "\nheighest is " << highest << "\n";
 
   int relativeAdjustment = 3;
   for (int i = 0; i < relPos.size(); i++) {
