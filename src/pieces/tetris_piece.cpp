@@ -1,11 +1,15 @@
 #include "pieces/tetris_piece.hpp"
 
-AbstractTetrisPiece3D::~AbstractTetrisPiece3D(){};
+TetrisPiece3D5::~TetrisPiece3D5(){};
+TetrisPiece3D5::TetrisPiece3D5(){};
 
-void AbstractTetrisPiece3D::rotateXY(int r) { dataArray.rotateXY(r); }
+void TetrisPiece3D5::rotateXY(int r) { dataArray.rotateXY(r); }
+void TetrisPiece3D5::rotateXZ(int r) { dataArray.rotateXZ(r); }
+void TetrisPiece3D5::rotateYZ(int r) { dataArray.rotateYZ(r); }
 
-void AbstractTetrisPiece3D::rotateXZ(int r) { dataArray.rotateXZ(r); }
+void TetrisPiece3D5::log() { dataArray.log(); }
 
-void AbstractTetrisPiece3D::rotateYZ(int r) { dataArray.rotateYZ(r); }
-
-void AbstractTetrisPiece3D::log() { dataArray.log(); }
+std::vector<Vec3d> TetrisPiece3D5::getAbsolutePositions(
+    const Vec3d &pos) const {
+  return dataArray.getAbsolutePositions(pos);
+}

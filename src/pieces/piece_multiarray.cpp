@@ -1,6 +1,9 @@
 #include "pieces/piece_multiarray.hpp"
 
 #include <iostream>
+#include <vector>
+
+#include "vector_3d.hpp"
 
 PieceMultiarray::PieceMultiarray() { data.fill(0); }
 
@@ -25,11 +28,11 @@ void PieceMultiarray::logRaw() {
   std::cout << "\n";
 }
 
-bool PieceMultiarray::isFilled(int x, int y, int z) {
+bool PieceMultiarray::isFilled(int x, int y, int z) const {
   return data.at(x + y * 3 + z * 9);
 }
 
-bool PieceMultiarray::isFilled(int n) { return data.at(n); }
+bool PieceMultiarray::isFilled(int n) const { return data.at(n); }
 
 bool PieceMultiarray::setFilled(int x, int y, int z, int filled) {
   return data.at(x + y * 3 + z * 9) = filled;
@@ -109,4 +112,17 @@ void PieceMultiarray::rotateYZ(int r) {
   }
 
   data = rotated.data;
+}
+
+std::vector<Vec3d> PieceMultiarray::getAbsolutePositions(
+    const Vec3d &pos) const {
+  std::vector<Vec3d> ret;
+
+  for (int i = 0; i < data.size(); i++) {
+    if (isFilled(i)) {
+      ret.push_back(Vec3d({i % 3, (i / 3) % 3, i / 9}) + pos);
+    }
+  }
+
+  return ret;
 }

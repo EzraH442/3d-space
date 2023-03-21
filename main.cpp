@@ -1,3 +1,8 @@
+#include <cstdlib>
+
+#include "include/game.hpp"
+#include "pieces/abstract_tetris_piece.hpp"
+#include "pieces/tetris_piece.hpp"
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
@@ -31,8 +36,8 @@ class Framework {
                               SDL_WINDOWPOS_UNDEFINED, width, height,
                               SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
-    SDL_SetRenderDrawColor(renderer, Color::Black.r, Color::Black.g,
-                           Color::Black.b, Color::Black.a);
+    SDL_SetRenderDrawColor(renderer, Color::Orange.r, Color::Orange.g,
+                           Color::Orange.b, Color::Orange.a);
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
   }
@@ -41,6 +46,13 @@ class Framework {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+  }
+
+  void draw_tetris_piece(const AbstractTetrisPiece3d *piece, const Vec3d &pos,
+                         Camera &camera, int direction) {
+    for (const auto &v : piece->getAbsolutePositions(pos)) {
+      draw_cube(Cube(v, Color::White, Color::Black), camera, direction);
+    }
   }
 
   void draw_board(Board &b, Camera &camera, int direction) {
@@ -117,18 +129,14 @@ class Framework {
 };
 
 Framework fw(800, 800);
-
 std::unordered_map<int, bool> keys;
 std::unordered_map<int, bool> mouse;
+
 Camera c;
 int cameraPos = 0;
 
 Board b;
-
-Cube cube(Vec3d({0, 0, 0}), Color::White, Color::Black);
-Cube cube2(Vec3d({1, 0, 0}), Color::White, Color::Black);
-Cube cube3(Vec3d({2, 0, 0}), Color::White, Color::Black);
-Cube cube4(Vec3d({3, 0, 0}), Color::White, Color::Black);
+Game g;
 
 void process_event(SDL_Event *event) {
   switch (event->type) {
@@ -144,9 +152,12 @@ void process_event(SDL_Event *event) {
 
     case SDL_KEYUP: {
       int key = event->key.keysym.sym;
-      if (key == SDLK_RIGHT || key == SDLK_d) {
+
+      keys[event->key.keysym.sym] = false;
+
+      if (key == SDLK_RIGHT) {
         cameraPos = (cameraPos + 1) % 4;
-      } else if (key == SDLK_LEFT || key == SDLK_a) {
+      } else if (key == SDLK_LEFT) {
         cameraPos = (cameraPos + 3) % 4;
       }
       break;
@@ -181,25 +192,25 @@ void process_input() {
 void main_loop() {
   process_input();
 
-  SDL_SetRenderDrawColor(fw.renderer, Color::Black.r, Color::Black.g,
-                         Color::Black.b, Color::Black.a);
+  SDL_SetRenderDrawColor(fw.renderer, Color::Orange.r, Color::Orange.g,
+                         Color::Orange.b, Color::Orange.a);
   SDL_RenderClear(fw.renderer);
 
   fw.draw_board(b, c, cameraPos);
+
+  fw.draw_tetris_piece(g.currentPiece, g.getCurrentPiecePos(), c, cameraPos);
 
   SDL_RenderPresent(fw.renderer);
 }
 
 int main() {
-  b.addCube(0, 0, 0, cube);
-  b.addCube(1, 0, 0, cube2);
-  b.addCube(2, 0, 0, cube3);
-  b.addCube(3, 0, 0, cube4);
+  srand(time(NULL));
 #ifdef __EMSCRIPTEN__
   emscripten_set_main_loop(main_loop, 0, 1);
 #else
+
   while (1) {
-    SDL_Delay(50);
+    SDL_Delay(20);
     main_loop();
   }
 #endif

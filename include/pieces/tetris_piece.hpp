@@ -1,22 +1,24 @@
 #pragma once
 
-#include "piece_multiarray.hpp"
+#include <vector>
 
-class AbstractTetrisPiece3D {
+#include "piece_multiarray.hpp"
+#include "pieces/abstract_tetris_piece.hpp"
+#include "vector_3d.hpp"
+
+class TetrisPiece3D5 : public AbstractTetrisPiece3d {
  protected:
   PieceMultiarray dataArray = PieceMultiarray();
 
  public:
-  AbstractTetrisPiece3D() {}
-  virtual ~AbstractTetrisPiece3D() = 0;
+  TetrisPiece3D5();
+  virtual ~TetrisPiece3D5() = 0;
 
-  virtual bool canRotateXY(void) = 0;
-  virtual bool canRotateXZ(void) = 0;
-  virtual bool canRotateYZ(void) = 0;
-
-  void rotateXY(int r);
-  void rotateXZ(int r);
-  void rotateYZ(int r);
+  void rotateXY(int r) override;
+  void rotateXZ(int r) override;
+  void rotateYZ(int r) override;
 
   void log();
+
+  std::vector<Vec3d> getAbsolutePositions(const Vec3d &pos) const override;
 };
