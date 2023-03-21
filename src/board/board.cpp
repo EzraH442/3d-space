@@ -1,10 +1,5 @@
 #include "board/board.hpp"
 
-#include <iostream>
-#include <unordered_map>
-#include <utility>
-#include <vector>
-
 #include "color.hpp"
 #include "render/cube.hpp"
 
@@ -65,13 +60,10 @@ void Board::handleDrop(const AbstractTetrisPiece3d *piece, const Vec3d &pos) {
 
   for (const auto &v : absPos) {
     int columnHeight = getHighestInColumn(v.x, v.y);
-    std::cout << "column heigth is " << columnHeight << "\n";
     if (columnHeight > highest) {
       highest = columnHeight;
     }
   }
-
-  std::cout << "\nheighest is " << highest << "\n";
 
   int relativeAdjustment = 3;
   for (int i = 0; i < relPos.size(); i++) {

@@ -1,7 +1,5 @@
 #include "render/camera.hpp"
 
-#include "vector_3d.hpp"
-
 Camera::Camera(){};
 
 void Camera::changeHeight(int n) {

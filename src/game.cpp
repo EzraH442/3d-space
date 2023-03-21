@@ -1,7 +1,5 @@
 #include "game.hpp"
 
-#include <cmath>
-
 #include "pieces/abstract_tetris_piece.hpp"
 #include "pieces/j_piece.hpp"
 #include "pieces/tetris_piece.hpp"

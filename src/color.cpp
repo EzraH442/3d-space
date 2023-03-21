@@ -1,7 +1,5 @@
 #include "color.hpp"
 
-#include <iostream>
-
 const Color Color::Black = Color(0, 0, 0);
 const Color Color::White = Color(255, 255, 255);
 const Color Color::Cyan = Color(0, 255, 255);
@@ -18,6 +16,4 @@ Color::Color(const Color& c) : r(c.r), g(c.g), b(c.b), a(c.a) {}
 
 Color::Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a) : r(r), g(g), b(b), a(a) {}
 
-Color::Color(Uint8 r, Uint8 g, Uint8 b) : r(r), g(g), b(b), a(255) {
-  std::cout << std::to_string(r) << "\n";
-}
+Color::Color(Uint8 r, Uint8 g, Uint8 b) : r(r), g(g), b(b), a(255) {}

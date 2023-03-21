@@ -1,7 +1,5 @@
 #include "render/cube.hpp"
 
-#include <vector>
-
 Cube::Cube() : strokeColor(Color::White), fillColor(Color::Purple) {
   points.fill({0, 0, 0});
 }

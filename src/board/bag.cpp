@@ -1,7 +1,6 @@
 #include "board/bag.hpp"
 
 #include <cstdlib>
-#include <iostream>
 
 int Bag::NUM_PIECES = 5;
 

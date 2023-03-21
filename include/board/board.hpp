@@ -2,7 +2,6 @@
 
 #include <array>
 #include <unordered_map>
-#include <utility>
 #include <vector>
 
 #include "pieces/abstract_tetris_piece.hpp"

@@ -3,9 +3,7 @@
 #include <array>
 #include <vector>
 
-#include "color.hpp"
 #include "line.hpp"
-#include "vector_3d.hpp"
 
 class Cube {
   std::array<Vec3d, 8> points;

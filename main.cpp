@@ -1,8 +1,9 @@
 #include <cstdlib>
 
-#include "include/game.hpp"
-#include "pieces/abstract_tetris_piece.hpp"
+#include "game.hpp"
 #include "pieces/tetris_piece.hpp"
+#include "render/camera.hpp"
+
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
@@ -12,18 +13,6 @@
 #include <SDL_keycode.h>
 #include <SDL_render.h>
 #include <SDL_video.h>
-
-#include <iostream>
-#include <string>
-#include <unordered_map>
-#include <vector>
-
-#include "board/board.hpp"
-#include "color.hpp"
-#include "render/camera.hpp"
-#include "render/cube.hpp"
-#include "render/line.hpp"
-#include "vector_3d.hpp"
 
 class Framework {
   int height;
