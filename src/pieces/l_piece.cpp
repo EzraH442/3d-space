@@ -1,6 +1,8 @@
 #include "pieces/l_piece.hpp"
 
-l_piece::l_piece() {
+#include "pieces/tetris_piece.hpp"
+
+l_piece::l_piece() : TetrisPiece3D5(Color::Orange) {
   dataArray.setFilled(0, 0, 0);
   dataArray.setFilled(0, 1, 0);
   dataArray.setFilled(0, 2, 0);

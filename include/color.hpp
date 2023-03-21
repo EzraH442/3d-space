@@ -6,15 +6,15 @@
 
 class Color {
  public:
-  static Color White;
-  static Color Black;
-  static Color Cyan;
-  static Color Blue;
-  static Color Orange;
-  static Color Yellow;
-  static Color Green;
-  static Color Purple;
-  static Color Red;
+  static const Color White;
+  static const Color Black;
+  static const Color Cyan;
+  static const Color Blue;
+  static const Color Orange;
+  static const Color Yellow;
+  static const Color Green;
+  static const Color Purple;
+  static const Color Red;
 
   const Uint8 r, g, b, a;
 

@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "color.hpp"
 #include "piece_multiarray.hpp"
 #include "pieces/abstract_tetris_piece.hpp"
 #include "vector_3d.hpp"
@@ -12,6 +13,7 @@ class TetrisPiece3D5 : public AbstractTetrisPiece3d {
 
  public:
   TetrisPiece3D5();
+  TetrisPiece3D5(const Color& color);
   virtual ~TetrisPiece3D5() = 0;
 
   void rotateXY(int r) override;
@@ -20,6 +22,6 @@ class TetrisPiece3D5 : public AbstractTetrisPiece3d {
 
   void log();
 
-  std::vector<Vec3d> getAbsolutePositions(const Vec3d &pos) const override;
+  std::vector<Vec3d> getAbsolutePositions(const Vec3d& pos) const override;
   std::vector<Vec3d> getRelativePositions() const override;
 };

@@ -1,11 +1,10 @@
 #include "pieces/tetris_piece.hpp"
 
-#include <vector>
-
-#include "vector_3d.hpp"
+#include "pieces/abstract_tetris_piece.hpp"
 
 TetrisPiece3D5::~TetrisPiece3D5(){};
 TetrisPiece3D5::TetrisPiece3D5(){};
+TetrisPiece3D5::TetrisPiece3D5(const Color &c) : AbstractTetrisPiece3d(c){};
 
 void TetrisPiece3D5::rotateXY(int r) { dataArray.rotateXY(r); }
 void TetrisPiece3D5::rotateXZ(int r) { dataArray.rotateXZ(r); }

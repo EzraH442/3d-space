@@ -2,3 +2,6 @@
 
 AbstractTetrisPiece3d::~AbstractTetrisPiece3d(){};
 AbstractTetrisPiece3d::AbstractTetrisPiece3d(){};
+AbstractTetrisPiece3d::AbstractTetrisPiece3d(const Color& c) : color(c){};
+
+Color AbstractTetrisPiece3d::getColor() const { return color; }

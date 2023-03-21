@@ -36,8 +36,8 @@ class Framework {
                               SDL_WINDOWPOS_UNDEFINED, width, height,
                               SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
-    SDL_SetRenderDrawColor(renderer, Color::Orange.r, Color::Orange.g,
-                           Color::Orange.b, Color::Orange.a);
+    SDL_SetRenderDrawColor(renderer, Color::Black.r, Color::Black.g,
+                           Color::Black.b, Color::Black.a);
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
   }
@@ -51,7 +51,7 @@ class Framework {
   void draw_tetris_piece(const AbstractTetrisPiece3d *piece, const Vec3d &pos,
                          Camera &camera, int direction) {
     for (const auto &v : piece->getAbsolutePositions(pos)) {
-      draw_cube(Cube(v, Color::White, Color::Black), camera, direction);
+      draw_cube(Cube(v, piece->getColor(), Color::Black), camera, direction);
     }
   }
 
@@ -225,8 +225,8 @@ void process_input() {
 void main_loop() {
   process_input();
 
-  SDL_SetRenderDrawColor(fw.renderer, Color::Orange.r, Color::Orange.g,
-                         Color::Orange.b, Color::Orange.a);
+  SDL_SetRenderDrawColor(fw.renderer, Color::Black.r, Color::Black.g,
+                         Color::Black.b, Color::Black.a);
   SDL_RenderClear(fw.renderer);
 
   fw.draw_board(b, c, cameraPos);

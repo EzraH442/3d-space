@@ -2,15 +2,15 @@
 
 #include <iostream>
 
-Color Color::Black = Color(0, 0, 0);
-Color Color::White = Color(255, 255, 255);
-Color Color::Cyan = Color(0, 255, 255);
-Color Color::Blue = Color(0, 0, 255);
-Color Color::Orange = Color(255, 127, 0);
-Color Color::Yellow = Color(255, 255, 0);
-Color Color::Green = Color(0, 255, 0);
-Color Color::Purple = Color(128, 0, 128);
-Color Color::Red = Color(255, 0, 0);
+const Color Color::Black = Color(0, 0, 0);
+const Color Color::White = Color(255, 255, 255);
+const Color Color::Cyan = Color(0, 255, 255);
+const Color Color::Blue = Color(0, 0, 255);
+const Color Color::Orange = Color(255, 127, 0);
+const Color Color::Yellow = Color(255, 255, 0);
+const Color Color::Green = Color(0, 255, 0);
+const Color Color::Purple = Color(128, 0, 128);
+const Color Color::Red = Color(255, 0, 0);
 
 Color::Color() : r(255), g(255), b(255), a(255) {}
 

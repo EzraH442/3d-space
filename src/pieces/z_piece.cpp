@@ -1,6 +1,8 @@
 #include "pieces/z_piece.hpp"
 
-z_piece::z_piece() {
+#include "pieces/tetris_piece.hpp"
+
+z_piece::z_piece() : TetrisPiece3D5(Color::Red) {
   dataArray.setFilled(0, 0, 0);
   dataArray.setFilled(1, 0, 0);
   dataArray.setFilled(1, 1, 0);

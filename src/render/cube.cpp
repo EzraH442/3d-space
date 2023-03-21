@@ -9,10 +9,10 @@ Cube::Cube(const Cube &cube)
       strokeColor(cube.strokeColor),
       fillColor(cube.fillColor) {}
 
-Cube::Cube(std::array<Vec3d, 8> points, Color &sc, Color &fc)
+Cube::Cube(std::array<Vec3d, 8> points, const Color &sc, const Color &fc)
     : points(points), strokeColor(sc), fillColor(fc) {}
 
-Cube::Cube(const Vec3d &pos, Color &sc, Color &fc)
+Cube::Cube(const Vec3d &pos, const Color &sc, const Color &fc)
     : strokeColor(sc), fillColor(fc) {
   const Vec3d p1 = pos;
   const Vec3d p2 = pos + Vec3d{1, 0, 0};
@@ -29,18 +29,18 @@ Cube::Cube(const Vec3d &pos, Color &sc, Color &fc)
 
 const std::array<Line, 12> Cube::toLines() const {
   std::array<Line, 12> lines = {
-      Line(points[0] * 10, points[1] * 10, fillColor),
-      Line(points[1] * 10, points[2] * 10, fillColor),
-      Line(points[2] * 10, points[3] * 10, fillColor),
-      Line(points[3] * 10, points[0] * 10, fillColor),
-      Line(points[4] * 10, points[5] * 10, fillColor),
-      Line(points[5] * 10, points[6] * 10, fillColor),
-      Line(points[6] * 10, points[7] * 10, fillColor),
-      Line(points[7] * 10, points[4] * 10, fillColor),
-      Line(points[0] * 10, points[4] * 10, fillColor),
-      Line(points[1] * 10, points[5] * 10, fillColor),
-      Line(points[2] * 10, points[6] * 10, fillColor),
-      Line(points[3] * 10, points[7] * 10, fillColor),
+      Line(points[0] * 10, points[1] * 10, strokeColor),
+      Line(points[1] * 10, points[2] * 10, strokeColor),
+      Line(points[2] * 10, points[3] * 10, strokeColor),
+      Line(points[3] * 10, points[0] * 10, strokeColor),
+      Line(points[4] * 10, points[5] * 10, strokeColor),
+      Line(points[5] * 10, points[6] * 10, strokeColor),
+      Line(points[6] * 10, points[7] * 10, strokeColor),
+      Line(points[7] * 10, points[4] * 10, strokeColor),
+      Line(points[0] * 10, points[4] * 10, strokeColor),
+      Line(points[1] * 10, points[5] * 10, strokeColor),
+      Line(points[2] * 10, points[6] * 10, strokeColor),
+      Line(points[3] * 10, points[7] * 10, strokeColor),
   };
   return lines;
 }

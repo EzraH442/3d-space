@@ -11,22 +11,22 @@
 Board::Board() {
   cubePositions.fill(0);
 
-  Color black(0, 0, 0);
+  Color white(255, 255, 255);
 
   for (int i = 0; i < 11; i++) {
-    boardLines.push_back(Line({0, i * 10, 0}, {100, i * 10, 0}, black));
+    boardLines.push_back(Line({0, i * 10, 0}, {100, i * 10, 0}, white));
   }
 
   for (int i = 0; i < 11; i++) {
-    boardLines.push_back(Line({i * 10, 0, 0}, {i * 10, 100, 0}, black));
+    boardLines.push_back(Line({i * 10, 0, 0}, {i * 10, 100, 0}, white));
   }
 
   int boardHeight = 200;
 
-  boardLines.push_back(Line({0, 0, 0}, {0, 0, boardHeight}, black));
-  boardLines.push_back(Line({100, 0, 0}, {100, 0, boardHeight}, black));
-  boardLines.push_back(Line({0, 100, 0}, {0, 100, boardHeight}, black));
-  boardLines.push_back(Line({100, 100, 0}, {100, 100, boardHeight}, black));
+  boardLines.push_back(Line({0, 0, 0}, {0, 0, boardHeight}, white));
+  boardLines.push_back(Line({100, 0, 0}, {100, 0, boardHeight}, white));
+  boardLines.push_back(Line({0, 100, 0}, {0, 100, boardHeight}, white));
+  boardLines.push_back(Line({100, 100, 0}, {100, 100, boardHeight}, white));
 }
 
 void Board::addCube(int pos, const Cube &c) {
@@ -82,7 +82,7 @@ void Board::handleDrop(const AbstractTetrisPiece3d *piece, const Vec3d &pos) {
   for (int i = 0; i < absPos.size(); i++) {
     const Vec3d newPos = {absPos[i].x, absPos[i].y,
                           highest + 1 + relPos[i].z - relativeAdjustment};
-    const Cube c = Cube(newPos, Color::White, Color::Black);
+    const Cube c = Cube(newPos, piece->getColor(), Color::Black);
     addCube(newPos, c);
   }
 }
