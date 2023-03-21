@@ -18,8 +18,12 @@ class Game {
   Vec3d currentPiecePos;
   TetrisPieceFactory tpf;
 
+  void getNewPiece();
+  void swapPiece();
+
  public:
   Game();
+  ~Game();
   AbstractTetrisPiece3d* currentPiece;
   Vec3d getCurrentPiecePos() const;
 

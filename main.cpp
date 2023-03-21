@@ -155,10 +155,43 @@ void process_event(SDL_Event *event) {
 
       keys[event->key.keysym.sym] = false;
 
+      // camera
       if (key == SDLK_RIGHT) {
         cameraPos = (cameraPos + 1) % 4;
       } else if (key == SDLK_LEFT) {
         cameraPos = (cameraPos + 3) % 4;
+      }
+
+      // piece rotations
+      else if (key == SDLK_w) {
+        g.currentPiece->rotateXY(1);
+      } else if (key == SDLK_x) {
+        g.currentPiece->rotateXY(-1);
+      } else if (key == SDLK_a) {
+        g.currentPiece->rotateXZ(1);
+      } else if (key == SDLK_d) {
+        g.currentPiece->rotateXZ(-1);
+      } else if (key == SDLK_z) {
+        g.currentPiece->rotateYZ(1);
+      } else if (key == SDLK_e) {
+        g.currentPiece->rotateYZ(-1);
+      }
+
+      // piece movement
+      else if (key == SDLK_i) {
+      } else if (key == SDLK_j) {
+        g.currentPiece->rotateXY(-1);
+      } else if (key == SDLK_k) {
+        g.currentPiece->rotateXZ(1);
+      } else if (key == SDLK_k) {
+        g.currentPiece->rotateXZ(-1);
+      }
+
+      // soft and hard drop
+      else if (key == SDLK_s) {
+        g.hardDrop(b);
+      } else if (key == SDLK_o) {
+        // soft drop
       }
       break;
     }
@@ -181,10 +214,10 @@ void process_input() {
     process_event(&event);
   }
 
-  if (keys[SDLK_UP] || keys[SDLK_w]) {
+  if (keys[SDLK_UP]) {
     c.changeOffset(1);
   }
-  if (keys[SDLK_DOWN] || keys[SDLK_s]) {
+  if (keys[SDLK_DOWN]) {
     c.changeOffset(-1);
   }
 }

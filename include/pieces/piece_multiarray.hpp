@@ -24,4 +24,5 @@ class PieceMultiarray {
   void rotateYZ(int r);
 
   std::vector<Vec3d> getAbsolutePositions(const Vec3d& pos) const;
+  std::vector<Vec3d> getRelativePositions() const;
 };

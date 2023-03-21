@@ -12,7 +12,8 @@ Cube::Cube(const Cube &cube)
 Cube::Cube(std::array<Vec3d, 8> points, Color &sc, Color &fc)
     : points(points), strokeColor(sc), fillColor(fc) {}
 
-Cube::Cube(Vec3d pos, Color &sc, Color &fc) : strokeColor(sc), fillColor(fc) {
+Cube::Cube(const Vec3d &pos, Color &sc, Color &fc)
+    : strokeColor(sc), fillColor(fc) {
   const Vec3d p1 = pos;
   const Vec3d p2 = pos + Vec3d{1, 0, 0};
   const Vec3d p3 = pos + Vec3d{1, 1, 0};

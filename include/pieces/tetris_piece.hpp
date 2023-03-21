@@ -21,4 +21,5 @@ class TetrisPiece3D5 : public AbstractTetrisPiece3d {
   void log();
 
   std::vector<Vec3d> getAbsolutePositions(const Vec3d &pos) const override;
+  std::vector<Vec3d> getRelativePositions() const override;
 };

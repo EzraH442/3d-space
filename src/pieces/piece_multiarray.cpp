@@ -126,3 +126,7 @@ std::vector<Vec3d> PieceMultiarray::getAbsolutePositions(
 
   return ret;
 }
+
+std::vector<Vec3d> PieceMultiarray::getRelativePositions() const {
+  return getAbsolutePositions({0, 0, 0});
+}

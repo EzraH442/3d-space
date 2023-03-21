@@ -14,12 +14,18 @@ class Board {
   std::array<int, 10 * 10 * 20> cubePositions;
   std::unordered_map<int, Cube> cubes;
 
+  int getHighestInColumn(int x, int y) const;
+
+  bool hasCubeInPosition(int x, int y, int z) const;
+
  public:
   Board();
 
-  void addCube(int pos, Cube &c);
-  void addCube(int x, int y, int z, Cube &c);
-  void handleDrop(AbstractTetrisPiece3d *piece);
+  void addCube(int pos, const Cube &c);
+  void addCube(const Vec3d &pos, const Cube &c);
+
+  void handleDrop(const AbstractTetrisPiece3d *piece, const Vec3d &pos);
+
   const std::unordered_map<int, Cube> getCubes() const;
   const std::vector<Line> getLines() const;
 };

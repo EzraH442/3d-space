@@ -18,4 +18,5 @@ class AbstractTetrisPiece3d {
   virtual void rotateYZ(int r) = 0;
 
   virtual std::vector<Vec3d> getAbsolutePositions(const Vec3d& pos) const = 0;
+  virtual std::vector<Vec3d> getRelativePositions() const = 0;
 };
