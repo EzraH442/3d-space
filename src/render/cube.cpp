@@ -1,5 +1,7 @@
 #include "render/cube.hpp"
 
+#include <vector>
+
 Cube::Cube() : strokeColor(Color::White), fillColor(Color::Purple) {
   points.fill({0, 0, 0});
 }
@@ -61,3 +63,22 @@ void Cube::log() {
   }
   std::cout << " }" << std::endl;
 }
+
+const std::vector<std::array<Vec3d, 4>> Cube::toPolygons(int direction) const {
+  std::vector<std::array<Vec3d, 4>> ret;
+
+  // top face
+  ret.push_back(
+      {points[4] * 10, points[5] * 10, points[6] * 10, points[7] * 10});
+
+  for (int i = 0; i < 4; i++) {
+    if (!(direction == i || direction == ((i + 1) % 4))) {
+      ret.push_back({points[i] * 10, points[i + 4] * 10,
+                     points[(i + 1) % 4 + 4] * 10, points[i + 1] * 10});
+    }
+  }
+
+  return ret;
+}
+
+const Color Cube::getFillColor() const { return fillColor; }

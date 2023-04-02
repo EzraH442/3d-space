@@ -1,4 +1,10 @@
+#include <algorithm>
+#include <array>
 #include <cstdlib>
+#include <iostream>
+#include <iterator>
+#include <type_traits>
+#include <vector>
 
 #include "game.hpp"
 #include "pieces/tetris_piece.hpp"
@@ -9,10 +15,52 @@
 #endif
 
 #include <SDL.h>
+#include <SDL2_gfxPrimitives.h>
 #include <SDL_events.h>
 #include <SDL_keycode.h>
 #include <SDL_render.h>
 #include <SDL_video.h>
+
+struct Vec2d {
+  float x, y;
+};
+
+Vec2d project(const Vec3d &p, const Camera &c, int direction) {
+  int offset = c.getOffset();
+  float d = 500.f;
+  Vec3d cameraPos = c.getPos(direction);
+  Vec3d startTransformed = p - cameraPos;
+
+  float scale = d / startTransformed.z;
+
+  int offsetX;
+  int offsetY;
+
+  if (direction == 0) {
+    offsetX = -offset * 2;
+    offsetY = -offset * 2;
+  } else if (direction == 1) {
+    offsetX = offset * 2;
+    offsetY = -offset * 2;
+  } else if (direction == 2) {
+    offsetX = offset * 2;
+    offsetY = offset * 2;
+  } else if (direction == 3) {
+    offsetX = -offset * 2;
+    offsetY = offset * 2;
+  } else {
+    offsetX = -offset * 2;
+    offsetY = -offset * 2;
+  }
+
+  // std::cout << "point at " << p << " projected to {" << ret.x << ", " <<
+  // ret.y
+  //           << " }\n";
+
+  Vec2d ret{scale * startTransformed.x + offsetX,
+            scale * startTransformed.y + offsetY};
+  return ret;
+}
 
 class Framework {
   int height;
@@ -40,7 +88,7 @@ class Framework {
   void draw_tetris_piece(const AbstractTetrisPiece3d *piece, const Vec3d &pos,
                          Camera &camera, int direction) {
     for (const auto &v : piece->getAbsolutePositions(pos)) {
-      draw_cube(Cube(v, piece->getColor(), Color::Black), camera, direction);
+      draw_cube(Cube(v, piece->getColor(), Color::White), camera, direction);
     }
   }
 
@@ -59,56 +107,48 @@ class Framework {
       draw_line(l, camera, direction);
     }
 
-    // TODO draw cube faces
+    std::vector<std::array<Vec3d, 4>> polygons = c.toPolygons(direction);
+    for (int i = 0; i < polygons.size(); i++) {
+      draw_cube_face(polygons[i], c.getFillColor(), camera, direction,
+                     (i != 1));
+    }
+  }
+
+  void draw_cube_face(const std::array<Vec3d, 4> &points, const Color &color,
+                      const Camera &c, int direction, bool dark) {
+    std::array<Vec2d, 4> projected;
+
+    for (int i = 0; i < 4; i++) {
+      projected[i] = project(points[i], c, direction);
+    }
+
+    short vx[5];
+    short vy[5];
+
+    for (int i = 0; i < 5; i++) {
+      vx[i] = (short)projected[i % 4].x + 300;
+      vy[i] = (short)projected[i % 4].y + 300;
+    }
+
+    if (dark) {
+      int r = color.r - ((color.r > 0) ? 10 : 0);
+      int g = color.g - ((color.g > 0) ? 10 : 0);
+      int b = color.b - ((color.b > 0) ? 10 : 0);
+      filledPolygonRGBA(renderer, vx, vy, projected.size(), r, g, b, color.a);
+    } else {
+      filledPolygonRGBA(renderer, vx, vy, projected.size(), color.r, color.g,
+                        color.b, color.a);
+    }
   }
 
   void draw_line(const Line &l, const Camera &c, int direction) {
-    float d = 500.f;
-    Vec3d cameraPos = c.getPos(direction);
-    int offset = c.getOffset();
-
-    Vec3d startTransformed = l.start - cameraPos;
-    Vec3d endTransformed = l.end - cameraPos;
-
-    // std::cout << "line from " << startTransformed << " to " <<
-    // endTransformed;
-
-    float scaleStart = d / startTransformed.z;
-    float scaleEnd = d / endTransformed.z;
-
-    float x1 = startTransformed.x * scaleStart + 300;
-    float y1 = startTransformed.y * scaleStart + 300;
-
-    float x2 = endTransformed.x * scaleEnd + 300;
-    float y2 = endTransformed.y * scaleEnd + 300;
-
-    // std::cout << " projected to (" << x1 << ", " << y1 << ") -->" << "(" <<
-    // x2 << ", " << y2 << ")" << "\n";
-
-    int offsetX;
-    int offsetY;
-
-    if (direction == 0) {
-      offsetX = -offset * 2;
-      offsetY = -offset * 2;
-    } else if (direction == 1) {
-      offsetX = offset * 2;
-      offsetY = -offset * 2;
-    } else if (direction == 2) {
-      offsetX = offset * 2;
-      offsetY = offset * 2;
-    } else if (direction == 3) {
-      offsetX = -offset * 2;
-      offsetY = offset * 2;
-    } else {
-      offsetX = -offset * 2;
-      offsetY = -offset * 2;
-    }
+    Vec2d start = project(l.start, c, direction);
+    Vec2d end = project(l.end, c, direction);
 
     SDL_SetRenderDrawColor(renderer, l.color.r, l.color.g, l.color.b,
                            l.color.a);
-    SDL_RenderDrawLine(renderer, x1 + offsetX, y1 + offsetY, x2 + offsetX,
-                       y2 + offsetY);
+    SDL_RenderDrawLine(renderer, start.x + 300, start.y + 300, end.x + 300,
+                       end.y + 300);
   }
 
   SDL_Renderer *renderer = NULL;
@@ -212,6 +252,9 @@ void process_input() {
   }
 }
 
+// std::array<Vec3d, 4> aaaa{
+//     Vec3d{0, 0, 10}, {0, 10, 10}, {10, 10, 10}, {10, 0, 10}};
+
 void main_loop() {
   process_input();
 
@@ -222,6 +265,8 @@ void main_loop() {
   fw.draw_board(b, c, cameraPos);
 
   fw.draw_tetris_piece(g.currentPiece, g.getCurrentPiecePos(), c, cameraPos);
+
+  // fw.draw_cube_face(aaaa, Color::Orange, c, cameraPos);
 
   SDL_RenderPresent(fw.renderer);
 }

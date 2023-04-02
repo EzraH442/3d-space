@@ -17,5 +17,7 @@ class Cube {
        const Color &fillColor);
   Cube(const Vec3d &pos, const Color &strokeColor, const Color &fillColor);
   const std::vector<Line> toLines(int direction) const;
+  const std::vector<std::array<Vec3d, 4>> toPolygons(int direction) const;
+  const Color getFillColor() const;
   void log();
 };

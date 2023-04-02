@@ -76,7 +76,7 @@ void Board::handleDrop(const AbstractTetrisPiece3d *piece, const Vec3d &pos) {
   for (int i = 0; i < absPos.size(); i++) {
     const Vec3d newPos = {absPos[i].x, absPos[i].y,
                           highest + 1 + relPos[i].z - relativeAdjustment};
-    const Cube c = Cube(newPos, piece->getColor(), Color::Black);
+    const Cube c = Cube(newPos, piece->getColor(), piece->getColor());
     addCube(newPos, c);
   }
 }
