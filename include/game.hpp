@@ -3,9 +3,10 @@
 #include "board/bag.hpp"
 #include "board/board.hpp"
 #include "pieces/piece_factory.hpp"
+#include "pieces/tetris_piece.hpp"
 
 class Game {
-  AbstractTetrisPiece3d* currentPiece;
+  TetrisPiece3d* currentPiece;
   Bag bag;
   int currentPieceId;
   int currentHeldId;
@@ -24,7 +25,7 @@ class Game {
 
   Vec3d getCurrentPiecePos() const;
 
-  const AbstractTetrisPiece3d* getCurrentPiece() const;
+  const TetrisPiece3d* getCurrentPiece() const;
 
   void hardDrop(Board& board);
   int tryHold();

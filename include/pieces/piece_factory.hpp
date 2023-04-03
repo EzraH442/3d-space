@@ -4,5 +4,5 @@
 class TetrisPieceFactory {
  public:
   TetrisPieceFactory();
-  AbstractTetrisPiece3d* createPiece(int id);
+  TetrisPiece3d* createPiece(int id);
 };

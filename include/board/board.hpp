@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 
-#include "pieces/abstract_tetris_piece.hpp"
 #include "pieces/tetris_piece.hpp"
 #include "render/cube.hpp"
 
@@ -29,7 +28,7 @@ class Board {
   void addCube(int pos, const Cube &c);
   void addCube(const Vec3d &pos, const Cube &c);
 
-  void handleDrop(const AbstractTetrisPiece3d *piece, const Vec3d &pos);
+  void handleDrop(const TetrisPiece3d *piece, const Vec3d &pos);
 
   const std::map<int, Cube> getCubes() const;
   const std::vector<Line> getLines() const;

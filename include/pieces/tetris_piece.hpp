@@ -4,24 +4,30 @@
 
 #include "color.hpp"
 #include "piece_multiarray.hpp"
-#include "pieces/abstract_tetris_piece.hpp"
 #include "vector_3d.hpp"
 
-class TetrisPiece3D5 : public AbstractTetrisPiece3d {
+class TetrisPiece3d {
  protected:
   PieceMultiarray dataArray;
+  Color color;
 
  public:
-  TetrisPiece3D5();
-  TetrisPiece3D5(const Color& color, int length = 3);
-  virtual ~TetrisPiece3D5() = 0;
+  TetrisPiece3d();
+  TetrisPiece3d(const Color& color, int length = 3);
+  virtual ~TetrisPiece3d() = 0;
 
-  void rotateXY(int r) override;
-  void rotateXZ(int r) override;
-  void rotateYZ(int r) override;
+  void rotateXY(int r);
+  void rotateXZ(int r);
+  void rotateYZ(int r);
+
+  virtual bool canRotateXY(void) const = 0;
+  virtual bool canRotateXZ(void) const = 0;
+  virtual bool canRotateYZ(void) const = 0;
 
   void log();
 
-  std::vector<Vec3d> getAbsolutePositions(const Vec3d& pos) const override;
-  std::vector<Vec3d> getRelativePositions() const override;
+  std::vector<Vec3d> getAbsolutePositions(const Vec3d& pos) const;
+  std::vector<Vec3d> getRelativePositions() const;
+
+  const Color getColor() const;
 };

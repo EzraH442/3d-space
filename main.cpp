@@ -101,7 +101,7 @@ class Framework {
     }
   }
 
-  void draw_tetris_piece(const AbstractTetrisPiece3d *piece, const Vec3d &pos,
+  void draw_tetris_piece(const TetrisPiece3d *piece, const Vec3d &pos,
                          const Camera &camera, int direction) {
     for (const auto &v : piece->getAbsolutePositions(pos)) {
       draw_cube(Cube(v, piece->getColor(), Color::White), camera, direction);

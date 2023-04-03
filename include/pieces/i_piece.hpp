@@ -2,7 +2,7 @@
 
 #include "pieces/tetris_piece.hpp"
 
-class i_piece : public TetrisPiece3D5 {
+class i_piece : public TetrisPiece3d {
  public:
   i_piece();
 

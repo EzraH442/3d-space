@@ -13,7 +13,6 @@ foo_sources = [
   './src/pieces/tetris_piece.cpp',
   './src/pieces/t_piece.cpp',
   './src/pieces/z_piece.cpp',
-  './src/pieces/abstract_tetris_piece.cpp',
   './src/pieces/j_piece.cpp',
   './src/pieces/piece_multiarray.cpp',
   './src/pieces/l_piece.cpp',

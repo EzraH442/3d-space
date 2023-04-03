@@ -1,6 +1,7 @@
 #include "board/board.hpp"
 
 #include "color.hpp"
+#include "pieces/tetris_piece.hpp"
 #include "render/cube.hpp"
 
 int textOffset = 10;
@@ -60,7 +61,7 @@ int Board::getHighestInColumn(int x, int y) const {
   return -1;
 }
 
-void Board::handleDrop(const AbstractTetrisPiece3d *piece, const Vec3d &pos) {
+void Board::handleDrop(const TetrisPiece3d *piece, const Vec3d &pos) {
   int highest = -1;
 
   std::vector<Vec3d> absPos = piece->getAbsolutePositions(pos);

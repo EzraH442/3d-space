@@ -12,7 +12,7 @@
 
 TetrisPieceFactory::TetrisPieceFactory() {}
 
-AbstractTetrisPiece3d* TetrisPieceFactory::createPiece(int id) {
+TetrisPiece3d* TetrisPieceFactory::createPiece(int id) {
   switch (id) {
     case 0:
       return new j_piece();
