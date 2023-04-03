@@ -2,7 +2,7 @@
 
 #include <cstdlib>
 
-int Bag::NUM_PIECES = 6;
+int Bag::NUM_PIECES = 7;
 
 // min inclusive, max exclusive
 int randomBetween(int min, int max) { return (rand() % max - 1) + min; }

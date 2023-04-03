@@ -18,4 +18,5 @@ foo_sources = [
   './src/pieces/piece_multiarray.cpp',
   './src/pieces/l_piece.cpp',
   './src/pieces/o_piece.cpp',
+  './src/pieces/i_piece.cpp',
 ]

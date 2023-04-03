@@ -1,17 +1,20 @@
 #include "pieces/piece_multiarray.hpp"
 
 #include <iostream>
-#include <vector>
 
 #include "vector_3d.hpp"
 
-PieceMultiarray::PieceMultiarray() { data.fill(0); }
+PieceMultiarray::PieceMultiarray() : length(0) {}
+PieceMultiarray::PieceMultiarray(int length) : length(length) {
+  std::vector<bool> v(length * length * length, 0);
+  data = v;
+}
 
 void PieceMultiarray::log() {
   std::cout << "--- piece\n";
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
-      for (int k = 0; k < 3; k++) {
+  for (int i = 0; i < length; i++) {
+    for (int j = 0; j < length; j++) {
+      for (int k = 0; k < length; k++) {
         std::cout << (isFilled(k, j, i) ? "*" : " ");
       }
       std::cout << "\n";
@@ -22,20 +25,20 @@ void PieceMultiarray::log() {
 
 void PieceMultiarray::logRaw() {
   std::cout << "--- piece\n";
-  for (auto &i : data) {
+  for (const auto &i : data) {
     std::cout << i << " ";
   }
   std::cout << "\n";
 }
 
 bool PieceMultiarray::isFilled(int x, int y, int z) const {
-  return data.at(x + y * 3 + z * 9);
+  return data.at(x + y * length + z * length * length);
 }
 
 bool PieceMultiarray::isFilled(int n) const { return data.at(n); }
 
 bool PieceMultiarray::setFilled(int x, int y, int z, int filled) {
-  return data.at(x + y * 3 + z * 9) = filled;
+  return data.at(x + y * length + z * length * length) = filled;
 }
 
 bool PieceMultiarray::setFilled(int n, int filled) {
@@ -43,21 +46,21 @@ bool PieceMultiarray::setFilled(int n, int filled) {
 }
 
 void PieceMultiarray::rotateXY(int r) {
-  PieceMultiarray rotated = PieceMultiarray();
+  PieceMultiarray rotated = PieceMultiarray(length);
 
   if (r == 1) {
-    for (int z = 0; z < 3; z++) {
-      for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-          rotated.setFilled(2 - j, i, z, isFilled(i, j, z));
+    for (int z = 0; z < length; z++) {
+      for (int i = 0; i < length; i++) {
+        for (int j = 0; j < length; j++) {
+          rotated.setFilled(length - 1 - j, i, z, isFilled(i, j, z));
         }
       }
     }
   } else {
-    for (int z = 0; z < 3; z++) {
-      for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-          rotated.setFilled(j, 2 - i, z, isFilled(i, j, z));
+    for (int z = 0; z < length; z++) {
+      for (int i = 0; i < length; i++) {
+        for (int j = 0; j < length; j++) {
+          rotated.setFilled(j, length - 1 - i, z, isFilled(i, j, z));
         }
       }
     }
@@ -67,21 +70,21 @@ void PieceMultiarray::rotateXY(int r) {
 }
 
 void PieceMultiarray::rotateXZ(int r) {
-  PieceMultiarray rotated = PieceMultiarray();
+  PieceMultiarray rotated = PieceMultiarray(length);
 
   if (r == 1) {
-    for (int y = 0; y < 3; y++) {
-      for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-          rotated.setFilled(2 - j, y, i, isFilled(i, y, j));
+    for (int y = 0; y < length; y++) {
+      for (int i = 0; i < length; i++) {
+        for (int j = 0; j < length; j++) {
+          rotated.setFilled(length - 1 - j, y, i, isFilled(i, y, j));
         }
       }
     }
   } else {
-    for (int y = 0; y < 3; y++) {
-      for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-          rotated.setFilled(j, y, 2 - i, isFilled(i, y, j));
+    for (int y = 0; y < length; y++) {
+      for (int i = 0; i < length; i++) {
+        for (int j = 0; j < length; j++) {
+          rotated.setFilled(j, y, length - 1 - i, isFilled(i, y, j));
         }
       }
     }
@@ -91,21 +94,21 @@ void PieceMultiarray::rotateXZ(int r) {
 }
 
 void PieceMultiarray::rotateYZ(int r) {
-  PieceMultiarray rotated = PieceMultiarray();
+  PieceMultiarray rotated = PieceMultiarray(length);
 
   if (r == 1) {
-    for (int x = 0; x < 3; x++) {
-      for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-          rotated.setFilled(x, 2 - j, i, isFilled(x, i, j));
+    for (int x = 0; x < length; x++) {
+      for (int i = 0; i < length; i++) {
+        for (int j = 0; j < length; j++) {
+          rotated.setFilled(x, length - 1 - j, i, isFilled(x, i, j));
         }
       }
     }
   } else {
-    for (int x = 0; x < 3; x++) {
-      for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-          rotated.setFilled(x, j, 2 - i, isFilled(x, i, j));
+    for (int x = 0; x < length; x++) {
+      for (int i = 0; i < length; i++) {
+        for (int j = 0; j < length; j++) {
+          rotated.setFilled(x, j, length - 1 - i, isFilled(x, i, j));
         }
       }
     }
@@ -120,7 +123,9 @@ std::vector<Vec3d> PieceMultiarray::getAbsolutePositions(
 
   for (int i = 0; i < data.size(); i++) {
     if (isFilled(i)) {
-      ret.push_back(Vec3d({i % 3, (i / 3) % 3, i / 9}) + pos);
+      ret.push_back(
+          Vec3d({i % length, (i / length) % length, i / (length * length)}) +
+          pos);
     }
   }
 

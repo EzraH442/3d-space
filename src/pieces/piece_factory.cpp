@@ -1,6 +1,7 @@
 #include "pieces/piece_factory.hpp"
 
 #include "SDL_system.h"
+#include "pieces/i_piece.hpp"
 #include "pieces/j_piece.hpp"
 #include "pieces/l_piece.hpp"
 #include "pieces/o_piece.hpp"
@@ -25,6 +26,8 @@ AbstractTetrisPiece3d* TetrisPieceFactory::createPiece(int id) {
       return new z_piece();
     case 5:
       return new o_piece();
+    case 6:
+      return new i_piece();
   }
   return new j_piece();
 }

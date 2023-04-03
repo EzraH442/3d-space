@@ -9,11 +9,11 @@
 
 class TetrisPiece3D5 : public AbstractTetrisPiece3d {
  protected:
-  PieceMultiarray dataArray = PieceMultiarray();
+  PieceMultiarray dataArray;
 
  public:
   TetrisPiece3D5();
-  TetrisPiece3D5(const Color& color);
+  TetrisPiece3D5(const Color& color, int length = 3);
   virtual ~TetrisPiece3D5() = 0;
 
   void rotateXY(int r) override;

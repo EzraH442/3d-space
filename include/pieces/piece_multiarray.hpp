@@ -6,10 +6,12 @@
 #include "vector_3d.hpp"
 
 class PieceMultiarray {
-  std::array<bool, 27> data;
+  const int length;
+  std::vector<bool> data;
 
  public:
   PieceMultiarray();
+  PieceMultiarray(int length);
 
   void log();
   void logRaw();
