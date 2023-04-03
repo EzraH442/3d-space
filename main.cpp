@@ -33,32 +33,39 @@ Vec2d project(const Vec3d &p, const Camera &c, int direction) {
 
   float scale = d / startTransformed.z;
 
-  int offsetX;
-  int offsetY;
+  float x = scale * startTransformed.x;
+  float y = scale * startTransformed.y;
 
-  if (direction == 0) {
-    offsetX = -offset * 2;
-    offsetY = -offset * 2;
-  } else if (direction == 1) {
-    offsetX = offset * 2;
-    offsetY = -offset * 2;
-  } else if (direction == 2) {
-    offsetX = offset * 2;
-    offsetY = offset * 2;
-  } else if (direction == 3) {
-    offsetX = -offset * 2;
-    offsetY = offset * 2;
-  } else {
-    offsetX = -offset * 2;
-    offsetY = -offset * 2;
+  // temp variables for rotation
+  float rotatedX = x;
+  float rotatedY = y;
+
+  // multiply by 2x2 clockwirse rotation matrix
+  //  0 -1
+  //  1  0
+  for (int i = 0; i < direction; i++) {
+    rotatedX = -y;
+    rotatedY = x;
+    x = rotatedX;
+    y = rotatedY;
   }
+
+  // reposition all points
+
+  if (direction == 1) {
+    x += 250;
+  } else if (direction == 2) {
+    x += 250;
+    y += 250;
+  } else if (direction == 3) {
+    y += 250;
+  }
+
+  Vec2d ret{x, y};
 
   // std::cout << "point at " << p << " projected to {" << ret.x << ", " <<
   // ret.y
   //           << " }\n";
-
-  Vec2d ret{scale * startTransformed.x + offsetX,
-            scale * startTransformed.y + offsetY};
   return ret;
 }
 
@@ -118,13 +125,13 @@ class Framework {
   }
 
   void draw_cube(const Cube &c, const Camera &camera, int direction) {
-    std::vector<std::array<Vec3d, 4>> polygons = c.toPolygons(direction);
+    std::vector<std::array<Vec3d, 4>> polygons = c.toPolygons();
     for (int i = 0; i < polygons.size(); i++) {
       draw_cube_face(polygons[i], c.getFillColor(), camera, direction,
                      (i != 1));
     }
 
-    for (const Line &l : c.toLines(direction)) {
+    for (const Line &l : c.toLines()) {
       draw_line(l, camera, direction);
     }
   }

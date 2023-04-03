@@ -29,7 +29,7 @@ Cube::Cube(const Vec3d &pos, const Color &sc, const Color &fc)
   points = {p1, p2, p3, p4, p5, p6, p7, p8};
 }
 
-const std::vector<Line> Cube::toLines(int direction) const {
+const std::vector<Line> Cube::toLines() const {
   std::vector<Line> ret;
 
   // always draw top 4 lines
@@ -40,14 +40,15 @@ const std::vector<Line> Cube::toLines(int direction) const {
 
   // draw 3 vertical lines
   for (int i = 0; i < 4; i++) {
-    if (direction != i) {
+    if (i != 0) {
       ret.push_back(Line(points[i] * 10, points[i + 4] * 10, strokeColor));
     }
   }
 
   // don't draw the two lower lines that are behind
   for (int i = 0; i < 4; i++) {
-    if (!(direction == i || direction == ((i + 1) % 4))) {
+    // if (!(direction == i || direction == ((i + 1) % 4))) {
+    if (!(i == 0 || i == 3)) {
       ret.push_back(
           Line(points[i] * 10, points[(i + 1) % 4] * 10, strokeColor));
     }
@@ -64,7 +65,7 @@ void Cube::log() {
   std::cout << " }" << std::endl;
 }
 
-const std::vector<std::array<Vec3d, 4>> Cube::toPolygons(int direction) const {
+const std::vector<std::array<Vec3d, 4>> Cube::toPolygons() const {
   std::vector<std::array<Vec3d, 4>> ret;
 
   // top face
@@ -73,7 +74,8 @@ const std::vector<std::array<Vec3d, 4>> Cube::toPolygons(int direction) const {
 
   // other two faces
   for (int i = 0; i < 4; i++) {
-    if (!(direction == (i + 0) % 4 || direction == (i + 1) % 4)) {
+    // if (!((i + 0) % 4 == 0 || (i + 1) % 4 == 0)) {
+    if (!(i == 0 || i == 3)) {
       ret.push_back({
           points[i] * 10,
           points[i + 4] * 10,
