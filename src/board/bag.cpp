@@ -5,7 +5,7 @@
 int Bag::NUM_PIECES = 7;
 
 // min inclusive, max exclusive
-int randomBetween(int min, int max) { return (rand() % max - 1) + min; }
+int randomBetween(int min, int max) { return (rand() % max - 1) + min + 1; }
 
 Bag::Bag() { refill(); }
 
@@ -21,7 +21,7 @@ int Bag::getNextPieceId() {
   }
 
   int index = randomBetween(0, pieces.size());
-  int ret = pieces[index];
+  int ret = pieces.at(index);
   pieces.erase(pieces.begin() + index);
   return ret;
 }
