@@ -14,9 +14,9 @@ class AbstractTetrisPiece3d {
   AbstractTetrisPiece3d(const Color& color);
   virtual ~AbstractTetrisPiece3d() = 0;
 
-  virtual bool canRotateXY(void) = 0;
-  virtual bool canRotateXZ(void) = 0;
-  virtual bool canRotateYZ(void) = 0;
+  virtual bool canRotateXY(void) const = 0;
+  virtual bool canRotateXZ(void) const = 0;
+  virtual bool canRotateYZ(void) const = 0;
 
   virtual void rotateXY(int r) = 0;
   virtual void rotateXZ(int r) = 0;

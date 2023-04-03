@@ -7,7 +7,7 @@ class j_piece : public TetrisPiece3D5 {
   j_piece();
 
  public:
-  bool canRotateXY() override;
-  bool canRotateXZ() override;
-  bool canRotateYZ() override;
+  bool canRotateXY() const override;
+  bool canRotateXZ() const override;
+  bool canRotateYZ() const override;
 };

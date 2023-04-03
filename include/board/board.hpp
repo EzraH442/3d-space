@@ -24,6 +24,8 @@ class Board {
   const static Vec3d sideW;
   Board();
 
+  void init();
+
   void addCube(int pos, const Cube &c);
   void addCube(const Vec3d &pos, const Cube &c);
 

@@ -5,15 +5,17 @@
 #include "pieces/tetris_piece.hpp"
 #include "render/line.hpp"
 
-Game::Game() {
+Game::Game(){};
+
+Game::~Game() { delete currentPiece; }
+
+void Game::init() {
   currentPieceId = bag.getNextPieceId();
   currentPiece = tpf.createPiece(currentPieceId);
   currentHeldId = -1;
   currentPiecePos = {5, 5, 18};
   canHold = true;
-};
-
-Game::~Game() { delete currentPiece; }
+}
 
 void Game::getNewPiece() {
   int newPieceId = bag.getNextPieceId();
@@ -41,6 +43,10 @@ void Game::hardDrop(Board& b) {
 }
 
 Vec3d Game::getCurrentPiecePos() const { return currentPiecePos; }
+
+const AbstractTetrisPiece3d* Game::getCurrentPiece() const {
+  return currentPiece;
+}
 
 int Game::tryHold() {
   if (currentHeldId == -1) {

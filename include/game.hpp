@@ -5,6 +5,7 @@
 #include "pieces/piece_factory.hpp"
 
 class Game {
+  AbstractTetrisPiece3d* currentPiece;
   Bag bag;
   int currentPieceId;
   int currentHeldId;
@@ -19,9 +20,11 @@ class Game {
   Game();
   ~Game();
 
-  AbstractTetrisPiece3d* currentPiece;
+  void init();
 
   Vec3d getCurrentPiecePos() const;
+
+  const AbstractTetrisPiece3d* getCurrentPiece() const;
 
   void hardDrop(Board& board);
   int tryHold();

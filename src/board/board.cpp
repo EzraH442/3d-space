@@ -10,25 +10,26 @@ const Vec3d Board::sideE = {100 + textOffset, 50, 0};
 const Vec3d Board::sideS = {50, 100 + textOffset, 0};
 const Vec3d Board::sideW = {0 - textOffset, 50, 0};
 
-Board::Board() {
+Board::Board() {}
+
+void Board::init() {
   cubePositions.fill(0);
 
-  Color white(255, 255, 255);
-
   for (int i = 0; i < 11; i++) {
-    boardLines.push_back(Line({0, i * 10, 0}, {100, i * 10, 0}, white));
+    boardLines.push_back(Line({0, i * 10, 0}, {100, i * 10, 0}, Color::White));
   }
 
   for (int i = 0; i < 11; i++) {
-    boardLines.push_back(Line({i * 10, 0, 0}, {i * 10, 100, 0}, white));
+    boardLines.push_back(Line({i * 10, 0, 0}, {i * 10, 100, 0}, Color::White));
   }
 
   int boardHeight = 200;
 
-  boardLines.push_back(Line({0, 0, 0}, {0, 0, boardHeight}, white));
-  boardLines.push_back(Line({100, 0, 0}, {100, 0, boardHeight}, white));
-  boardLines.push_back(Line({0, 100, 0}, {0, 100, boardHeight}, white));
-  boardLines.push_back(Line({100, 100, 0}, {100, 100, boardHeight}, white));
+  boardLines.push_back(Line({0, 0, 0}, {0, 0, boardHeight}, Color::White));
+  boardLines.push_back(Line({100, 0, 0}, {100, 0, boardHeight}, Color::White));
+  boardLines.push_back(Line({0, 100, 0}, {0, 100, boardHeight}, Color::White));
+  boardLines.push_back(
+      Line({100, 100, 0}, {100, 100, boardHeight}, Color::White));
 }
 
 void Board::addCube(int pos, const Cube &c) {

@@ -26,7 +26,6 @@ struct Vec2d {
 };
 
 Vec2d project(const Vec3d &p, const Camera &c, int direction) {
-  int offset = c.getOffset();
   float d = 500.f;
   Vec3d cameraPos = c.getPos(direction);
   Vec3d startTransformed = p - cameraPos;
@@ -127,8 +126,7 @@ class Framework {
   void draw_cube(const Cube &c, const Camera &camera, int direction) {
     std::vector<std::array<Vec3d, 4>> polygons = c.toPolygons();
     for (int i = 0; i < polygons.size(); i++) {
-      draw_cube_face(polygons[i], c.getFillColor(), camera, direction,
-                     (i != 1));
+      draw_cube_face(polygons[i], c.getFillColor(), camera, direction);
     }
 
     for (const Line &l : c.toLines()) {
@@ -137,7 +135,7 @@ class Framework {
   }
 
   void draw_cube_face(const std::array<Vec3d, 4> &points, const Color &color,
-                      const Camera &c, int direction, bool dark) {
+                      const Camera &c, int direction) {
     std::array<Vec2d, 4> projected;
 
     for (int i = 0; i < 4; i++) {
@@ -152,15 +150,8 @@ class Framework {
       vy[i] = (short)projected[i % 4].y + 300;
     }
 
-    if (dark) {
-      int r = color.r - ((color.r > 0) ? 10 : 0);
-      int g = color.g - ((color.g > 0) ? 10 : 0);
-      int b = color.b - ((color.b > 0) ? 10 : 0);
-      filledPolygonRGBA(renderer, vx, vy, projected.size(), r, g, b, color.a);
-    } else {
-      filledPolygonRGBA(renderer, vx, vy, projected.size(), color.r, color.g,
-                        color.b, color.a);
-    }
+    filledPolygonRGBA(renderer, vx, vy, projected.size(), color.r, color.g,
+                      color.b, color.a);
   }
 
   void draw_line(const Line &l, const Camera &c, int direction) {
@@ -184,7 +175,7 @@ std::unordered_map<int, bool> keys;
 std::unordered_map<int, bool> mouse;
 
 Camera c;
-int cameraPos = 0;
+int cameraPos = 2;
 // int cameraPos = 3;
 
 Board b;
@@ -231,13 +222,13 @@ void process_event(SDL_Event *event) {
 
       // piece movement
       else if (key == SDLK_i) {
-        g.tryMoveY(1);
-      } else if (key == SDLK_j) {
-        g.tryMoveX(1);
-      } else if (key == SDLK_k) {
         g.tryMoveY(-1);
-      } else if (key == SDLK_l) {
+      } else if (key == SDLK_j) {
         g.tryMoveX(-1);
+      } else if (key == SDLK_k) {
+        g.tryMoveY(1);
+      } else if (key == SDLK_l) {
+        g.tryMoveX(1);
       }
 
       // soft and hard drop
@@ -275,9 +266,6 @@ void process_input() {
   }
 }
 
-// std::array<Vec3d, 4> aaaa{
-//     Vec3d{0, 0, 10}, {0, 10, 10}, {10, 10, 10}, {10, 0, 10}};
-
 void main_loop() {
   process_input();
 
@@ -287,9 +275,8 @@ void main_loop() {
 
   fw.draw_board(b, c, cameraPos);
 
-  fw.draw_tetris_piece(g.currentPiece, g.getCurrentPiecePos(), c, cameraPos);
-
-  // fw.draw_cube_face(aaaa, Color::Orange, c, cameraPos);
+  fw.draw_tetris_piece(g.getCurrentPiece(), g.getCurrentPiecePos(), c,
+                       cameraPos);
 
   SDL_RenderPresent(fw.renderer);
 }
@@ -299,6 +286,9 @@ int main() {
 #ifdef __EMSCRIPTEN__
   emscripten_set_main_loop(main_loop, 0, 1);
 #else
+
+  b.init();
+  g.init();
 
   while (1) {
     SDL_Delay(20);
