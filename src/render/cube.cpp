@@ -71,10 +71,15 @@ const std::vector<std::array<Vec3d, 4>> Cube::toPolygons(int direction) const {
   ret.push_back(
       {points[4] * 10, points[5] * 10, points[6] * 10, points[7] * 10});
 
+  // other two faces
   for (int i = 0; i < 4; i++) {
-    if (!(direction == i || direction == ((i + 1) % 4))) {
-      ret.push_back({points[i] * 10, points[i + 4] * 10,
-                     points[(i + 1) % 4 + 4] * 10, points[i + 1] * 10});
+    if (!(direction == (i + 0) % 4 || direction == (i + 1) % 4)) {
+      ret.push_back({
+          points[i] * 10,
+          points[i + 4] * 10,
+          points[(i + 1) % 4 + 4] * 10,
+          points[i + 1] * 10,
+      });
     }
   }
 

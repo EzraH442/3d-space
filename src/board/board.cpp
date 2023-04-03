@@ -3,6 +3,13 @@
 #include "color.hpp"
 #include "render/cube.hpp"
 
+int textOffset = 10;
+
+const Vec3d Board::sideN = {50, 0 - textOffset, 0};
+const Vec3d Board::sideE = {100 + textOffset, 50, 0};
+const Vec3d Board::sideS = {50, 100 + textOffset, 0};
+const Vec3d Board::sideW = {0 - textOffset, 50, 0};
+
 Board::Board() {
   cubePositions.fill(0);
 
@@ -35,7 +42,7 @@ void Board::addCube(const Vec3d &pos, const Cube &c) {
   cubes.insert({position, c});
 }
 
-const std::unordered_map<int, Cube> Board::getCubes() const { return cubes; }
+const std::map<int, Cube> Board::getCubes() const { return cubes; }
 
 const std::vector<Line> Board::getLines() const { return boardLines; }
 

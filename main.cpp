@@ -4,12 +4,12 @@
 #include <iostream>
 #include <iterator>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 #include "game.hpp"
 #include "pieces/tetris_piece.hpp"
 #include "render/camera.hpp"
-
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
@@ -85,14 +85,24 @@ class Framework {
     SDL_Quit();
   }
 
+  void draw_text(const Vec3d &pos, std::string s, const Camera &camera,
+                 int direction) {
+    for (int i = 0; i < s.length(); i++) {
+      Vec2d projectedPos =
+          project(pos + Vec3d{i * 10, 0, 0}, camera, direction);
+      characterRGBA(renderer, projectedPos.x + 300, projectedPos.y + 300, s[i],
+                    255, 255, 255, 255);
+    }
+  }
+
   void draw_tetris_piece(const AbstractTetrisPiece3d *piece, const Vec3d &pos,
-                         Camera &camera, int direction) {
+                         const Camera &camera, int direction) {
     for (const auto &v : piece->getAbsolutePositions(pos)) {
       draw_cube(Cube(v, piece->getColor(), Color::White), camera, direction);
     }
   }
 
-  void draw_board(Board &b, Camera &camera, int direction) {
+  void draw_board(const Board &b, const Camera &camera, int direction) {
     for (const auto &l : b.getLines()) {
       draw_line(l, camera, direction);
     }
@@ -100,17 +110,22 @@ class Framework {
     for (auto const &pair : b.getCubes()) {
       draw_cube(pair.second, camera, direction);
     }
+
+    draw_text(Board::sideN, "N", camera, direction);
+    draw_text(Board::sideE, "E", camera, direction);
+    draw_text(Board::sideS, "S", camera, direction);
+    draw_text(Board::sideW, "W", camera, direction);
   }
 
   void draw_cube(const Cube &c, const Camera &camera, int direction) {
-    for (const Line &l : c.toLines(direction)) {
-      draw_line(l, camera, direction);
-    }
-
     std::vector<std::array<Vec3d, 4>> polygons = c.toPolygons(direction);
     for (int i = 0; i < polygons.size(); i++) {
       draw_cube_face(polygons[i], c.getFillColor(), camera, direction,
                      (i != 1));
+    }
+
+    for (const Line &l : c.toLines(direction)) {
+      draw_line(l, camera, direction);
     }
   }
 
@@ -163,6 +178,7 @@ std::unordered_map<int, bool> mouse;
 
 Camera c;
 int cameraPos = 0;
+// int cameraPos = 3;
 
 Board b;
 Game g;
