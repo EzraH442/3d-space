@@ -91,7 +91,7 @@ struct Vec2d {
   int x, y;
 };
 
-std::array<const std::array<const Vec2d, 5>, 8> wallkicks = {{
+std::array<std::array<Vec2d, 5>, 8> wallkicks = {{
     {{{0, 0}, {-1, 0}, {-1, 1}, {0, -2}, {-1, -2}}},
     {{{0, 0}, {1, 0}, {1, -1}, {0, 2}, {1, 2}}},
     {{{0, 0}, {1, 0}, {1, 1}, {0, -2}, {1, -2}}},
@@ -102,32 +102,79 @@ std::array<const std::array<const Vec2d, 5>, 8> wallkicks = {{
     {{{0, 0}, {-1, 0}, {-1, -1}, {0, 2}, {-1, 2}}},
 }};
 
-void Game::tryRotateXY(int r, const Board& b) {
-  bool positive = r > 0;
-  int wallkickIndex =
-      (positive) ? currentRotationState.x : currentRotationState.x + 4;
+// vector r encodes information about which axis and the direction
+
+void Game::tryRotate(const Vec3d& r, const Board& b) {
+  bool positive = (r.x + r.y + r.z) > 0;
+  int rotation = positive ? 1 : -1;
+
+  int X_AXIS = 0;
+  int Y_AXIS = 1;
+  int Z_AXIS = 2;
+
+  int axis;
+
+  if (r.x != 0) {
+    axis = X_AXIS;
+  } else if (r.y != 0) {
+    axis = Y_AXIS;
+  } else if (r.z != 0) {
+    axis = Z_AXIS;
+  } else {
+    std::cout << "bad axis";
+    axis = 0;
+  }
+
+  Vec3d wallkickIndices =
+      (positive) ? currentRotationState : currentRotationState + Vec3d{4, 4, 4};
 
   PieceMultiarray pm = PieceMultiarray(currentPiece->getPieceMultiarray());
-  pm.rotateXY(r);
+
+  std::array<Vec2d, 5> wks;
+
+  if (axis == X_AXIS) {
+    pm.rotateYZ(rotation);
+    wks = wallkicks[wallkickIndices.x];
+  } else if (axis == Y_AXIS) {
+    pm.rotateXZ(rotation);
+    wks = wallkicks[wallkickIndices.y];
+  } else if (axis == Z_AXIS) {
+    pm.rotateXY(rotation);
+    wks = wallkicks[wallkickIndices.z];
+  }
 
   // attempt all 5 posssible wallkicks in order
   for (int i = 0; i < 5; i++) {
-    Vec2d wk = wallkicks[wallkickIndex][i];
+    Vec2d wk = wks[i];
     std::cout << "attempting translation " << wk.x << ", " << wk.y << "\n";
-    Vec3d rotPos = currentPiecePos + Vec3d{wk.x, wk.y, 0};
 
-    if (b.isValidPiecePos(pm.getAbsolutePositions(rotPos))) {
-      currentPiece->rotateXY(r);
+    Vec3d translationVector;
+
+    if (axis == X_AXIS) {
+      translationVector = {0, wk.x, wk.y};
+    } else if (axis == Y_AXIS) {
+      translationVector = {wk.x, 0, wk.y};
+    } else if (axis == Z_AXIS) {
+      translationVector = {wk.x, wk.y, 0};
+    }
+
+    Vec3d rotatedPosition = currentPiecePos + translationVector;
+
+    if (b.isValidPiecePos(pm.getAbsolutePositions(rotatedPosition))) {
       std::cout << "found rotation \n";
+      if (axis == X_AXIS) {
+        currentPiece->rotateYZ(rotation);
+      } else if (axis == Y_AXIS) {
+        currentPiece->rotateXZ(rotation);
+      } else if (axis == Z_AXIS) {
+        currentPiece->rotateXY(rotation);
+      }
 
-      int x = currentRotationState.x;
-      currentRotationState.x = (positive) ? (x + 1) % 4 : (x + 3) % 4;
-      currentPiecePos = rotPos;
+      currentRotationState = Vec3d{(currentRotationState.x + r.x + 4) % 4,
+                                   (currentRotationState.y + r.z + 4) % 4,
+                                   (currentRotationState.z + r.z + 4) % 4};
+      currentPiecePos = rotatedPosition;
       return;
     }
   }
 }
-
-void Game::tryRotateXZ(int r, const Board& b) { currentPiece->rotateXZ(r); }
-
-void Game::tryRotateYZ(int r, const Board& b) { currentPiece->rotateYZ(r); }

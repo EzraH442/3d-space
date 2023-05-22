@@ -207,17 +207,17 @@ void process_event(SDL_Event *event) {
 
       // piece rotations
       else if (key == SDLK_w) {
-        g.tryRotateXY(1, b);
+        g.tryRotate({0, 0, 1}, b);
       } else if (key == SDLK_x) {
-        g.tryRotateXY(-1, b);
+        g.tryRotate({0, 0, -1}, b);
       } else if (key == SDLK_a) {
-        g.tryRotateXZ(1, b);
+        g.tryRotate({0, 1, 0}, b);
       } else if (key == SDLK_d) {
-        g.tryRotateXZ(-1, b);
+        g.tryRotate({0, -1, 0}, b);
       } else if (key == SDLK_z) {
-        g.tryRotateYZ(1, b);
+        g.tryRotate({1, 0, 0}, b);
       } else if (key == SDLK_e) {
-        g.tryRotateYZ(-1, b);
+        g.tryRotate({-1, 0, 0}, b);
       }
 
       // piece movement

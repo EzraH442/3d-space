@@ -33,8 +33,5 @@ class Game {
   int tryHold();
 
   void tryMove(const Vec3d& v, const Board& b);
-
-  void tryRotateXY(int r, const Board& b);
-  void tryRotateXZ(int r, const Board& b);
-  void tryRotateYZ(int r, const Board& b);
+  void tryRotate(const Vec3d& r, const Board& b);
 };
