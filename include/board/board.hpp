@@ -1,8 +1,6 @@
 #pragma once
 
-#include <array>
 #include <map>
-#include <vector>
 
 #include "pieces/tetris_piece.hpp"
 #include "render/cube.hpp"

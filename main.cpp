@@ -1,14 +1,6 @@
-#include <algorithm>
-#include <array>
-#include <cstdlib>
-#include <iostream>
-#include <iterator>
-#include <type_traits>
 #include <unordered_map>
-#include <vector>
 
 #include "game.hpp"
-#include "pieces/tetris_piece.hpp"
 #include "render/camera.hpp"
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>

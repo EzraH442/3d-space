@@ -1,5 +1,4 @@
 foo_sources = [
-  './src/render/text.cpp',
   './src/render/camera.cpp',
   './src/render/line.cpp',
   './src/render/cube.cpp',

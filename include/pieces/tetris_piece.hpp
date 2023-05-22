@@ -1,10 +1,7 @@
 #pragma once
 
-#include <vector>
-
 #include "color.hpp"
 #include "piece_multiarray.hpp"
-#include "vector_3d.hpp"
 
 class TetrisPiece3d {
  protected:
