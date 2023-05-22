@@ -34,9 +34,15 @@ void Game::swapPiece() {
 }
 
 void Game::hardDrop(Board& b) {
-  b.handleDrop(currentPiece, currentPiecePos);
-  canHold = true;
+  bool success = b.handleDrop(currentPiece, currentPiecePos);
+  int score = b.checkForClearedLines();
 
+  if (!success) {
+    // lose
+    std::cout << "lose\n";
+  }
+
+  canHold = true;
   getNewPiece();
 }
 
@@ -62,13 +68,17 @@ int Game::tryHold() {
   }
 }
 
-void Game::tryMove(const Vec3d& v, const Board& board) {
+bool Game::tryMove(const Vec3d& v, const Board& board) {
   std::vector<Vec3d> newPiecePos =
       currentPiece->getAbsolutePositions(currentPiecePos + v);
 
-  if (board.isValidPiecePos(newPiecePos)) {
+  bool isValid = board.isValidPiecePos(newPiecePos);
+
+  if (isValid) {
     currentPiecePos = currentPiecePos + v;
   }
+
+  return isValid;
 }
 
 // vector r encodes information about which axis to rotate around and the

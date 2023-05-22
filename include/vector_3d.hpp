@@ -5,6 +5,8 @@
 
 struct Vec3d {
   int x, y, z;
+
+  int squaredMagnitude() const;
 };
 
 Vec3d operator+(const Vec3d &, const Vec3d &);

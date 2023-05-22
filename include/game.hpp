@@ -56,6 +56,6 @@ class Game {
   void hardDrop(Board& board);
   int tryHold();
 
-  void tryMove(const Vec3d& v, const Board& b);
+  bool tryMove(const Vec3d& v, const Board& b);
   void tryRotate(const Vec3d& r, const Board& b);
 };
