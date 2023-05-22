@@ -234,8 +234,6 @@ void process_event(SDL_Event *event) {
       // soft and hard drop
       else if (key == SDLK_s) {
         g.hardDrop(b);
-      } else if (key == SDLK_o) {
-        g.tryMove({0, 0, -1}, b);
       }
       break;
     }
@@ -263,6 +261,9 @@ void process_input() {
   }
   if (keys[SDLK_DOWN]) {
     c.changeOffset(-1);
+  }
+  if (keys[SDLK_o]) {
+    g.tryMove({0, 0, -1}, b);
   }
 }
 
