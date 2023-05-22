@@ -30,8 +30,7 @@ class Game {
   void hardDrop(Board& board);
   int tryHold();
 
-  void tryMoveX(int n);
-  void tryMoveY(int n);
+  void tryMove(const Vec3d& v, const Board& b);
 
   void tryRotateXY(int r);
   void tryRotateXZ(int r);

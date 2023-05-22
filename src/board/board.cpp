@@ -1,9 +1,5 @@
 #include "board/board.hpp"
 
-#include "color.hpp"
-#include "pieces/tetris_piece.hpp"
-#include "render/cube.hpp"
-
 int textOffset = 10;
 
 const Vec3d Board::sideN = {50, 0 - textOffset, 0};
@@ -52,6 +48,15 @@ bool Board::hasCubeInPosition(int x, int y, int z) const {
   return cubePositions[x + y * 10 + z * 100];
 }
 
+bool Board::hasCubeInPosition(const Vec3d &v) const {
+  return cubePositions[v.x + v.y * 10 + v.z * 100];
+}
+
+bool Board::isWithinBounds(const Vec3d &v) const {
+  return (v.x >= 0 && v.x < 10) && (v.y >= 0 && v.y < 10) &&
+         (v.z >= 0 && v.z < 20);
+}
+
 int Board::getHighestInColumn(int x, int y) const {
   for (int i = 19; i >= 0; i--) {
     if (hasCubeInPosition(x, y, i)) {
@@ -74,7 +79,7 @@ void Board::handleDrop(const TetrisPiece3d *piece, const Vec3d &pos) {
     }
   }
 
-  int relativeAdjustment = 3;
+  int relativeAdjustment = piece->getPieceLength();
   for (int i = 0; i < relPos.size(); i++) {
     int height = relPos[i].z;
     if (height < relativeAdjustment) {

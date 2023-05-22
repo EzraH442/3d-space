@@ -222,20 +222,20 @@ void process_event(SDL_Event *event) {
 
       // piece movement
       else if (key == SDLK_i) {
-        g.tryMoveY(-1);
+        g.tryMove({0, -1, 0}, b);
       } else if (key == SDLK_j) {
-        g.tryMoveX(-1);
+        g.tryMove({-1, 0, 0}, b);
       } else if (key == SDLK_k) {
-        g.tryMoveY(1);
+        g.tryMove({0, 1, 0}, b);
       } else if (key == SDLK_l) {
-        g.tryMoveX(1);
+        g.tryMove({1, 0, 0}, b);
       }
 
       // soft and hard drop
       else if (key == SDLK_s) {
         g.hardDrop(b);
       } else if (key == SDLK_o) {
-        // soft drop
+        g.tryMove({0, 0, -1}, b);
       }
       break;
     }

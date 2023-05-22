@@ -30,4 +30,5 @@ class TetrisPiece3d {
   std::vector<Vec3d> getRelativePositions() const;
 
   const Color getColor() const;
+  const int getPieceLength() const;
 };

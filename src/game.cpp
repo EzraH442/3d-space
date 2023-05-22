@@ -1,6 +1,5 @@
 #include "game.hpp"
 
-#include "pieces/j_piece.hpp"
 #include "pieces/tetris_piece.hpp"
 #include "render/line.hpp"
 
@@ -22,6 +21,7 @@ void Game::getNewPiece() {
   delete currentPiece;
   currentPiece = newPiece;
   currentPieceId = newPieceId;
+  currentPiecePos = {5, 5, 18};
 }
 
 void Game::swapPiece() {
@@ -60,9 +60,21 @@ int Game::tryHold() {
   }
 }
 
-void Game::tryMoveX(int n) { currentPiecePos.x += n; }
+void Game::tryMove(const Vec3d& v, const Board& board) {
+  std::vector<Vec3d> newPiecePos =
+      currentPiece->getAbsolutePositions(currentPiecePos + v);
 
-void Game::tryMoveY(int n) { currentPiecePos.y += n; }
+  bool canMove = true;
+  for (const Vec3d& pos : newPiecePos) {
+    if (!board.isWithinBounds(pos) || board.hasCubeInPosition(pos)) {
+      canMove = false;
+    }
+  }
+
+  if (canMove) {
+    currentPiecePos = currentPiecePos + v;
+  }
+}
 
 void Game::tryRotateXY(int r) { currentPiece->rotateXY(r); }
 

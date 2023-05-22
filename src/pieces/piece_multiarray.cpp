@@ -31,6 +31,8 @@ void PieceMultiarray::logRaw() {
   std::cout << "\n";
 }
 
+const int PieceMultiarray::getLength() const { return length; }
+
 bool PieceMultiarray::isFilled(int x, int y, int z) const {
   return data.at(x + y * length + z * length * length);
 }
