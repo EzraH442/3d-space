@@ -1,8 +1,5 @@
 #include "game.hpp"
 
-#include "pieces/tetris_piece.hpp"
-#include "render/line.hpp"
-
 Game::Game(){};
 
 Game::~Game() { delete currentPiece; }
@@ -87,11 +84,7 @@ void Game::tryMove(const Vec3d& v, const Board& board) {
 //    2 -> 1    | ( 0, 0) | (-1, 0) | (-1, 1) | ( 0,-2) | (-1,-2)
 //    3 -> 2    | ( 0, 0) | (-1, 0) | (-1,-1) | ( 0, 2) | (-1, 2)
 
-struct Vec2d {
-  int x, y;
-};
-
-std::array<std::array<Vec2d, 5>, 8> wallkicks = {{
+const std::array<std::array<Vec2d<int>, 5>, 8> wallkicks = {{
     {{{0, 0}, {-1, 0}, {-1, 1}, {0, -2}, {-1, -2}}},
     {{{0, 0}, {1, 0}, {1, -1}, {0, 2}, {1, 2}}},
     {{{0, 0}, {1, 0}, {1, 1}, {0, -2}, {1, -2}}},
@@ -131,7 +124,7 @@ void Game::tryRotate(const Vec3d& r, const Board& b) {
 
   PieceMultiarray pm = PieceMultiarray(currentPiece->getPieceMultiarray());
 
-  std::array<Vec2d, 5> wks;
+  std::array<Vec2d<int>, 5> wks;
 
   if (axis == X_AXIS) {
     pm.rotateYZ(rotation);
@@ -146,7 +139,7 @@ void Game::tryRotate(const Vec3d& r, const Board& b) {
 
   // attempt all 5 posssible wallkicks in order
   for (int i = 0; i < 5; i++) {
-    Vec2d wk = wks[i];
+    Vec2d<int> wk = wks[i];
 
     Vec3d translationVector;
 

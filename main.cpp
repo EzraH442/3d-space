@@ -21,11 +21,7 @@
 #include <SDL_render.h>
 #include <SDL_video.h>
 
-struct Vec2d {
-  float x, y;
-};
-
-Vec2d project(const Vec3d &p, const Camera &c, int direction) {
+Vec2d<float> project(const Vec3d &p, const Camera &c, int direction) {
   float d = 500.f;
   Vec3d cameraPos = c.getPos(direction);
   Vec3d startTransformed = p - cameraPos;
@@ -60,7 +56,7 @@ Vec2d project(const Vec3d &p, const Camera &c, int direction) {
     y += 250;
   }
 
-  Vec2d ret{x, y};
+  Vec2d<float> ret{x, y};
 
   // std::cout << "point at " << p << " projected to {" << ret.x << ", " <<
   // ret.y
@@ -94,7 +90,7 @@ class Framework {
   void draw_text(const Vec3d &pos, std::string s, const Camera &camera,
                  int direction) {
     for (int i = 0; i < s.length(); i++) {
-      Vec2d projectedPos =
+      Vec2d<float> projectedPos =
           project(pos + Vec3d{i * 10, 0, 0}, camera, direction);
       characterRGBA(renderer, projectedPos.x + 300, projectedPos.y + 300, s[i],
                     255, 255, 255, 255);
@@ -136,7 +132,7 @@ class Framework {
 
   void draw_cube_face(const std::array<Vec3d, 4> &points, const Color &color,
                       const Camera &c, int direction) {
-    std::array<Vec2d, 4> projected;
+    std::array<Vec2d<float>, 4> projected;
 
     for (int i = 0; i < 4; i++) {
       projected[i] = project(points[i], c, direction);
@@ -155,8 +151,8 @@ class Framework {
   }
 
   void draw_line(const Line &l, const Camera &c, int direction) {
-    Vec2d start = project(l.start, c, direction);
-    Vec2d end = project(l.end, c, direction);
+    Vec2d<float> start = project(l.start, c, direction);
+    Vec2d<float> end = project(l.end, c, direction);
 
     SDL_SetRenderDrawColor(renderer, l.color.r, l.color.g, l.color.b,
                            l.color.a);

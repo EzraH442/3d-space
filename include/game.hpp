@@ -3,7 +3,7 @@
 #include "board/bag.hpp"
 #include "board/board.hpp"
 #include "pieces/piece_factory.hpp"
-#include "pieces/tetris_piece.hpp"
+#include "vector_2d.hpp"
 
 class Game {
   TetrisPiece3d* currentPiece;
