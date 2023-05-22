@@ -15,6 +15,11 @@ class Board {
   bool hasCubeInPosition(const Vec3d &position) const;
   bool isWithinBounds(const Vec3d &position) const;
 
+  bool addCube(int pos, const Cube &c);
+  bool addCube(const Vec3d &pos, const Cube &c);
+  void removeCube(int pos);
+  void removeCube(const Vec3d &pos);
+
  public:
   const static Vec3d sideN;
   const static Vec3d sideE;
@@ -24,13 +29,11 @@ class Board {
 
   void init();
 
-  void addCube(int pos, const Cube &c);
-  void addCube(const Vec3d &pos, const Cube &c);
-
-  void handleDrop(const TetrisPiece3d *piece, const Vec3d &pos);
+  bool handleDrop(const TetrisPiece3d *piece, const Vec3d &pos);
 
   const std::map<int, Cube> getCubes() const;
   const std::vector<Line> getLines() const;
+  int checkForClearedLines();
 
   bool isValidPiecePos(const std::vector<Vec3d> &pos) const;
 };

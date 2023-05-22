@@ -1,5 +1,6 @@
 #include <unordered_map>
 
+#include "SDL_timer.h"
 #include "game.hpp"
 #include "render/camera.hpp"
 #ifdef __EMSCRIPTEN__
@@ -39,13 +40,14 @@ Vec2d<float> project(const Vec3d &p, const Camera &c, int direction) {
 
   // reposition all points
 
+  float offset = d / 2;
   if (direction == 1) {
-    x += 250;
+    x += offset;
   } else if (direction == 2) {
-    x += 250;
-    y += 250;
+    x += offset;
+    y += offset;
   } else if (direction == 3) {
-    y += 250;
+    y += offset;
   }
 
   Vec2d<float> ret{x, y};
@@ -79,13 +81,21 @@ class Framework {
     SDL_Quit();
   }
 
-  void draw_text(const Vec3d &pos, std::string s, const Camera &camera,
-                 int direction) {
+  void draw_text_3d(const Vec3d &pos, std::string s, const Camera &camera,
+                    int direction) {
     for (int i = 0; i < s.length(); i++) {
       Vec2d<float> projectedPos =
           project(pos + Vec3d{i * 10, 0, 0}, camera, direction);
       characterRGBA(renderer, projectedPos.x + 300, projectedPos.y + 300, s[i],
                     255, 255, 255, 255);
+    }
+  }
+
+  void draw_text_2d(const Vec2d<float> &pos, std::string s,
+                    const Camera &camera, int direction) {
+    for (int i = 0; i < s.length(); i++) {
+      characterRGBA(renderer, pos.x + 300, pos.y + 300, s[i], 255, 255, 255,
+                    255);
     }
   }
 
@@ -105,10 +115,10 @@ class Framework {
       draw_cube(pair.second, camera, direction);
     }
 
-    draw_text(Board::sideN, "N", camera, direction);
-    draw_text(Board::sideE, "E", camera, direction);
-    draw_text(Board::sideS, "S", camera, direction);
-    draw_text(Board::sideW, "W", camera, direction);
+    draw_text_3d(Board::sideN, "N", camera, direction);
+    draw_text_3d(Board::sideE, "E", camera, direction);
+    draw_text_3d(Board::sideS, "S", camera, direction);
+    draw_text_3d(Board::sideW, "W", camera, direction);
   }
 
   void draw_cube(const Cube &c, const Camera &camera, int direction) {
@@ -158,7 +168,7 @@ class Framework {
  private:
 };
 
-Framework fw(800, 800);
+Framework fw(800, 1000);
 std::unordered_map<int, bool> keys;
 std::unordered_map<int, bool> mouse;
 
@@ -187,14 +197,14 @@ void process_event(SDL_Event *event) {
       keys[event->key.keysym.sym] = false;
 
       // camera
-      if (key == SDLK_RIGHT) {
-        cameraPos = (cameraPos + 1) % 4;
-      } else if (key == SDLK_LEFT) {
-        cameraPos = (cameraPos + 3) % 4;
-      }
+      // if (key == SDLK_RIGHT) {
+      //   cameraPos = (cameraPos + 1) % 4;
+      // } else if (key == SDLK_LEFT) {
+      //   cameraPos = (cameraPos + 3) % 4;
+      // }
 
       // piece rotations
-      else if (key == SDLK_w) {
+      if (key == SDLK_w) {
         g.tryRotate({0, 0, 1}, b);
       } else if (key == SDLK_x) {
         g.tryRotate({0, 0, -1}, b);
@@ -219,7 +229,7 @@ void process_event(SDL_Event *event) {
         g.tryMove({1, 0, 0}, b);
       }
 
-      // soft and hard drop
+      // hard drop
       else if (key == SDLK_s) {
         g.hardDrop(b);
       }
@@ -245,16 +255,26 @@ void process_input() {
   }
 
   if (keys[SDLK_UP]) {
-    c.changeOffset(1);
+    c.move({0, 1, 0});
+    // c.changeOffset(1);
   }
   if (keys[SDLK_DOWN]) {
-    c.changeOffset(-1);
+    c.move({0, -1, 0});
+    // c.changeOffset(-1);
+  }
+  if (keys[SDLK_LEFT]) {
+    c.move({1, 0, 0});
+    // c.changeOffset(-1);
+  }
+  if (keys[SDLK_RIGHT]) {
+    c.move({-1, 0, 0});
+    // c.changeOffset(-1);
   }
   if (keys[SDLK_o]) {
-    g.tryMove({0, 0, -1}, b);
+    bool moved = g.tryMove({0, 0, -1}, b);
+    if (!moved) g.hardDrop(b);
   }
 }
-
 void main_loop() {
   process_input();
 
