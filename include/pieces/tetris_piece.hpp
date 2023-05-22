@@ -20,10 +20,6 @@ class TetrisPiece3d {
   void rotateXZ(int r);
   void rotateYZ(int r);
 
-  virtual bool canRotateXY(void) const = 0;
-  virtual bool canRotateXZ(void) const = 0;
-  virtual bool canRotateYZ(void) const = 0;
-
   void log();
 
   std::vector<Vec3d> getAbsolutePositions(const Vec3d& pos) const;

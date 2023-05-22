@@ -13,6 +13,9 @@ class Board {
   std::map<int, Cube> cubes;
 
   int getHighestInColumn(int x, int y) const;
+  bool hasCubeInPosition(int x, int y, int z) const;
+  bool hasCubeInPosition(const Vec3d &position) const;
+  bool isWithinBounds(const Vec3d &position) const;
 
  public:
   const static Vec3d sideN;
@@ -31,8 +34,5 @@ class Board {
   const std::map<int, Cube> getCubes() const;
   const std::vector<Line> getLines() const;
 
-  bool hasCubeInPosition(int x, int y, int z) const;
-  bool hasCubeInPosition(const Vec3d &position) const;
-  bool isWithinBounds(const Vec3d &position) const;
   bool isValidPiecePos(const std::vector<Vec3d> &pos) const;
 };

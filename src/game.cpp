@@ -102,7 +102,8 @@ std::array<std::array<Vec2d, 5>, 8> wallkicks = {{
     {{{0, 0}, {-1, 0}, {-1, -1}, {0, 2}, {-1, 2}}},
 }};
 
-// vector r encodes information about which axis and the direction
+// vector r encodes information about which axis to rotate around and the
+// direction to rotate, assumes rotation of 90 degrees always
 
 void Game::tryRotate(const Vec3d& r, const Board& b) {
   bool positive = (r.x + r.y + r.z) > 0;
@@ -146,7 +147,6 @@ void Game::tryRotate(const Vec3d& r, const Board& b) {
   // attempt all 5 posssible wallkicks in order
   for (int i = 0; i < 5; i++) {
     Vec2d wk = wks[i];
-    std::cout << "attempting translation " << wk.x << ", " << wk.y << "\n";
 
     Vec3d translationVector;
 
@@ -161,7 +161,6 @@ void Game::tryRotate(const Vec3d& r, const Board& b) {
     Vec3d rotatedPosition = currentPiecePos + translationVector;
 
     if (b.isValidPiecePos(pm.getAbsolutePositions(rotatedPosition))) {
-      std::cout << "found rotation \n";
       if (axis == X_AXIS) {
         currentPiece->rotateYZ(rotation);
       } else if (axis == Y_AXIS) {
