@@ -70,7 +70,7 @@ const std::vector<Drawable const *> Cube::toPolygons() const {
             points[i] * 10,
             points[i + 4] * 10,
             points[(i + 1) % 4 + 4] * 10,
-            points[i + 1] * 10,
+            points[(i + 1) % 4] * 10,
         },
         fillColor));
   }
