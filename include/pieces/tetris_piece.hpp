@@ -31,4 +31,5 @@ class TetrisPiece3d {
 
   const Color getColor() const;
   const int getPieceLength() const;
+  const PieceMultiarray getPieceMultiarray() const;
 };

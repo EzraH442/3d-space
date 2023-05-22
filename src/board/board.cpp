@@ -94,3 +94,13 @@ void Board::handleDrop(const TetrisPiece3d *piece, const Vec3d &pos) {
     addCube(newPos, c);
   }
 }
+
+bool Board::isValidPiecePos(const std::vector<Vec3d> &pos) const {
+  bool isValid = true;
+  for (const Vec3d &p : pos) {
+    if (!isWithinBounds(p) || hasCubeInPosition(p)) {
+      isValid = false;
+    }
+  }
+  return isValid;
+}

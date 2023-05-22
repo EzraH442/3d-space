@@ -34,4 +34,5 @@ class Board {
   bool hasCubeInPosition(int x, int y, int z) const;
   bool hasCubeInPosition(const Vec3d &position) const;
   bool isWithinBounds(const Vec3d &position) const;
+  bool isValidPiecePos(const std::vector<Vec3d> &pos) const;
 };

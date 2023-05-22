@@ -16,6 +16,7 @@ class Game {
 
   void getNewPiece();
   void swapPiece();
+  Vec3d currentRotationState;
 
  public:
   Game();
@@ -23,7 +24,8 @@ class Game {
 
   void init();
 
-  Vec3d getCurrentPiecePos() const;
+  const Vec3d getCurrentPiecePos() const;
+  const Vec3d getCurrentRotationState() const;
 
   const TetrisPiece3d* getCurrentPiece() const;
 
@@ -32,7 +34,7 @@ class Game {
 
   void tryMove(const Vec3d& v, const Board& b);
 
-  void tryRotateXY(int r);
-  void tryRotateXZ(int r);
-  void tryRotateYZ(int r);
+  void tryRotateXY(int r, const Board& b);
+  void tryRotateXZ(int r, const Board& b);
+  void tryRotateYZ(int r, const Board& b);
 };
