@@ -6,7 +6,7 @@
 #include "render/cube.hpp"
 
 class Board {
-  std::vector<Line> boardLines;
+  std::vector<Drawable const *> boardLines;
   std::array<int, 10 * 10 * 20> cubePositions;
   std::map<int, Cube> cubes;
 
@@ -26,13 +26,14 @@ class Board {
   const static Vec3d sideS;
   const static Vec3d sideW;
   Board();
+  ~Board();
 
   void init();
 
   bool handleDrop(const TetrisPiece3d *piece, const Vec3d &pos);
 
   const std::map<int, Cube> getCubes() const;
-  const std::vector<Line> getLines() const;
+  const std::vector<Drawable const *> getLines() const;
   int checkForClearedLines();
 
   bool isValidPiecePos(const std::vector<Vec3d> &pos) const;

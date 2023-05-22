@@ -27,29 +27,21 @@ Cube::Cube(const Vec3d &pos, const Color &sc, const Color &fc)
   points = {p1, p2, p3, p4, p5, p6, p7, p8};
 }
 
-const std::vector<Line> Cube::toLines() const {
-  std::vector<Line> ret;
+const std::vector<Drawable const *> Cube::toLines() const {
+  std::vector<Drawable const *> ret;
 
-  // always draw top 4 lines
+  for (int i = 0; i < 4; i++) {
+    ret.push_back(new Line(points[i + 4] * 10, points[4 + (i + 1) % 4] * 10,
+                           strokeColor));
+  }
+
+  for (int i = 0; i < 4; i++) {
+    ret.push_back(new Line(points[i] * 10, points[i + 4] * 10, strokeColor));
+  }
+
   for (int i = 0; i < 4; i++) {
     ret.push_back(
-        Line(points[i + 4] * 10, points[4 + (i + 1) % 4] * 10, strokeColor));
-  }
-
-  // draw 3 vertical lines
-  for (int i = 0; i < 4; i++) {
-    if (i != 0) {
-      ret.push_back(Line(points[i] * 10, points[i + 4] * 10, strokeColor));
-    }
-  }
-
-  // don't draw the two lower lines that are behind
-  for (int i = 0; i < 4; i++) {
-    // if (!(direction == i || direction == ((i + 1) % 4))) {
-    if (!(i == 0 || i == 3)) {
-      ret.push_back(
-          Line(points[i] * 10, points[(i + 1) % 4] * 10, strokeColor));
-    }
+        new Line(points[i] * 10, points[(i + 1) % 4] * 10, strokeColor));
   }
 
   return ret;
@@ -63,24 +55,24 @@ void Cube::log() {
   std::cout << " }" << std::endl;
 }
 
-const std::vector<std::array<Vec3d, 4>> Cube::toPolygons() const {
-  std::vector<std::array<Vec3d, 4>> ret;
+const std::vector<Drawable const *> Cube::toPolygons() const {
+  std::vector<Drawable const *> ret;
 
   // top face
-  ret.push_back(
-      {points[4] * 10, points[5] * 10, points[6] * 10, points[7] * 10});
+  ret.push_back(new Polygon(
+      {points[4] * 10, points[5] * 10, points[6] * 10, points[7] * 10},
+      fillColor));
 
-  // other two faces
+  // side faces (bottom face should never be visible)
   for (int i = 0; i < 4; i++) {
-    // if (!((i + 0) % 4 == 0 || (i + 1) % 4 == 0)) {
-    if (!(i == 0 || i == 3)) {
-      ret.push_back({
-          points[i] * 10,
-          points[i + 4] * 10,
-          points[(i + 1) % 4 + 4] * 10,
-          points[i + 1] * 10,
-      });
-    }
+    ret.push_back(new Polygon(
+        {
+            points[i] * 10,
+            points[i + 4] * 10,
+            points[(i + 1) % 4 + 4] * 10,
+            points[i + 1] * 10,
+        },
+        fillColor));
   }
 
   return ret;
