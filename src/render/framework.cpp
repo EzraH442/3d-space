@@ -1,5 +1,7 @@
 #include "render/framework.hpp"
 
+#include <algorithm>
+
 #include "render/drawable.hpp"
 
 Vec2d<float> Framework::getProjectedCoordinates(const Vec3d &p) const {
@@ -73,6 +75,14 @@ Framework::~Framework() {
 }
 
 void Framework::drawShapes() {
+  std::sort(toDraw.begin(), toDraw.end(),
+            [this](const Drawable *d1, const Drawable *d2) {
+              int dist1 = (d1->getMidpoint() - c.getPos(2)).squaredMagnitude();
+              int dist2 = (d2->getMidpoint() - c.getPos(2)).squaredMagnitude();
+
+              return dist1 > dist2;
+            });
+
   for (auto &drawable : toDraw) {
     drawable->drawShape(this);
   }

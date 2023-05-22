@@ -1,5 +1,7 @@
 #include "vector_3d.hpp"
 
+int Vec3d::squaredMagnitude() const { return x * x + y * y + z * z; }
+
 Vec3d operator+(Vec3d const& a, Vec3d const& b) {
   return {a.x + b.x, a.y + b.y, a.z + b.z};
 }
