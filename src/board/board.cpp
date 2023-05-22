@@ -57,8 +57,8 @@ bool Board::isWithinBounds(const Vec3d &v) const {
          (v.z >= 0 && v.z < 20);
 }
 
-int Board::getHighestInColumn(int x, int y) const {
-  for (int i = 19; i >= 0; i--) {
+int Board::getHighestInColumnBelowValue(int x, int y, int z) const {
+  for (int i = z - 1; i >= 0; i--) {
     if (hasCubeInPosition(x, y, i)) {
       return i;
     }
@@ -72,18 +72,19 @@ void Board::handleDrop(const TetrisPiece3d *piece, const Vec3d &pos) {
   std::vector<Vec3d> absPos = piece->getAbsolutePositions(pos);
   std::vector<Vec3d> relPos = piece->getRelativePositions();
 
-  for (const auto &v : absPos) {
-    int columnHeight = getHighestInColumn(v.x, v.y);
-    if (columnHeight > highest) {
-      highest = columnHeight;
-    }
-  }
-
   int relativeAdjustment = piece->getPieceLength();
   for (int i = 0; i < relPos.size(); i++) {
     int height = relPos[i].z;
     if (height < relativeAdjustment) {
       relativeAdjustment = height;
+    }
+  }
+
+  for (const auto &v : absPos) {
+    int columnHeight =
+        getHighestInColumnBelowValue(v.x, v.y, v.z - relativeAdjustment);
+    if (columnHeight > highest) {
+      highest = columnHeight;
     }
   }
 

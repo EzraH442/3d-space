@@ -10,7 +10,7 @@ class Board {
   std::array<int, 10 * 10 * 20> cubePositions;
   std::map<int, Cube> cubes;
 
-  int getHighestInColumn(int x, int y) const;
+  int getHighestInColumnBelowValue(int x, int y, int z) const;
   bool hasCubeInPosition(int x, int y, int z) const;
   bool hasCubeInPosition(const Vec3d &position) const;
   bool isWithinBounds(const Vec3d &position) const;
