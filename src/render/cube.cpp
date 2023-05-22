@@ -1,5 +1,11 @@
 #include "render/cube.hpp"
 
+#include <algorithm>
+#include <array>
+
+#include "render/polygon.hpp"
+#include "vector_3d.hpp"
+
 Cube::Cube() : strokeColor(Color::White), fillColor(Color::Purple) {
   points.fill({0, 0, 0});
 }
@@ -27,12 +33,52 @@ Cube::Cube(const Vec3d &pos, const Color &sc, const Color &fc)
   points = {p1, p2, p3, p4, p5, p6, p7, p8};
 }
 
+Vec3d center(const std::array<Vec3d, 8> &pts) {
+  Vec3d sum{0, 0, 0};
+
+  for (const auto p : pts) {
+    sum = sum + p * 10;
+  }
+
+  sum = sum / 8;
+
+  return sum;
+}
+
+std::array<std::pair<int, int>, 4> offsets = {
+    {{-1, -1}, {-1, 1}, {1, -1}, {1, 1}}};
+
+Vec3d minOffset(const Vec3d &center, const Vec3d &point) {
+  int minDistance = 2147483647;
+  Vec3d minOffset;
+
+  for (int i = 0; i < 4; i++) {
+    Vec3d offset = {offsets[i].first, offsets[i].second, 0};
+    int distance = (center - (point + offset)).squaredMagnitude();
+    if (distance < minDistance) {
+      minDistance = distance;
+      minOffset = offset;
+    }
+  }
+
+  return minOffset;
+}
+
 const std::vector<Drawable const *> Cube::toLines() const {
   std::vector<Drawable const *> ret;
 
+  Vec3d c = center(points);
+
   for (int i = 0; i < 4; i++) {
-    ret.push_back(new Line(points[i + 4] * 10, points[4 + (i + 1) % 4] * 10,
-                           strokeColor));
+    ret.push_back(
+        new Polygon({points[i + 4] * 10, points[4 + (i + 1) % 4] * 10,
+                     (points[4 + (i + 1) % 4] * 10) +
+                         minOffset(c, points[4 + (i + 1) % 4] * 10),
+                     (points[i + 4] * 10) + minOffset(c, points[i + 4] * 10)},
+                    Color(200, 200, 100)));
+
+    // ret.push_back(new Line(points[i + 4] * 10, points[4 + (i + 1) % 4] * 10,
+    //                        strokeColor));
   }
 
   for (int i = 0; i < 4; i++) {
