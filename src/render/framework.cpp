@@ -33,20 +33,11 @@ Vec2d<float> Framework::getProjectedCoordinates(const Vec3d &p) const {
   float offset = d / 2;
   x += offset;
   y += offset;
-  // if (direction == 1) {
-  //   x += offset;
-  // } else if (direction == 2) {
-  //   x += offset;
-  //   y += offset;
-  // } else if (direction == 3) {
-  //   y += offset;
-  // }
 
   Vec2d<float> ret{x, y};
 
   // std::cout << "point at " << p << " projected to {" << ret.x << ", " <<
-  // ret.y
-  //           << " }\n";
+  // ret.y << " }\n";
   return ret;
 }
 
