@@ -5,10 +5,17 @@
 #include "line.hpp"
 #include "polygon.hpp"
 
+const std::array<std::pair<int, int>, 4> offsets = {
+    {{-1, -1}, {-1, 1}, {1, -1}, {1, 1}}};
+
 class Cube {
   std::array<Vec3d, 8> points;
   const Color strokeColor;
   const Color fillColor;
+  const Vec3d center;
+
+  static Vec3d calcCenter(const std::array<Vec3d, 8> &);
+  static std::array<Vec3d, 8> makePointArray(const Vec3d &center);
 
  public:
   Cube();
