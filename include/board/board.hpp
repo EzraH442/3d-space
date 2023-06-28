@@ -4,13 +4,14 @@
 
 #include "pieces/tetris_piece.hpp"
 #include "render/cube.hpp"
+#include "vector_3d.hpp"
 
 class Board {
   std::vector<Drawable const *> boardLines;
   std::array<int, 10 * 10 * 20> cubePositions;
   std::map<int, Cube> cubes;
 
-  int getHighestInColumnBelowValue(int x, int y, int z) const;
+  int getHighestInColumnBelowValue(const Vec3d &v) const;
   bool hasCubeInPosition(int x, int y, int z) const;
   bool hasCubeInPosition(const Vec3d &position) const;
   bool isWithinBounds(const Vec3d &position) const;

@@ -1,5 +1,8 @@
 #include "board/board.hpp"
 
+#include <algorithm>
+#include <unordered_map>
+
 int textOffset = 10;
 
 const Vec3d Board::sideN = {50, 0 - textOffset, 0};
@@ -40,7 +43,7 @@ void Board::init() {
 }
 
 bool Board::addCube(int pos, const Cube &c) {
-  if (pos > 2000) {
+  if (pos >= 1900) {
     return false;
   }
   cubePositions[pos] = 1;
@@ -81,42 +84,42 @@ bool Board::isWithinBounds(const Vec3d &v) const {
          (v.z >= 0 && v.z < 20);
 }
 
-int Board::getHighestInColumnBelowValue(int x, int y, int z) const {
-  for (int i = z - 1; i >= 0; i--) {
-    if (hasCubeInPosition(x, y, i)) {
-      return i;
-    }
+int Board::getHighestInColumnBelowValue(const Vec3d &v) const {
+  int checkedZ = v.z - 1;
+
+  while (!hasCubeInPosition(v.x, v.y, checkedZ) && checkedZ >= 0) {
+    checkedZ--;
   }
-  return -1;
+
+  return checkedZ;
 }
 
 bool Board::handleDrop(const TetrisPiece3d *piece, const Vec3d &pos) {
-  int highest = -1;
-
   std::vector<Vec3d> absPos = piece->getAbsolutePositions(pos);
-  std::vector<Vec3d> relPos = piece->getRelativePositions();
 
-  int relativeAdjustment = piece->getPieceLength();
+  std::unordered_map<int, Vec3d> downwardPositions;
 
-  for (int i = 0; i < relPos.size(); i++) {
-    int height = relPos[i].z;
-    if (height < relativeAdjustment) {
-      relativeAdjustment = height;
+  for (const auto &pos : absPos) {
+    int index = pos.x + 10 * pos.y;
+
+    if (downwardPositions.find(index) == downwardPositions.end() ||
+        downwardPositions.at(index).z > pos.z) {
+      downwardPositions.insert({index, pos});
     }
   }
 
-  for (const auto &v : absPos) {
-    int columnHeight = getHighestInColumnBelowValue(v.x, v.y, v.z);
-    if (columnHeight > highest) {
-      highest = columnHeight;
-    }
+  int minDown = 20;
+
+  for (const auto &p : downwardPositions) {
+    int distance = p.second.z - getHighestInColumnBelowValue(p.second);
+    minDown = std::min(minDown, distance);
   }
 
   bool added = true;
 
   for (int i = 0; i < absPos.size(); i++) {
-    const Vec3d newPos = {absPos[i].x, absPos[i].y,
-                          highest + 1 + relPos[i].z - relativeAdjustment};
+    int newZPos = absPos[i].z - minDown + 1;
+    const Vec3d newPos = {absPos[i].x, absPos[i].y, newZPos};
     const Cube c = Cube(newPos, piece->getColor(), piece->getColor());
     added = added && addCube(newPos, c);
   }

@@ -129,12 +129,12 @@ void main_loop() {
 
 int main() {
   srand(time(NULL));
-#ifdef __EMSCRIPTEN__
-  emscripten_set_main_loop(main_loop, 0, 1);
-#else
 
   b.init();
   g.init();
+#ifdef __EMSCRIPTEN__
+  emscripten_set_main_loop(main_loop, 0, 1);
+#else
 
   while (1) {
     SDL_Delay(20);
