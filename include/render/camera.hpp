@@ -4,8 +4,8 @@
 
 class Camera {
   Vec3d pos;
-  int defaultHeight = 300;
-  int length = 100;  // total length of "board / playing area"
+  int defaultHeight;
+  int length;  // total length of "board / playing area"
 
  public:
   Camera(int boardLength);

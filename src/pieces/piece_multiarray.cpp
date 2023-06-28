@@ -1,7 +1,5 @@
 #include "pieces/piece_multiarray.hpp"
 
-#include <iostream>
-
 #include "vector_3d.hpp"
 
 PieceMultiarray::PieceMultiarray() : length(0) {}

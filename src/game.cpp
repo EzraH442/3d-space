@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+#include "enums.hpp"
+
 Game::Game(){};
 
 Game::~Game() { delete currentPiece; }
@@ -88,21 +90,16 @@ void Game::tryRotate(const Vec3d& r, const Board& b) {
   bool positive = (r.x + r.y + r.z) > 0;
   int rotation = positive ? 1 : -1;
 
-  int X_AXIS = 0;
-  int Y_AXIS = 1;
-  int Z_AXIS = 2;
-
-  int axis;
+  Axes axis;
 
   if (r.x != 0) {
-    axis = X_AXIS;
+    axis = Axes::X;
   } else if (r.y != 0) {
-    axis = Y_AXIS;
+    axis = Axes::Y;
   } else if (r.z != 0) {
-    axis = Z_AXIS;
+    axis = Axes::Z;
   } else {
-    std::cout << "bad axis";
-    axis = 0;
+    axis = Axes::X;
   }
 
   Vec3d wallkickIndices =
@@ -112,40 +109,49 @@ void Game::tryRotate(const Vec3d& r, const Board& b) {
 
   std::array<Vec2d<int>, 5> wks;
 
-  if (axis == X_AXIS) {
-    pm.rotateYZ(rotation);
-    wks = wallkicks[wallkickIndices.x];
-  } else if (axis == Y_AXIS) {
-    pm.rotateXZ(rotation);
-    wks = wallkicks[wallkickIndices.y];
-  } else if (axis == Z_AXIS) {
-    pm.rotateXY(rotation);
-    wks = wallkicks[wallkickIndices.z];
+  switch (axis) {
+    case Axes::X: {
+      pm.rotateYZ(rotation);
+      wks = wallkicks[wallkickIndices.x];
+    }
+    case Axes::Y: {
+      pm.rotateXZ(rotation);
+      wks = wallkicks[wallkickIndices.y];
+    }
+    case Axes::Z: {
+      pm.rotateXY(rotation);
+      wks = wallkicks[wallkickIndices.z];
+    }
   }
 
   // attempt all 5 posssible wallkicks in order
-  for (int i = 0; i < 5; i++) {
-    Vec2d<int> wk = wks[i];
 
+  for (const auto& wk : wks) {
     Vec3d translationVector;
-
-    if (axis == X_AXIS) {
-      translationVector = {0, wk.x, wk.y};
-    } else if (axis == Y_AXIS) {
-      translationVector = {wk.x, 0, wk.y};
-    } else if (axis == Z_AXIS) {
-      translationVector = {wk.x, wk.y, 0};
+    switch (axis) {
+      case Axes::X:
+        translationVector = {0, wk.x, wk.y};
+        break;
+      case Axes::Y:
+        translationVector = {wk.x, 0, wk.y};
+        break;
+      case Axes::Z:
+        translationVector = {wk.x, wk.y, 0};
     }
 
     Vec3d rotatedPosition = currentPiecePos + translationVector;
 
     if (b.isValidPiecePos(pm.getAbsolutePositions(rotatedPosition))) {
-      if (axis == X_AXIS) {
-        currentPiece->rotateYZ(rotation);
-      } else if (axis == Y_AXIS) {
-        currentPiece->rotateXZ(rotation);
-      } else if (axis == Z_AXIS) {
-        currentPiece->rotateXY(rotation);
+      switch (axis) {
+        case Axes::X:
+          currentPiece->rotateYZ(rotation);
+          break;
+        case Axes::Y:
+          currentPiece->rotateXZ(rotation);
+          break;
+        case Axes::Z:
+          currentPiece->rotateXY(rotation);
+          break;
       }
 
       currentRotationState = Vec3d{(currentRotationState.x + r.x + 4) % 4,

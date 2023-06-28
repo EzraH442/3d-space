@@ -1,6 +1,6 @@
 #include "render/camera.hpp"
 
-Camera::Camera(int boardLength) : length(boardLength) {
+Camera::Camera(int boardLength) : defaultHeight(300), length(boardLength) {
   pos = {length / 2, length / 2, defaultHeight};
 };
 

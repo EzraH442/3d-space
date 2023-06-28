@@ -38,37 +38,30 @@ void process_event(SDL_Event *event) {
 
       keys[event->key.keysym.sym] = false;
 
-      // camera
-      // if (key == SDLK_RIGHT) {
-      //   cameraPos = (cameraPos + 1) % 4;
-      // } else if (key == SDLK_LEFT) {
-      //   cameraPos = (cameraPos + 3) % 4;
-      // }
-
       // piece rotations
       if (key == SDLK_w) {
-        g.tryRotate({0, 0, 1}, b);
-      } else if (key == SDLK_x) {
         g.tryRotate({0, 0, -1}, b);
+      } else if (key == SDLK_x) {
+        g.tryRotate({0, 0, 1}, b);
       } else if (key == SDLK_a) {
-        g.tryRotate({0, 1, 0}, b);
-      } else if (key == SDLK_d) {
         g.tryRotate({0, -1, 0}, b);
+      } else if (key == SDLK_d) {
+        g.tryRotate({0, 1, 0}, b);
       } else if (key == SDLK_z) {
-        g.tryRotate({1, 0, 0}, b);
-      } else if (key == SDLK_e) {
         g.tryRotate({-1, 0, 0}, b);
+      } else if (key == SDLK_e) {
+        g.tryRotate({1, 0, 0}, b);
       }
 
       // piece movement
       else if (key == SDLK_i) {
-        g.tryMove({0, -1, 0}, b);
-      } else if (key == SDLK_j) {
-        g.tryMove({-1, 0, 0}, b);
-      } else if (key == SDLK_k) {
         g.tryMove({0, 1, 0}, b);
-      } else if (key == SDLK_l) {
+      } else if (key == SDLK_j) {
         g.tryMove({1, 0, 0}, b);
+      } else if (key == SDLK_k) {
+        g.tryMove({0, -1, 0}, b);
+      } else if (key == SDLK_l) {
+        g.tryMove({-1, 0, 0}, b);
       }
 
       // hard drop
@@ -128,6 +121,7 @@ int main() {
 
   b.init();
   g.init();
+
 #ifdef __EMSCRIPTEN__
   emscripten_set_main_loop(main_loop, 0, 1);
 #else

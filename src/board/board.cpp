@@ -5,10 +5,10 @@
 
 int textOffset = 10;
 
-const Vec3d Board::sideN = {50, 0 - textOffset, 0};
-const Vec3d Board::sideE = {100 + textOffset, 50, 0};
-const Vec3d Board::sideS = {50, 100 + textOffset, 0};
-const Vec3d Board::sideW = {0 - textOffset, 50, 0};
+const Vec3d Board::sideN = {50, 100 + textOffset, 0};
+const Vec3d Board::sideE = {0 - textOffset, 50, 0};
+const Vec3d Board::sideS = {50, 0 - textOffset, 0};
+const Vec3d Board::sideW = {100 + textOffset, 50, 0};
 
 Board::Board() {}
 Board::~Board() {
