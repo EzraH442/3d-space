@@ -2,6 +2,8 @@
 
 #include <cstdlib>
 
+#include "enums.hpp"
+
 int Bag::NUM_PIECES = 7;
 
 // min inclusive, max exclusive
@@ -11,17 +13,17 @@ Bag::Bag() { refill(); }
 
 void Bag::refill() {
   for (int i = 0; i < NUM_PIECES; i++) {
-    pieces.push_back(i);
+    pieces.push_back(static_cast<PieceType>(i));
   }
 }
 
-int Bag::getNextPieceId() {
+PieceType Bag::getNextPieceType() {
   if (pieces.size() == 0) {
     refill();
   }
 
   int index = randomBetween(0, pieces.size());
-  int ret = pieces.at(index);
+  PieceType ret = pieces.at(index);
   pieces.erase(pieces.begin() + index);
   return ret;
 }

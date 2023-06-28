@@ -1,6 +1,7 @@
 #include "board/board.hpp"
 
 #include <algorithm>
+#include <memory>
 #include <unordered_map>
 
 int textOffset = 10;
@@ -11,35 +12,30 @@ const Vec3d Board::sideS = {50, 0 - textOffset, 0};
 const Vec3d Board::sideW = {100 + textOffset, 50, 0};
 
 Board::Board() {}
-Board::~Board() {
-  for (auto p : boardLines) {
-    delete p;
-  }
-  boardLines.clear();
-}
 
 void Board::init() {
   cubePositions.fill(0);
 
   for (int i = 0; i < 11; i++) {
     boardLines.push_back(
-        new Line({0, i * 10, 0}, {100, i * 10, 0}, Color::White));
+        Line(Vec3d{0, i * 10, 0}, Vec3d{100, i * 10, 0}, Color::White));
   }
 
   for (int i = 0; i < 11; i++) {
     boardLines.push_back(
-        new Line({i * 10, 0, 0}, {i * 10, 100, 0}, Color::White));
+        Line(Vec3d{i * 10, 0, 0}, Vec3d{i * 10, 100, 0}, Color::White));
   }
 
   int boardHeight = 200;
 
-  boardLines.push_back(new Line({0, 0, 0}, {0, 0, boardHeight}, Color::White));
   boardLines.push_back(
-      new Line({100, 0, 0}, {100, 0, boardHeight}, Color::White));
+      Line(Vec3d{0, 0, 0}, Vec3d{0, 0, boardHeight}, Color::White));
   boardLines.push_back(
-      new Line({0, 100, 0}, {0, 100, boardHeight}, Color::White));
+      Line(Vec3d{100, 0, 0}, Vec3d{100, 0, boardHeight}, Color::White));
   boardLines.push_back(
-      new Line({100, 100, 0}, {100, 100, boardHeight}, Color::White));
+      Line(Vec3d{0, 100, 0}, Vec3d{0, 100, boardHeight}, Color::White));
+  boardLines.push_back(
+      Line(Vec3d{100, 100, 0}, Vec3d{100, 100, boardHeight}, Color::White));
 }
 
 bool Board::addCube(int pos, const Cube &c) {
@@ -67,9 +63,7 @@ void Board::removeCube(const Vec3d &pos) {
 }
 const std::map<int, Cube> Board::getCubes() const { return cubes; }
 
-const std::vector<Drawable const *> Board::getLines() const {
-  return boardLines;
-}
+const std::vector<Line> Board::getLines() const { return boardLines; }
 
 bool Board::hasCubeInPosition(int x, int y, int z) const {
   return cubePositions[x + y * 10 + z * 100];
@@ -140,6 +134,7 @@ int Board::checkForClearedLines() {
         }
       }
       if (lineFull) {
+        score += 1000;
         for (int k = 0; k < 10; k++) {
           removeCube(Vec3d{j, k, i});
         }
@@ -154,6 +149,7 @@ int Board::checkForClearedLines() {
         }
       }
       if (lineFull) {
+        score += 1000;
         for (int k = 0; k < 10; k++) {
           removeCube(Vec3d{k, j, i});
         }

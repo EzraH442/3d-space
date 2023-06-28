@@ -1,8 +1,13 @@
 #pragma once
 
+#include <memory>
+#include <type_traits>
+
 #include "board/bag.hpp"
 #include "board/board.hpp"
+#include "enums.hpp"
 #include "pieces/piece_factory.hpp"
+#include "pieces/tetris_piece.hpp"
 #include "vector_2d.hpp"
 
 // rotations in each plane will follow the standard SRS wallkick order
@@ -30,10 +35,11 @@ const std::array<std::array<Vec2d<int>, 5>, 8> wallkicks = {{
 }};
 
 class Game {
-  TetrisPiece3d* currentPiece;
+  std::unique_ptr<TetrisPiece3d> currentPiece;
   Bag bag;
-  int currentPieceId;
-  int currentHeldId;
+  PieceType currentPieceId;
+  PieceType currentHeldId;
+  bool currentlyHolding;
   bool canHold;
   Vec3d currentPiecePos;
   TetrisPieceFactory tpf;

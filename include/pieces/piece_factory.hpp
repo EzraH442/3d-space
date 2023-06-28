@@ -1,8 +1,12 @@
 #pragma once
+
+#include <memory>
+
+#include "enums.hpp"
 #include "pieces/tetris_piece.hpp"
 
 class TetrisPieceFactory {
  public:
   TetrisPieceFactory();
-  TetrisPiece3d* createPiece(int id);
+  std::unique_ptr<TetrisPiece3d> createPiece(const PieceType& type);
 };

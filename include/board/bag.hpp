@@ -2,12 +2,14 @@
 
 #include <vector>
 
+#include "enums.hpp"
+
 class Bag {
   static int NUM_PIECES;
-  std::vector<int> pieces;
+  std::vector<PieceType> pieces;
   void refill();
 
  public:
   Bag();
-  int getNextPieceId();
+  PieceType getNextPieceType();
 };

@@ -23,8 +23,8 @@ class Cube {
   Cube(std::array<Vec3d, 8> points, const Color &strokeColor,
        const Color &fillColor);
   Cube(const Vec3d &pos, const Color &strokeColor, const Color &fillColor);
-  const std::vector<Drawable const *> toLines() const;
-  const std::vector<Drawable const *> toPolygons() const;
+  const std::vector<Polygon> toLines() const;
+  const std::vector<Polygon> toPolygons() const;
   const Color getFillColor() const;
   void log();
 };

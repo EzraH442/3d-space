@@ -1,6 +1,7 @@
 #include "render/framework.hpp"
 
 #include <algorithm>
+#include <memory>
 
 #include "render/camera.hpp"
 #include "render/drawable.hpp"
@@ -43,28 +44,23 @@ Framework::~Framework() {
   SDL_DestroyWindow(window);
   SDL_Quit();
 
-  for (auto p : toDraw) {
-    delete p;
-  }
-
   toDraw.clear();
 }
 
 void Framework::drawShapes() {
   std::sort(toDraw.begin(), toDraw.end(),
-            [this](const Drawable *d1, const Drawable *d2) {
+            [this](const std::unique_ptr<Drawable> &d1,
+                   const std::unique_ptr<Drawable> &d2) {
               int dist1 = (d1->getMidpoint() - c.getPos()).squaredMagnitude();
               int dist2 = (d2->getMidpoint() - c.getPos()).squaredMagnitude();
 
               return dist1 > dist2;
             });
 
-  for (auto &drawable : toDraw) {
-    drawable->drawShape(this);
+  for (const auto &d : toDraw) {
+    d->drawShape(this);
   }
 }
-
-void Framework::addDrawable(Drawable const *d) { toDraw.push_back(d); }
 
 void Framework::moveCamera(const Vec3d &v) { c.move(v); }
 
@@ -84,18 +80,18 @@ void Framework::draw_text_2d(const Vec2d<float> &pos, std::string s) {
 }
 
 void Framework::addCube(const Cube &c) {
-  for (const auto d : c.toPolygons()) {
-    addDrawable(d);
+  for (const auto &d : c.toPolygons()) {
+    toDraw.push_back(std::make_unique<Polygon>(d));
   }
 
-  for (const auto d : c.toLines()) {
-    addDrawable(d);
+  for (const auto &d : c.toLines()) {
+    toDraw.push_back(std::make_unique<Polygon>(d));
   }
 }
 
 void Framework::addBoard(const Board &b) {
-  for (const auto d : b.getLines()) {
-    addDrawable(d);
+  for (const auto &d : b.getLines()) {
+    toDraw.push_back(std::make_unique<Line>(d));
   }
 
   for (auto const &pair : b.getCubes()) {

@@ -1,13 +1,15 @@
 #pragma once
 
 #include <map>
+#include <memory>
 
 #include "pieces/tetris_piece.hpp"
 #include "render/cube.hpp"
+#include "render/drawable.hpp"
 #include "vector_3d.hpp"
 
 class Board {
-  std::vector<Drawable const *> boardLines;
+  std::vector<Line> boardLines;
   std::array<int, 10 * 10 * 20> cubePositions;
   std::map<int, Cube> cubes;
 
@@ -27,14 +29,13 @@ class Board {
   const static Vec3d sideS;
   const static Vec3d sideW;
   Board();
-  ~Board();
 
   void init();
 
   bool handleDrop(const TetrisPiece3d *piece, const Vec3d &pos);
 
   const std::map<int, Cube> getCubes() const;
-  const std::vector<Drawable const *> getLines() const;
+  const std::vector<Line> getLines() const;
   int checkForClearedLines();
 
   bool isValidPiecePos(const std::vector<Vec3d> &pos) const;

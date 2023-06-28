@@ -7,6 +7,7 @@
 #include <SDL_render.h>
 #include <SDL_video.h>
 
+#include <memory>
 #include <vector>
 
 #include "board/board.hpp"
@@ -21,7 +22,7 @@ class Framework {
 
   Camera c;
 
-  std::vector<Drawable const *> toDraw;
+  std::vector<std::unique_ptr<Drawable>> toDraw;
 
   void drawShapes();
 
@@ -30,8 +31,6 @@ class Framework {
   ~Framework();
 
   Vec2d<float> getProjectedCoordinates(const Vec3d &v) const;
-
-  void addDrawable(Drawable const *d);
 
   void draw_text_3d(const Vec3d &pos, std::string s);
 

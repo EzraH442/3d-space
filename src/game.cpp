@@ -4,40 +4,37 @@
 
 Game::Game(){};
 
-Game::~Game() { delete currentPiece; }
+Game::~Game() {}
 
 void Game::init() {
-  currentPieceId = bag.getNextPieceId();
+  currentPieceId = bag.getNextPieceType();
   currentPiece = tpf.createPiece(currentPieceId);
-  currentHeldId = -1;
+  currentlyHolding = false;
   currentPiecePos = {5, 5, 18};
   currentRotationState = {0, 0, 0};
   canHold = true;
 }
 
 void Game::getNewPiece() {
-  int newPieceId = bag.getNextPieceId();
-  TetrisPiece3d* newPiece = tpf.createPiece(newPieceId);
-  delete currentPiece;
-  currentPiece = newPiece;
-  currentPieceId = newPieceId;
+  PieceType newPieceType = bag.getNextPieceType();
+  currentPiece.reset(tpf.createPiece(newPieceType).release());
+  currentPieceId = newPieceType;
   currentPiecePos = {5, 5, 18};
   currentRotationState = {0, 0, 0};
 }
 
 void Game::swapPiece() {
-  int temp = currentHeldId;
+  PieceType temp = currentHeldId;
   currentHeldId = currentPieceId;
   currentPieceId = temp;
 
-  TetrisPiece3d* newPiece = tpf.createPiece(currentPieceId);
-  delete currentPiece;
-  currentPiece = newPiece;
+  currentPiece.reset(tpf.createPiece(currentPieceId).release());
 }
 
 void Game::hardDrop(Board& b) {
-  bool success = b.handleDrop(currentPiece, currentPiecePos);
+  bool success = b.handleDrop(currentPiece.get(), currentPiecePos);
   int score = b.checkForClearedLines();
+  std::cout << "add score " << score << "\n";
 
   if (!success) {
     // lose
@@ -53,16 +50,19 @@ const Vec3d Game::getCurrentRotationState() const {
   return currentRotationState;
 }
 
-const TetrisPiece3d* Game::getCurrentPiece() const { return currentPiece; }
+const TetrisPiece3d* Game::getCurrentPiece() const {
+  return currentPiece.get();
+}
 
 int Game::tryHold() {
-  if (currentHeldId == -1) {
+  if (!currentlyHolding) {
     currentHeldId = currentPieceId;
 
     getNewPiece();
 
     return 0;
-  } else if (currentHeldId != 1 && canHold) {
+  } else if (!currentlyHolding && canHold) {
+    currentlyHolding = true;
     swapPiece();
     return 1;
   } else {

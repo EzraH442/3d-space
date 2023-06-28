@@ -88,8 +88,8 @@ Vec3d minOffset(const Vec3d &center, const Vec3d &point, int plane) {
 
 const Color Silver(192, 192, 192);
 
-const std::vector<Drawable const *> Cube::toLines() const {
-  std::vector<Drawable const *> ret;
+const std::vector<Polygon> Cube::toLines() const {
+  std::vector<Polygon> ret;
 
   // 3 types:
   // - i+4   (i+1) % 4 + 4
@@ -99,7 +99,7 @@ const std::vector<Drawable const *> Cube::toLines() const {
   for (int i = 0; i < 4; i++) {
     Vec3d p1 = points[i + 4];
     Vec3d p2 = points[(i + 1) % 4 + 4];
-    ret.push_back(new Polygon(
+    ret.push_back(Polygon(
         {
             p1,
             p2,
@@ -112,7 +112,7 @@ const std::vector<Drawable const *> Cube::toLines() const {
   for (int i = 0; i < 4; i++) {
     Vec3d p1 = points[i];
     Vec3d p2 = points[i + 4];
-    ret.push_back(new Polygon(
+    ret.push_back(Polygon(
         {
             p1,
             p2,
@@ -125,7 +125,7 @@ const std::vector<Drawable const *> Cube::toLines() const {
   for (int i = 0; i < 4; i++) {
     Vec3d p1 = points[i];
     Vec3d p2 = points[(i + 1) % 4];
-    ret.push_back(new Polygon(
+    ret.push_back(Polygon(
         {
             p1,
             p2,
@@ -146,16 +146,16 @@ void Cube::log() {
   std::cout << " }" << std::endl;
 }
 
-const std::vector<Drawable const *> Cube::toPolygons() const {
-  std::vector<Drawable const *> ret;
+const std::vector<Polygon> Cube::toPolygons() const {
+  std::vector<Polygon> ret;
 
   // top face
   ret.push_back(
-      new Polygon({points[4], points[5], points[6], points[7]}, fillColor));
+      Polygon({points[4], points[5], points[6], points[7]}, fillColor));
 
   // side faces (bottom face should never be visible)
   for (int i = 0; i < 4; i++) {
-    ret.push_back(new Polygon(
+    ret.push_back(Polygon(
         {
             points[i],
             points[i + 4],
