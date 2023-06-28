@@ -29,5 +29,4 @@ class PieceMultiarray {
   const int getLength() const;
 
   std::vector<Vec3d> getAbsolutePositions(const Vec3d& pos) const;
-  std::vector<Vec3d> getRelativePositions() const;
 };

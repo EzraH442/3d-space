@@ -20,7 +20,6 @@ class TetrisPiece3d {
   void log();
 
   std::vector<Vec3d> getAbsolutePositions(const Vec3d& pos) const;
-  std::vector<Vec3d> getRelativePositions() const;
 
   const Color getColor() const;
   const int getPieceLength() const;

@@ -13,10 +13,6 @@ std::vector<Vec3d> TetrisPiece3d::getAbsolutePositions(const Vec3d &pos) const {
   return dataArray.getAbsolutePositions(pos);
 }
 
-std::vector<Vec3d> TetrisPiece3d::getRelativePositions() const {
-  return dataArray.getRelativePositions();
-}
-
 const Color TetrisPiece3d::getColor() const { return color; }
 
 const int TetrisPiece3d::getPieceLength() const {
