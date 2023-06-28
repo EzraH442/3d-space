@@ -98,19 +98,15 @@ void process_input() {
 
   if (keys[SDLK_UP]) {
     fw.moveCamera({0, 1, 0});
-    // c.changeOffset(1);
   }
   if (keys[SDLK_DOWN]) {
     fw.moveCamera({0, -1, 0});
-    // c.changeOffset(-1);
   }
   if (keys[SDLK_LEFT]) {
     fw.moveCamera({1, 0, 0});
-    // c.changeOffset(-1);
   }
   if (keys[SDLK_RIGHT]) {
     fw.moveCamera({-1, 0, 0});
-    // c.changeOffset(-1);
   }
   if (keys[SDLK_o]) {
     bool moved = g.tryMove({0, 0, -1}, b);

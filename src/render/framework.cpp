@@ -2,11 +2,12 @@
 
 #include <algorithm>
 
+#include "render/camera.hpp"
 #include "render/drawable.hpp"
 
 Vec2d<float> Framework::getProjectedCoordinates(const Vec3d &p) const {
   float d = 500.f;
-  Vec3d cameraPos = c.getPos(0);
+  Vec3d cameraPos = c.getPos();
   Vec3d startTransformed = p - cameraPos;
 
   float scale = d / startTransformed.z;
@@ -41,7 +42,8 @@ Vec2d<float> Framework::getProjectedCoordinates(const Vec3d &p) const {
   return ret;
 }
 
-Framework::Framework(int height_, int width_) : height(height_), width(width_) {
+Framework::Framework(int height_, int width_)
+    : height(height_), width(width_), c(100) {
   SDL_Init(SDL_INIT_VIDEO);
   window = SDL_CreateWindow("window", SDL_WINDOWPOS_UNDEFINED,
                             SDL_WINDOWPOS_UNDEFINED, width, height,
@@ -68,8 +70,8 @@ Framework::~Framework() {
 void Framework::drawShapes() {
   std::sort(toDraw.begin(), toDraw.end(),
             [this](const Drawable *d1, const Drawable *d2) {
-              int dist1 = (d1->getMidpoint() - c.getPos(2)).squaredMagnitude();
-              int dist2 = (d2->getMidpoint() - c.getPos(2)).squaredMagnitude();
+              int dist1 = (d1->getMidpoint() - c.getPos()).squaredMagnitude();
+              int dist2 = (d2->getMidpoint() - c.getPos()).squaredMagnitude();
 
               return dist1 > dist2;
             });
