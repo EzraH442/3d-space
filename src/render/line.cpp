@@ -16,8 +16,7 @@ void Line::draw(const Framework *fw) const {
   Vec2d<float> start = fw->getProjectedCoordinates(this->start);
   Vec2d<float> end = fw->getProjectedCoordinates(this->end);
 
-  SDL_RenderDrawLine(fw->renderer, start.x + 300, start.y + 300, end.x + 300,
-                     end.y + 300);
+  SDL_RenderDrawLine(fw->renderer, start.x, start.y, end.x, end.y);
 }
 
 Vec3d Line::getMidpoint() const { return (end - start) / 2; }

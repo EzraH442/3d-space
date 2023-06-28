@@ -21,13 +21,13 @@ Vec2d<float> Framework::getProjectedCoordinates(const Vec3d &p) const {
   x += offset;
   y += offset;
 
-  Vec2d<float> ret{x, y};
+  Vec2d<float> ret{x + this->x, y + this->y};
 
   return ret;
 }
 
-Framework::Framework(int height_, int width_)
-    : height(height_), width(width_), c(100) {
+Framework::Framework(int x, int y, int height, int width)
+    : x(x), y(y), height(height), width(width), c(100) {
   SDL_Init(SDL_INIT_VIDEO);
   window = SDL_CreateWindow("window", SDL_WINDOWPOS_UNDEFINED,
                             SDL_WINDOWPOS_UNDEFINED, width, height,
@@ -68,14 +68,14 @@ void Framework::draw_text_3d(const Vec3d &pos, std::string s) {
   for (int i = 0; i < s.length(); i++) {
     Vec2d<float> projectedPos =
         getProjectedCoordinates(pos + Vec3d{i * 10, 0, 0});
-    characterRGBA(renderer, projectedPos.x + 300, projectedPos.y + 300, s[i],
-                  255, 255, 255, 255);
+    characterRGBA(renderer, projectedPos.x, projectedPos.y, s[i], 255, 255, 255,
+                  255);
   }
 }
 
 void Framework::draw_text_2d(const Vec2d<float> &pos, std::string s) {
   for (int i = 0; i < s.length(); i++) {
-    characterRGBA(renderer, pos.x + 300, pos.y + 300, s[i], 255, 255, 255, 255);
+    characterRGBA(renderer, pos.x, pos.y, s[i], 255, 255, 255, 255);
   }
 }
 

@@ -17,7 +17,7 @@
 std::unordered_map<int, bool> keys;
 std::unordered_map<int, bool> mouse;
 
-Framework fw(800, 1000);
+Framework fw(150, 0, 1000, 1000);
 Board b;
 Game g;
 

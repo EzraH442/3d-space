@@ -31,8 +31,8 @@ void Polygon::draw(const Framework* fw) const {
   short vy[5];
 
   for (int i = 0; i < 5; i++) {
-    vx[i] = (short)projected[i % 4].x + 300;
-    vy[i] = (short)projected[i % 4].y + 300;
+    vx[i] = (short)projected[i % 4].x;
+    vy[i] = (short)projected[i % 4].y;
   }
 
   filledPolygonRGBA(fw->renderer, vx, vy, projected.size(), color.r, color.g,

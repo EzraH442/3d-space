@@ -17,6 +17,8 @@
 
 class Drawable;
 class Framework {
+  int x;
+  int y;
   int height;
   int width;
 
@@ -27,10 +29,12 @@ class Framework {
   void drawShapes();
 
  public:
-  Framework(int height_, int width_);
+  Framework(int x, int y, int height, int width);
   ~Framework();
 
   Vec2d<float> getProjectedCoordinates(const Vec3d &v) const;
+  int getX() const;
+  int getY() const;
 
   void draw_text_3d(const Vec3d &pos, std::string s);
 
