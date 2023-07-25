@@ -1,6 +1,10 @@
 #pragma once
 
+#include <unordered_map>
+
 #include "./state.hpp"
+#include "game.hpp"
+#include "render/camera.hpp"
 
 class PlayState : public State {
  public:
@@ -17,4 +21,11 @@ class PlayState : public State {
   void render(SDL_Renderer* renderer) override;
   void handleEvent(SDL_Event* event) override;
   void update() override;
+
+ private:
+  std::unordered_map<int, bool> keys;
+  std::unordered_map<int, bool> mouse;
+  Board b;
+  Game g;
+  Camera c;
 };

@@ -15,7 +15,5 @@ void StateMachine::changeState(State& state) {
 }
 
 void StateMachine::render(SDL_Renderer* renderer) { current->render(renderer); }
-void StateMachine::handleEvent(SDL_Event* event) {
-  current->handleEvent(event);
-}
+void StateMachine::handleEvents() { current->handleEvents(); }
 void StateMachine::update() { current->update(); }

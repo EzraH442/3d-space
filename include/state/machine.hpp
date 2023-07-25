@@ -9,7 +9,7 @@ class StateMachine {
   void changeState(State& state);
 
   void render(SDL_Renderer* renderer);
-  void handleEvent(SDL_Event* event);
+  void handleEvents();
   void update();
 
  private:
