@@ -1,0 +1,21 @@
+#include "state/machine.hpp"
+
+#include "state/menu_state.hpp"
+
+StateMachine::StateMachine() { current = &MenuState::getInstance(); }
+StateMachine::~StateMachine() {
+  if (current) delete current;
+  if (next) delete next;
+}
+
+void StateMachine::changeState(State& state) {
+  current->exit(this);
+  current = &state;
+  current->enter(this);
+}
+
+void StateMachine::render(SDL_Renderer* renderer) { current->render(renderer); }
+void StateMachine::handleEvent(SDL_Event* event) {
+  current->handleEvent(event);
+}
+void StateMachine::update() { current->update(); }
