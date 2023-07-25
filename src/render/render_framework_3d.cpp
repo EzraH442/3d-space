@@ -20,7 +20,8 @@ void RenderFramework3d::renderObjects(SDL_Renderer *renderer) {
 
 void RenderFramework3d::clearDrawables() { toDraw.clear(); }
 
-void RenderFramework3d::drawDrawables() {
+void RenderFramework3d::drawDrawables(const std::function<void()> &f) {
+  f();
   std::sort(toDraw.begin(), toDraw.end(),
             [this](const std::unique_ptr<Drawable3d> &d1,
                    const std::unique_ptr<Drawable3d> &d2) {

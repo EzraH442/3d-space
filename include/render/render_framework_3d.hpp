@@ -34,7 +34,7 @@ class RenderFramework3d : public RenderFramework {
 
   virtual void renderObjects(SDL_Renderer *renderer) override;
   virtual void clearDrawables() override;
-  virtual void drawDrawables() override;
+  virtual void drawDrawables(const std::function<void()> &f) override;
 
   std::vector<std::unique_ptr<Drawable3d>> toDraw;
 };

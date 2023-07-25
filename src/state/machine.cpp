@@ -1,8 +1,9 @@
 #include "state/machine.hpp"
 
 #include "state/menu_state.hpp"
+#include "state/play_state.hpp"
 
-StateMachine::StateMachine() { current = &MenuState::getInstance(); }
+StateMachine::StateMachine() { current = &PlayState::getInstance(); }
 StateMachine::~StateMachine() {
   if (current) delete current;
   if (next) delete next;

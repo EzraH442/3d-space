@@ -10,11 +10,18 @@
 #include <unordered_map>
 
 #include "color.hpp"
+#include "state/machine.hpp"
+#include "state/state.hpp"
+
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
 
-void main_loop() {}
+void main_loop(StateMachine& m, SDL_Renderer* renderer) {
+  m.handleEvents();
+  m.update();
+  m.render(renderer);
+}
 
 int main() {
   const int width = 1000;
@@ -33,13 +40,15 @@ int main() {
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
 
+  StateMachine machine;
+
 #ifdef __EMSCRIPTEN__
   emscripten_set_main_loop(main_loop, 0, 1);
 #else
 
   while (1) {
     SDL_Delay(20);
-    main_loop();
+    main_loop(machine, renderer);
   }
 #endif
 

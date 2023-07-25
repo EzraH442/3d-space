@@ -11,12 +11,16 @@ PlayState::PlayState() : c(100), fw(150, 0, 1000, 1000) {
 }
 
 void PlayState::enter(StateMachine* m) { b.clear(); }
+
 void PlayState::exit(StateMachine* m) {}
 
 void PlayState::render(SDL_Renderer* renderer) {
-  fw.addBoard(b, renderer);
-  fw.addTetrisPiece(g.getCurrentPiece(), g.getCurrentPiecePos());
+  fw.render(renderer, [this, renderer]() {
+    fw.addBoard(b, renderer);
+    fw.addTetrisPiece(g.getCurrentPiece(), g.getCurrentPiecePos());
+  });
 }
+
 void PlayState::handleEvent(SDL_Event* event) {
   switch (event->type) {
     case SDL_KEYDOWN: {
