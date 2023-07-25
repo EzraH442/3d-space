@@ -169,3 +169,8 @@ bool Board::isValidPiecePos(const std::vector<Vec3d> &pos) const {
   }
   return isValid;
 }
+
+void Board::clear() {
+  cubePositions.fill(0);
+  cubes.clear();
+}

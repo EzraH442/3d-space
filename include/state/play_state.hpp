@@ -5,6 +5,7 @@
 #include "./state.hpp"
 #include "game.hpp"
 #include "render/camera.hpp"
+#include "render/drawable_3d.hpp"
 
 class PlayState : public State {
  public:
@@ -28,4 +29,5 @@ class PlayState : public State {
   Board b;
   Game g;
   Camera c;
+  RenderFramework3d fw;
 };

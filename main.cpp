@@ -1,39 +1,37 @@
-#include <unordered_map>
-
-#include "SDL_timer.h"
-#include "game.hpp"
-#include "render/framework.hpp"
-#ifdef __EMSCRIPTEN__
-#include <emscripten.h>
-#endif
-
 #include <SDL.h>
 #include <SDL2_gfxPrimitives.h>
 #include <SDL_events.h>
 #include <SDL_keycode.h>
 #include <SDL_render.h>
+#include <SDL_timer.h>
 #include <SDL_video.h>
 
-Framework fw(150, 0, 1000, 1000);
+#include <ctime>
+#include <unordered_map>
 
-void process_event(SDL_Event *event) {}
+#include "color.hpp"
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
-void process_input() {}
-void main_loop() {
-  process_input();
-
-  fw.clear();
-  fw.addBoard(b);
-  fw.addTetrisPiece(g.getCurrentPiece(), g.getCurrentPiecePos());
-
-  fw.display();
-}
+void main_loop() {}
 
 int main() {
+  const int width = 1000;
+  const int height = 1000;
   srand(time(NULL));
 
-  b.init();
-  g.init();
+  SDL_Init(SDL_INIT_VIDEO);
+  SDL_Window* window = SDL_CreateWindow("window", SDL_WINDOWPOS_UNDEFINED,
+                                        SDL_WINDOWPOS_UNDEFINED, width, height,
+                                        SDL_WINDOW_SHOWN);
+  SDL_Renderer* renderer =
+      SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED);
+
+  SDL_SetRenderDrawColor(renderer, Color::Black.r, Color::Black.g,
+                         Color::Black.b, Color::Black.a);
+  SDL_RenderClear(renderer);
+  SDL_RenderPresent(renderer);
 
 #ifdef __EMSCRIPTEN__
   emscripten_set_main_loop(main_loop, 0, 1);

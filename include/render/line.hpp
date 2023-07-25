@@ -2,9 +2,10 @@
 
 #include "SDL_render.h"
 #include "color.hpp"
-#include "drawable.hpp"
+#include "drawable_3d.hpp"
+#include "render/render_framework_3d.hpp"
 
-class Line : public Drawable {
+class Line : public Drawable3d {
   int thickness;
 
  public:
@@ -17,5 +18,5 @@ class Line : public Drawable {
        int thickness = 1);
 
   Vec3d getMidpoint() const override;
-  void draw(const Framework *fw) const override;
+  void draw(const RenderFramework3d &fw, SDL_Renderer *renderer) const override;
 };
