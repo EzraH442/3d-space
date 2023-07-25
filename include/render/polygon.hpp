@@ -4,7 +4,6 @@
 
 #include "SDL_render.h"
 #include "drawable_3d.hpp"
-#include "render/render_framework_3d.hpp"
 
 class Polygon : public Drawable3d {
   const std::array<Vec3d, 4> vertices;

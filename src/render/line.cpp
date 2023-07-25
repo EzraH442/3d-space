@@ -1,6 +1,6 @@
 #include "render/line.hpp"
 
-#include "SDL_render.h"
+#include "render/render_framework_3d.hpp"
 
 Line::Line() : Drawable3d(), thickness(1), start(Vec3d()), end(Vec3d()) {}
 Line::~Line() {}

@@ -14,7 +14,7 @@ void PlayState::enter(StateMachine* m) { b.clear(); }
 void PlayState::exit(StateMachine* m) {}
 
 void PlayState::render(SDL_Renderer* renderer) {
-  fw.addBoard(b);
+  fw.addBoard(b, renderer);
   fw.addTetrisPiece(g.getCurrentPiece(), g.getCurrentPiecePos());
 }
 void PlayState::handleEvent(SDL_Event* event) {

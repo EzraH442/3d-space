@@ -6,6 +6,7 @@
 #include "game.hpp"
 #include "render/camera.hpp"
 #include "render/drawable_3d.hpp"
+#include "render/render_framework_3d.hpp"
 
 class PlayState : public State {
  public:

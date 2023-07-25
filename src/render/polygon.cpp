@@ -1,8 +1,8 @@
 #include "render/polygon.hpp"
 
-#include "SDL_render.h"
-#include "render/drawable_3d.hpp"
-#include "render/framework.hpp"
+#include <SDL2_gfxPrimitives.h>
+
+#include "render/render_framework_3d.hpp"
 
 Polygon::Polygon() : Drawable3d(Color::White), vertices() {}
 

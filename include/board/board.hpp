@@ -5,7 +5,6 @@
 
 #include "pieces/tetris_piece.hpp"
 #include "render/cube.hpp"
-#include "render/drawable.hpp"
 #include "vector_3d.hpp"
 
 class Board {

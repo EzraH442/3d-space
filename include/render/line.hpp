@@ -3,7 +3,6 @@
 #include "SDL_render.h"
 #include "color.hpp"
 #include "drawable_3d.hpp"
-#include "render/render_framework_3d.hpp"
 
 class Line : public Drawable3d {
   int thickness;

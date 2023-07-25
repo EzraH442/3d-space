@@ -3,7 +3,6 @@
 #include <memory>
 #include <vector>
 
-#include "SDL_render.h"
 #include "camera.hpp"
 #include "game.hpp"
 #include "render_framework.hpp"

@@ -7,6 +7,7 @@ class StateMachine;
 
 class State {
  public:
+  State() = default;
   virtual ~State() = default;
 
   void handleEvents();
@@ -17,5 +18,5 @@ class State {
   virtual void update() = 0;
 
  protected:
-  virtual void handleEvent(SDL_Event* event);
+  virtual void handleEvent(SDL_Event* event) = 0;
 };
