@@ -54,9 +54,9 @@ Vec2d<float> RenderFramework3d::getProjectedCoordinates(const Vec3d &p) const {
 
 void RenderFramework3d::draw_text_3d(const Vec3d &pos, std::string s,
                                      SDL_Renderer *renderer) {
-  for (int i = 0; i < s.length(); i++) {
+  for (size_t i = 0; i < s.length(); i++) {
     Vec2d<float> projectedPos =
-        getProjectedCoordinates(pos + Vec3d{i * 10, 0, 0});
+        getProjectedCoordinates(pos + Vec3d{static_cast<int>(i * 10), 0, 0});
     characterRGBA(renderer, projectedPos.x, projectedPos.y, s[i], 255, 255, 255,
                   255);
   }
@@ -64,7 +64,7 @@ void RenderFramework3d::draw_text_3d(const Vec3d &pos, std::string s,
 
 void RenderFramework3d::draw_text_2d(const Vec2d<float> &pos, std::string s,
                                      SDL_Renderer *renderer) {
-  for (int i = 0; i < s.length(); i++) {
+  for (size_t i = 0; i < s.length(); i++) {
     characterRGBA(renderer, pos.x, pos.y, s[i], 255, 255, 255, 255);
   }
 }

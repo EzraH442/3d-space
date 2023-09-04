@@ -121,11 +121,12 @@ std::vector<Vec3d> PieceMultiarray::getAbsolutePositions(
     const Vec3d &pos) const {
   std::vector<Vec3d> ret;
 
-  for (int i = 0; i < data.size(); i++) {
+  for (size_t i = 0; i < data.size(); i++) {
     if (isFilled(i)) {
-      ret.push_back(
-          Vec3d({i % length, (i / length) % length, i / (length * length)}) +
-          pos);
+      ret.push_back(Vec3d({static_cast<int>(i % length),
+                           static_cast<int>((i / length) % length),
+                           static_cast<int>(i / (length * length))}) +
+                    pos);
     }
   }
 

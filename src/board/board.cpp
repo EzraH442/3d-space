@@ -111,7 +111,7 @@ bool Board::handleDrop(const TetrisPiece3d *piece, const Vec3d &pos) {
 
   bool added = true;
 
-  for (int i = 0; i < absPos.size(); i++) {
+  for (size_t i = 0; i < absPos.size(); i++) {
     int newZPos = absPos[i].z - minDown + 1;
     const Vec3d newPos = {absPos[i].x, absPos[i].y, newZPos};
     const Cube c = Cube(newPos, piece->getColor(), piece->getColor());

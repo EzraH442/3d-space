@@ -17,10 +17,16 @@
 #include <emscripten.h>
 #endif
 
-void main_loop(StateMachine& m, SDL_Renderer* renderer) {
-  m.handleEvents();
-  m.update();
-  m.render(renderer);
+struct main_loop_data_t {
+  StateMachine& m;
+  SDL_Renderer* renderer;
+};
+
+void main_loop(void* d) {
+  main_loop_data_t* data = reinterpret_cast<main_loop_data_t*>(d);
+  data->m.handleEvents();
+  data->m.update();
+  data->m.render(data->renderer);
 }
 
 int main() {
@@ -42,13 +48,16 @@ int main() {
 
   StateMachine machine;
 
+  main_loop_data_t data = {machine, renderer};
+
 #ifdef __EMSCRIPTEN__
-  emscripten_set_main_loop(main_loop, 0, 1);
+  void* d = &data;
+  emscripten_set_main_loop_arg(main_loop, d, 0, 0);
 #else
 
   while (1) {
     SDL_Delay(20);
-    main_loop(machine, renderer);
+    main_loop(&data);
   }
 #endif
 

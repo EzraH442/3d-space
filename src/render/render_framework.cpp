@@ -2,8 +2,8 @@
 
 #include "color.hpp"
 
-void RenderFramework::render(SDL_Renderer *renderer,
-                             const std::function<void()> f) {
+void RenderFramework::render(SDL_Renderer* renderer,
+                             const std::function<void()>& f) {
   SDL_SetRenderDrawColor(renderer, Color::Black.r, Color::Black.g,
                          Color::Black.b, Color::Black.a);
 

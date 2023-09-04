@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL_render.h>
+#include <SDL.h>
 
 #include "color.hpp"
 #include "vector_3d.hpp"

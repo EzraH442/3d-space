@@ -1,5 +1,7 @@
 #include "state/play_state.hpp"
 
+#include "SDL_timer.h"
+
 PlayState& PlayState::getInstance() {
   static PlayState instance;
   return instance;
@@ -78,6 +80,11 @@ void PlayState::handleEvent(SDL_Event* event) {
 }
 
 void PlayState::update() {
+  if (SDL_GetTicks() % 30 == 0) {
+    bool moved = g.tryMove({0, 0, -1}, b);
+    if (!moved) g.hardDrop(b);
+  }
+
   if (keys[SDLK_UP]) {
     c.move({0, 1, 0});
   }

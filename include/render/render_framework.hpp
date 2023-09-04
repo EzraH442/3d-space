@@ -6,7 +6,7 @@
 
 class RenderFramework {
  public:
-  void render(SDL_Renderer* renderer, const std::function<void()> f);
+  void render(SDL_Renderer* renderer, const std::function<void()>& f);
   virtual ~RenderFramework() = default;
 
  protected:
