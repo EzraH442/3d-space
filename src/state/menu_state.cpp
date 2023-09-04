@@ -11,13 +11,18 @@ MenuState& MenuState::getInstance() {
   return instance;
 }
 
-MenuState::MenuState() : fw(150, 0, 1000, 1000) {}
+MenuState::MenuState()
+    : fw(150, 0, 1000, 1000),
+      playButton(
+          {100, 100}, {100, 30}, "play",
+          [](const SDL_MouseButtonEvent* e) { std::cout << "clicked\n"; }) {}
 
 void MenuState::enter(StateMachine* m) {}
 void MenuState::exit(StateMachine* m) {}
 
 void MenuState::render(SDL_Renderer* renderer) {
-  fw.render(renderer, []() {});
+  fw.render(renderer,
+            [this, renderer]() { playButton.drawShape(fw, renderer); });
 }
 
 void MenuState::handleEvent(SDL_Event* event) {
@@ -30,6 +35,7 @@ void MenuState::handleEvent(SDL_Event* event) {
         const Vec2d<int> pos{event->button.x, event->button.y};
         // handle button press
         std::cout << pos << '\n';
+        playButton.handleClick(reinterpret_cast<SDL_MouseButtonEvent*>(event));
       }
       break;
     }

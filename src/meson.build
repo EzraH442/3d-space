@@ -1,6 +1,7 @@
 src_sources = [
 './src/render/polygon.cpp',
 './src/render/render_framework.cpp',
+'./src/render/button.cpp',
 './src/render/camera.cpp',
 './src/render/drawable_2d.cpp',
 './src/render/line.cpp',

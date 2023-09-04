@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./state.hpp"
+#include "render/button.hpp"
 #include "render/render_framework_2d.hpp"
 
 class MenuState : public State {
@@ -14,6 +15,7 @@ class MenuState : public State {
   MenuState(const MenuState&) = delete;
   MenuState& operator=(const MenuState&) = delete;
   RenderFramework2d fw;
+  Button playButton;
 
  public:
   void render(SDL_Renderer* renderer) override;
