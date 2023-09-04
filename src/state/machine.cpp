@@ -3,7 +3,7 @@
 #include "state/menu_state.hpp"
 #include "state/play_state.hpp"
 
-StateMachine::StateMachine() { current = &MenuState::getInstance(); }
+StateMachine::StateMachine() { current = &MenuState::getInstance(*this); }
 StateMachine::~StateMachine() {
   if (current) delete current;
   if (next) delete next;

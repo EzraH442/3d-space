@@ -4,18 +4,22 @@
 
 #include "SDL_events.h"
 #include "SDL_mouse.h"
+#include "state/machine.hpp"
+#include "state/play_state.hpp"
 #include "vector_2d.hpp"
 
-MenuState& MenuState::getInstance() {
-  static MenuState instance;
+MenuState& MenuState::getInstance(StateMachine& m) {
+  static MenuState instance(m);
   return instance;
 }
 
-MenuState::MenuState()
+MenuState::MenuState(StateMachine& m)
     : fw(150, 0, 1000, 1000),
-      playButton(
-          {100, 100}, {100, 30}, "play",
-          [](const SDL_MouseButtonEvent* e) { std::cout << "clicked\n"; }) {}
+      playButton({100, 100}, {100, 30}, "play",
+                 [this](const SDL_MouseButtonEvent* e) {
+                   machine.changeState(PlayState::getInstance(machine));
+                 }),
+      machine(m) {}
 
 void MenuState::enter(StateMachine* m) {}
 void MenuState::exit(StateMachine* m) {}

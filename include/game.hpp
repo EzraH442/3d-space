@@ -8,6 +8,7 @@
 #include "enums.hpp"
 #include "pieces/piece_factory.hpp"
 #include "pieces/tetris_piece.hpp"
+#include "state/state.hpp"
 #include "vector_2d.hpp"
 
 // rotations in each plane will follow the standard SRS wallkick order
@@ -59,7 +60,7 @@ class Game {
 
   const TetrisPiece3d* getCurrentPiece() const;
 
-  void hardDrop(Board& board);
+  void hardDrop(Board& board, StateMachine& m);
   int tryHold();
 
   bool tryMove(const Vec3d& v, const Board& b);

@@ -1,6 +1,9 @@
 #include "game.hpp"
 
 #include "enums.hpp"
+#include "state/machine.hpp"
+#include "state/menu_state.hpp"
+#include "state/state.hpp"
 
 Game::Game(){};
 
@@ -31,14 +34,13 @@ void Game::swapPiece() {
   currentPiece.reset(tpf.createPiece(currentPieceId).release());
 }
 
-void Game::hardDrop(Board& b) {
+void Game::hardDrop(Board& b, StateMachine& m) {
   bool success = b.handleDrop(currentPiece.get(), currentPiecePos);
   int score = b.checkForClearedLines();
   std::cout << "add score " << score << "\n";
 
   if (!success) {
-    // lose
-    std::cout << "lose\n";
+    m.changeState(MenuState::getInstance(m));
   }
 
   canHold = true;

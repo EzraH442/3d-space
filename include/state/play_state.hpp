@@ -10,12 +10,13 @@
 
 class PlayState : public State {
  public:
-  static PlayState& getInstance();
+  static PlayState& getInstance(StateMachine& m);
   void enter(StateMachine* m) override;
   void exit(StateMachine* m) override;
 
  private:
-  PlayState();
+  StateMachine& machine;
+  PlayState(StateMachine& m);
   PlayState(const PlayState&) = delete;
   PlayState& operator=(const PlayState&) = delete;
 

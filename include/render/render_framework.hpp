@@ -9,6 +9,8 @@ class RenderFramework {
   void render(SDL_Renderer* renderer, const std::function<void()>& f);
   virtual ~RenderFramework() = default;
 
+  void drawFPS(SDL_Renderer* renderer);
+
  protected:
   virtual void renderObjects(SDL_Renderer* renderer) = 0;
   virtual void clearDrawables() = 0;

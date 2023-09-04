@@ -7,15 +7,19 @@
 #include <SDL_video.h>
 
 #include <ctime>
+#include <iostream>
 #include <unordered_map>
 
 #include "color.hpp"
+#include "common.h"
 #include "state/machine.hpp"
 #include "state/state.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
+
+float fps = 0;
 
 struct main_loop_data_t {
   StateMachine& m;
@@ -55,8 +59,16 @@ int main() {
   emscripten_set_main_loop_arg(main_loop, d, 0, 0);
 #else
 
+  Uint32 start_time, frame_time;
+
+  start_time = SDL_GetTicks();
+
   while (1) {
-    SDL_Delay(20);
+    // do stuff
+    frame_time = SDL_GetTicks() - start_time;
+    start_time = SDL_GetTicks();
+    fps = (frame_time > 0) ? 1000.0f / frame_time : 0.0f;
+    SDL_Delay(15);
     main_loop(&data);
   }
 #endif

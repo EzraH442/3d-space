@@ -1,18 +1,23 @@
 #include "state/play_state.hpp"
 
 #include "SDL_timer.h"
+#include "state/state.hpp"
 
-PlayState& PlayState::getInstance() {
-  static PlayState instance;
+PlayState& PlayState::getInstance(StateMachine& m) {
+  static PlayState instance(m);
   return instance;
 }
 
-PlayState::PlayState() : c(100), fw(150, 0, 1000, 1000) {
+PlayState::PlayState(StateMachine& m)
+    : machine(m), c(100), fw(150, 0, 1000, 1000) {
   b.init();
   g.init();
 }
 
-void PlayState::enter(StateMachine* m) { b.clear(); }
+void PlayState::enter(StateMachine* m) {
+  b.clear();
+  keys.clear();
+}
 
 void PlayState::exit(StateMachine* m) {}
 
@@ -63,7 +68,7 @@ void PlayState::handleEvent(SDL_Event* event) {
 
       // hard drop
       else if (key == SDLK_s) {
-        g.hardDrop(b);
+        g.hardDrop(b, machine);
       }
       break;
     }
@@ -82,7 +87,7 @@ void PlayState::handleEvent(SDL_Event* event) {
 void PlayState::update() {
   if (SDL_GetTicks() % 30 == 0) {
     bool moved = g.tryMove({0, 0, -1}, b);
-    if (!moved) g.hardDrop(b);
+    if (!moved) g.hardDrop(b, machine);
   }
 
   if (keys[SDLK_UP]) {
@@ -99,6 +104,6 @@ void PlayState::update() {
   }
   if (keys[SDLK_o]) {
     bool moved = g.tryMove({0, 0, -1}, b);
-    if (!moved) g.hardDrop(b);
+    if (!moved) g.hardDrop(b, machine);
   }
 }
