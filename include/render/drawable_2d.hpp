@@ -1,6 +1,7 @@
 #pragma once
 
-#include "SDL.h"
+#include <SDL.h>
+
 #include "color.hpp"
 
 class RenderFramework2d;

@@ -1,6 +1,5 @@
 #include "render/drawable_3d.hpp"
 
-#include "SDL_render.h"
 #include "render/render_framework_3d.hpp"
 
 Drawable3d::Drawable3d() {}

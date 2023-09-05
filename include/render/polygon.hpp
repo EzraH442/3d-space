@@ -1,8 +1,9 @@
 #pragma once
 
+#include <SDL.h>
+
 #include <array>
 
-#include "SDL_render.h"
 #include "drawable_3d.hpp"
 
 class Polygon : public Drawable3d {

@@ -14,8 +14,8 @@ class RenderFramework2d : public RenderFramework {
  public:
   RenderFramework2d(int x, int y, int width, int height);
 
-  void draw_text(const Vec2d<float> &pos, std::string s,
-                 SDL_Renderer *renderer) const;
+  void draw_text(const Vec2d<float> &pos, std::string s, SDL_Renderer *renderer,
+                 const Color &c = Color::White) const;
 
  private:
   int x;

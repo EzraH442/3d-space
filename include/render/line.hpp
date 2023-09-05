@@ -1,7 +1,7 @@
 #pragma once
 
-#include "SDL_render.h"
-#include "color.hpp"
+#include <SDL.h>
+
 #include "drawable_3d.hpp"
 
 class Line : public Drawable3d {

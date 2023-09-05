@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./state.hpp"
+#include "state.hpp"
 
 class StateMachine {
  public:

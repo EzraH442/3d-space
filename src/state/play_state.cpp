@@ -1,15 +1,11 @@
 #include "state/play_state.hpp"
 
-#include "SDL_timer.h"
-#include "state/state.hpp"
-
 PlayState& PlayState::getInstance(StateMachine& m) {
   static PlayState instance(m);
   return instance;
 }
 
-PlayState::PlayState(StateMachine& m)
-    : machine(m), c(100), fw(150, 0, 1000, 1000) {
+PlayState::PlayState(StateMachine& m) : machine(m), fw(150, 0, 1000, 1000) {
   b.init();
   g.init();
 }
@@ -75,9 +71,9 @@ void PlayState::handleEvent(SDL_Event* event) {
 
     case SDL_MOUSEWHEEL: {
       if (event->wheel.y > 0) {
-        c.move({0, 0, 1});
+        fw.c.move({0, 0, 1});
       } else if (event->wheel.y < 0) {
-        c.move({0, 0, -1});
+        fw.c.move({0, 0, -1});
       }
       break;
     }
@@ -91,16 +87,16 @@ void PlayState::update() {
   }
 
   if (keys[SDLK_UP]) {
-    c.move({0, 1, 0});
+    fw.c.move({0, 1, 0});
   }
   if (keys[SDLK_DOWN]) {
-    c.move({0, -1, 0});
+    fw.c.move({0, -1, 0});
   }
   if (keys[SDLK_LEFT]) {
-    c.move({1, 0, 0});
+    fw.c.move({1, 0, 0});
   }
   if (keys[SDLK_RIGHT]) {
-    c.move({-1, 0, 0});
+    fw.c.move({-1, 0, 0});
   }
   if (keys[SDLK_o]) {
     bool moved = g.tryMove({0, 0, -1}, b);

@@ -1,7 +1,8 @@
+#pragma once
+
 #include <functional>
 #include <string>
 
-#include "SDL_events.h"
 #include "render/drawable_2d.hpp"
 #include "vector_2d.hpp"
 

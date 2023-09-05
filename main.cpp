@@ -20,6 +20,7 @@
 #endif
 
 float fps = 0;
+Uint32 start_time, frame_time;
 
 struct main_loop_data_t {
   StateMachine& m;
@@ -27,7 +28,11 @@ struct main_loop_data_t {
 };
 
 void main_loop(void* d) {
+  std::cout << "main\n";
   main_loop_data_t* data = reinterpret_cast<main_loop_data_t*>(d);
+  frame_time = SDL_GetTicks() - start_time;
+  start_time = SDL_GetTicks();
+  fps = (frame_time > 0) ? 1000.0f / frame_time : 0.0f;
   data->m.handleEvents();
   data->m.update();
   data->m.render(data->renderer);
@@ -54,20 +59,17 @@ int main() {
 
   main_loop_data_t data = {machine, renderer};
 
-#ifdef __EMSCRIPTEN__
-  void* d = &data;
-  emscripten_set_main_loop_arg(main_loop, d, 0, 0);
-#else
-
-  Uint32 start_time, frame_time;
-
   start_time = SDL_GetTicks();
+#ifdef __EMSCRIPTEN__
+  std::cout << "test\n";
+  void* d = &data;
+  std::cout << "test2\n";
+  emscripten_set_main_loop_arg(main_loop, d, 0, 0);
+  std::cout << "test3\n";
+#else
 
   while (1) {
     // do stuff
-    frame_time = SDL_GetTicks() - start_time;
-    start_time = SDL_GetTicks();
-    fps = (frame_time > 0) ? 1000.0f / frame_time : 0.0f;
     SDL_Delay(15);
     main_loop(&data);
   }

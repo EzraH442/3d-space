@@ -1,7 +1,7 @@
 #include "render/render_framework.hpp"
 
+#include <SDL.h>
 #include <SDL2_gfxPrimitives.h>
-#include <SDL_render.h>
 
 #include <string>
 

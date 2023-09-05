@@ -4,7 +4,6 @@
 
 #include "render/drawable_2d.hpp"
 #include "render/render_framework_2d.hpp"
-#include "vector_2d.hpp"
 
 Button::Button(
     const Vec2d<size_t>& pos, const Vec2d<size_t>& dim, std::string text,

@@ -2,8 +2,7 @@
 
 #include <iostream>
 
-#include "SDL_events.h"
-#include "SDL_mouse.h"
+#include "common.h"
 #include "state/machine.hpp"
 #include "state/play_state.hpp"
 #include "vector_2d.hpp"
@@ -25,8 +24,10 @@ void MenuState::enter(StateMachine* m) {}
 void MenuState::exit(StateMachine* m) {}
 
 void MenuState::render(SDL_Renderer* renderer) {
-  fw.render(renderer,
-            [this, renderer]() { playButton.drawShape(fw, renderer); });
+  fw.render(renderer, [this, renderer]() {
+    playButton.drawShape(fw, renderer);
+    fw.draw_text({400, 100}, "Tetris 3D", renderer);
+  });
 }
 
 void MenuState::handleEvent(SDL_Event* event) {

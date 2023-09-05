@@ -2,9 +2,7 @@
 
 #include <unordered_map>
 
-#include "./state.hpp"
 #include "game.hpp"
-#include "render/camera.hpp"
 #include "render/drawable_3d.hpp"
 #include "render/render_framework_3d.hpp"
 
@@ -30,6 +28,5 @@ class PlayState : public State {
   std::unordered_map<int, bool> mouse;
   Board b;
   Game g;
-  Camera c;
   RenderFramework3d fw;
 };

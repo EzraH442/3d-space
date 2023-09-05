@@ -24,13 +24,13 @@ class RenderFramework3d : public RenderFramework {
   void addBoard(const Board &b, SDL_Renderer *renderer);
   void addCube(const Cube &c);
   void addTetrisPiece(const TetrisPiece3d *piece, const Vec3d &pos);
+  Camera c;
 
  private:
   int x;
   int y;
   int height;
   int width;
-  Camera c;
 
   virtual void renderObjects(SDL_Renderer *renderer) override;
   virtual void clearDrawables() override;

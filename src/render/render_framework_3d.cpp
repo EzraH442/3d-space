@@ -4,13 +4,12 @@
 
 #include <algorithm>
 
-#include "SDL_render.h"
 #include "render/drawable_3d.hpp"
 #include "render/line.hpp"
 #include "render/polygon.hpp"
 
 RenderFramework3d::RenderFramework3d(int x, int y, int height, int width)
-    : x(x), y(y), height(height), width(width), c(100) {}
+    : c(100), x(x), y(y), height(height), width(width) {}
 
 void RenderFramework3d::renderObjects(SDL_Renderer *renderer) {
   for (const auto &d : toDraw) {

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "./state.hpp"
 #include "render/button.hpp"
 #include "render/render_framework_2d.hpp"
+#include "state.hpp"
 
 class MenuState : public State {
  public:

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
+#include <SDL_stdinc.h>
 
-#include "SDL_stdinc.h"
+#include <string>
 
 class Color {
  public:

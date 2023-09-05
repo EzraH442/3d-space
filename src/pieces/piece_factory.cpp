@@ -1,6 +1,7 @@
 #include "pieces/piece_factory.hpp"
 
-#include "SDL_system.h"
+#include <SDL.h>
+
 #include "enums.hpp"
 #include "pieces/i_piece.hpp"
 #include "pieces/j_piece.hpp"
