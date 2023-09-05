@@ -28,7 +28,6 @@ struct main_loop_data_t {
 };
 
 void main_loop(void* d) {
-  std::cout << "main\n";
   main_loop_data_t* data = reinterpret_cast<main_loop_data_t*>(d);
   frame_time = SDL_GetTicks() - start_time;
   start_time = SDL_GetTicks();
@@ -61,11 +60,8 @@ int main() {
 
   start_time = SDL_GetTicks();
 #ifdef __EMSCRIPTEN__
-  std::cout << "test\n";
   void* d = &data;
-  std::cout << "test2\n";
-  emscripten_set_main_loop_arg(main_loop, d, 0, 0);
-  std::cout << "test3\n";
+  emscripten_set_main_loop_arg(main_loop, d, 0, 1);
 #else
 
   while (1) {

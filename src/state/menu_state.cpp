@@ -1,7 +1,5 @@
 #include "state/menu_state.hpp"
 
-#include <iostream>
-
 #include "common.h"
 #include "state/machine.hpp"
 #include "state/play_state.hpp"
