@@ -12,7 +12,7 @@ MenuState& MenuState::getInstance(StateMachine& m) {
 
 MenuState::MenuState(StateMachine& m)
     : fw(150, 0, 1000, 1000),
-      playButton({100, 100}, {100, 30}, "play",
+      playButton({100, 150}, {100, 30}, "play",
                  [this](const SDL_MouseButtonEvent* e) {
                    machine.changeState(PlayState::getInstance(machine));
                  }),
@@ -24,7 +24,7 @@ void MenuState::exit(StateMachine* m) {}
 void MenuState::render(SDL_Renderer* renderer) {
   fw.render(renderer, [this, renderer]() {
     playButton.drawShape(fw, renderer);
-    fw.draw_text({400, 100}, "Tetris 3D", renderer);
+    fw.draw_text({115, 100}, "Tetris 3D", renderer);
   });
 }
 

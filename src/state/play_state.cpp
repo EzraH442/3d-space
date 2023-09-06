@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "state/machine.hpp"
+
 PlayState& PlayState::getInstance(StateMachine& m) {
   static PlayState instance(m);
   return instance;
@@ -13,6 +15,7 @@ PlayState::PlayState(StateMachine& m) : machine(m), fw(150, 0, 1000, 1000) {
 }
 
 void PlayState::enter(StateMachine* m) {
+  m->score = 0;
   b.clear();
   keys.clear();
   g.reset();

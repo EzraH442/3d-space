@@ -24,6 +24,6 @@ void RenderFramework2d::draw_text(const Vec2d<float> &pos, std::string s,
                                   SDL_Renderer *renderer,
                                   const Color &c) const {
   for (int i = 0; i < s.length(); i++) {
-    characterRGBA(renderer, pos.x + i * 6, pos.y, s[i], c.r, c.g, c.b, c.a);
+    characterRGBA(renderer, pos.x + i * 7, pos.y, s[i], c.r, c.g, c.b, c.a);
   }
 }

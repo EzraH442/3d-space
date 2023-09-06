@@ -1,6 +1,7 @@
 #include "game.hpp"
 
 #include "enums.hpp"
+#include "state/end_state.hpp"
 #include "state/machine.hpp"
 #include "state/menu_state.hpp"
 #include "state/state.hpp"
@@ -50,7 +51,8 @@ void Game::hardDrop(Board& b, StateMachine& m) {
   score += b.checkForClearedLines();
 
   if (!success) {
-    m.changeState(MenuState::getInstance(m));
+    m.score = score;
+    m.changeState(EndState::getInstance(m));
   }
 
   canHold = true;

@@ -18,6 +18,7 @@ class EndState : public State {
   Button playAgainButton;
   Button menuButton;
   StateMachine& machine;
+  int endScore;
 
  public:
   void render(SDL_Renderer* renderer) override;

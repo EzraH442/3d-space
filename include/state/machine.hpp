@@ -12,6 +12,8 @@ class StateMachine {
   void handleEvents();
   void update();
 
+  int score;
+
  private:
   State* current;
   State* next;
