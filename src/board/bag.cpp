@@ -27,3 +27,8 @@ PieceType Bag::getNextPieceType() {
   pieces.erase(pieces.begin() + index);
   return ret;
 }
+
+void Bag::reset() {
+  pieces.clear();
+  refill();
+}

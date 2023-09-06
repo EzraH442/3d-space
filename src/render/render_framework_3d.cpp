@@ -64,7 +64,7 @@ void RenderFramework3d::draw_text_3d(const Vec3d &pos, std::string s,
 void RenderFramework3d::draw_text_2d(const Vec2d<float> &pos, std::string s,
                                      SDL_Renderer *renderer) {
   for (size_t i = 0; i < s.length(); i++) {
-    characterRGBA(renderer, pos.x, pos.y, s[i], 255, 255, 255, 255);
+    characterRGBA(renderer, pos.x + i * 7, pos.y, s[i], 255, 255, 255, 255);
   }
 }
 

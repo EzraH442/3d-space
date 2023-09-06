@@ -49,12 +49,16 @@ class Game {
   void swapPiece();
   Vec3d currentRotationState;
 
+  int score;
+
  public:
   Game();
   ~Game();
 
   void init();
+  void reset();
 
+  int getScore() const;
   const Vec3d getCurrentPiecePos() const;
   const Vec3d getCurrentRotationState() const;
 

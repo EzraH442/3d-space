@@ -12,4 +12,5 @@ class Bag {
  public:
   Bag();
   PieceType getNextPieceType();
+  void reset();
 };

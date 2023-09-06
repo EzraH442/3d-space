@@ -9,6 +9,17 @@ Game::Game(){};
 
 Game::~Game() {}
 
+void Game::reset() {
+  bag.reset();
+  score = 0;
+  currentlyHolding = false;
+  currentPieceId = bag.getNextPieceType();
+  currentPiece = tpf.createPiece(currentPieceId);
+  currentPiecePos = {5, 5, 18};
+  currentRotationState = {0, 0, 0};
+  canHold = true;
+}
+
 void Game::init() {
   currentPieceId = bag.getNextPieceType();
   currentPiece = tpf.createPiece(currentPieceId);
@@ -36,8 +47,7 @@ void Game::swapPiece() {
 
 void Game::hardDrop(Board& b, StateMachine& m) {
   bool success = b.handleDrop(currentPiece.get(), currentPiecePos);
-  int score = b.checkForClearedLines();
-  std::cout << "add score " << score << "\n";
+  score += b.checkForClearedLines();
 
   if (!success) {
     m.changeState(MenuState::getInstance(m));
@@ -164,3 +174,5 @@ void Game::tryRotate(const Vec3d& r, const Board& b) {
     }
   }
 }
+
+int Game::getScore() const { return score; }

@@ -1,5 +1,7 @@
 #include "state/play_state.hpp"
 
+#include <string>
+
 PlayState& PlayState::getInstance(StateMachine& m) {
   static PlayState instance(m);
   return instance;
@@ -13,6 +15,7 @@ PlayState::PlayState(StateMachine& m) : machine(m), fw(150, 0, 1000, 1000) {
 void PlayState::enter(StateMachine* m) {
   b.clear();
   keys.clear();
+  g.reset();
 }
 
 void PlayState::exit(StateMachine* m) {}
@@ -21,6 +24,8 @@ void PlayState::render(SDL_Renderer* renderer) {
   fw.render(renderer, [this, renderer]() {
     fw.addBoard(b, renderer);
     fw.addTetrisPiece(g.getCurrentPiece(), g.getCurrentPiecePos());
+    fw.draw_text_2d({800, 800}, "score: " + std::to_string(g.getScore()),
+                    renderer);
   });
 }
 
