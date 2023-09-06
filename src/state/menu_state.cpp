@@ -36,8 +36,6 @@ void MenuState::handleEvent(SDL_Event* event) {
     case SDL_MOUSEBUTTONDOWN: {
       if (event->button.button == SDL_BUTTON_LEFT) {
         const Vec2d<int> pos{event->button.x, event->button.y};
-        // handle button press
-        std::cout << pos << '\n';
         playButton.handleClick(reinterpret_cast<SDL_MouseButtonEvent*>(event));
       }
       break;

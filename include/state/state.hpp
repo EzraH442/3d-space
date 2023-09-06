@@ -9,7 +9,7 @@ class State {
   State() = default;
   virtual ~State() = default;
 
-  void handleEvents();
+  void handleEvents(StateMachine& m);
 
   virtual void enter(StateMachine* m) = 0;
   virtual void exit(StateMachine* m) = 0;

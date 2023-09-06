@@ -1,11 +1,14 @@
 #include "state/state.hpp"
 
-void State::handleEvents() {
+#include "state/exit_state.hpp"
+#include "state/machine.hpp"
+
+void State::handleEvents(StateMachine& m) {
   SDL_Event e{};
 
   while (SDL_PollEvent(&e)) {
     if (e.type == SDL_QUIT) {
-      SDL_Quit();
+      m.changeState(ExitState::getInstance(m));
     } else {
       handleEvent(&e);
     }

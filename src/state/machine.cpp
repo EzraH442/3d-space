@@ -1,9 +1,10 @@
 #include "state/machine.hpp"
 
+#include "state/end_state.hpp"
 #include "state/menu_state.hpp"
 #include "state/play_state.hpp"
 
-StateMachine::StateMachine() { current = &MenuState::getInstance(*this); }
+StateMachine::StateMachine() { current = &EndState::getInstance(*this); }
 StateMachine::~StateMachine() {
   if (current) delete current;
   if (next) delete next;
@@ -16,5 +17,5 @@ void StateMachine::changeState(State& state) {
 }
 
 void StateMachine::render(SDL_Renderer* renderer) { current->render(renderer); }
-void StateMachine::handleEvents() { current->handleEvents(); }
+void StateMachine::handleEvents() { current->handleEvents(*this); }
 void StateMachine::update() { current->update(); }
