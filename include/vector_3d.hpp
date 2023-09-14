@@ -12,6 +12,7 @@ struct Vec3d {
 Vec3d operator+(const Vec3d &, const Vec3d &);
 Vec3d operator-(const Vec3d &, const Vec3d &);
 Vec3d operator*(const Vec3d &, int);
+int operator*(const Vec3d &, const Vec3d &);
 Vec3d operator/(const Vec3d &, int);
 
 Vec3d operator^(const Vec3d &, const Vec3d &);

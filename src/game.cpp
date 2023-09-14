@@ -178,3 +178,6 @@ void Game::tryRotate(const Vec3d& r, const Board& b) {
 }
 
 int Game::getScore() const { return score; }
+
+PieceType Game::getHeldPiece() const { return currentHeldId; }
+bool Game::isHolding() const { return currentlyHolding; }

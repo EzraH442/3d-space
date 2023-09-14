@@ -1,6 +1,7 @@
 #include "render/line.hpp"
 
 #include "render/render_framework_3d.hpp"
+#include "vector_3d.hpp"
 
 Line::Line() : Drawable3d(), thickness(1), start(Vec3d()), end(Vec3d()) {}
 Line::~Line() {}
@@ -19,3 +20,7 @@ void Line::draw(const RenderFramework3d &fw, SDL_Renderer *renderer) const {
 }
 
 Vec3d Line::getMidpoint() const { return (end - start) / 2; }
+
+Vec3d Line::getNormal() const { return {0, 0, 0}; }
+
+Vec3d Line::getVertex() const { return start; }

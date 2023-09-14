@@ -3,6 +3,7 @@
 #include <SDL2_gfxPrimitives.h>
 
 #include "render/render_framework_3d.hpp"
+#include "vector_3d.hpp"
 
 Polygon::Polygon() : Drawable3d(Color::White), vertices() {}
 
@@ -40,3 +41,9 @@ void Polygon::draw(const RenderFramework3d& fw, SDL_Renderer* renderer) const {
   filledPolygonRGBA(renderer, vx, vy, projected.size(), color.r, color.g,
                     color.b, color.a);
 }
+
+Vec3d Polygon::getNormal() const {
+  return (vertices[0] - vertices[1]) ^ (vertices[2] - vertices[1]);
+}
+
+Vec3d Polygon::getVertex() const { return vertices[0]; }

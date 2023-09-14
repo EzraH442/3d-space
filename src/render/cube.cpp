@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 
+#include "enums.hpp"
 #include "render/polygon.hpp"
 #include "vector_3d.hpp"
 
@@ -57,23 +58,19 @@ Cube::Cube(const Vec3d &pos, const Color &sc, const Color &fc)
       fillColor(fc),
       center(calcCenter(points)) {}
 
-Vec3d minOffset(const Vec3d &center, const Vec3d &point, int plane) {
+Vec3d minOffset(const Vec3d &center, const Vec3d &point, Plane plane) {
   int minDistance = 2147483647;
   Vec3d minOffset;
 
-  int Z_PLANE = 0;
-  int Y_PLANE = 1;
-  int X_PLANE = 2;
-
   for (int i = 0; i < 4; i++) {
     Vec3d offset;
-    if (plane == Z_PLANE) {
+    if (plane == Plane::Z) {
       offset = {offsets[i].first, offsets[i].second, 0};
     }
-    if (plane == Y_PLANE) {
+    if (plane == Plane::Y) {
       offset = {offsets[i].first, 0, offsets[i].second};
     }
-    if (plane == X_PLANE) {
+    if (plane == Plane::X) {
       offset = {0, offsets[i].first, offsets[i].second};
     }
     int distance = (center - (point + offset)).squaredMagnitude();
@@ -101,10 +98,10 @@ const std::vector<Polygon> Cube::toLines() const {
     Vec3d p2 = points[(i + 1) % 4 + 4];
     ret.push_back(Polygon(
         {
-            p1,
+            p1 + minOffset(center, p1, Plane::Z),
+            p2 + minOffset(center, p2, Plane::Z),
             p2,
-            p2 + minOffset(center, p2, 0),
-            p1 + minOffset(center, p1, 0),
+            p1,
         },
         Silver));
   }
@@ -114,10 +111,10 @@ const std::vector<Polygon> Cube::toLines() const {
     Vec3d p2 = points[i + 4];
     ret.push_back(Polygon(
         {
-            p1,
+            p1 + minOffset(center, p1, Plane::Y),
+            p2 + minOffset(center, p2, Plane::Y),
             p2,
-            p2 + minOffset(center, p2, 1),
-            p1 + minOffset(center, p1, 1),
+            p1,
         },
         Silver));
   }
@@ -127,10 +124,10 @@ const std::vector<Polygon> Cube::toLines() const {
     Vec3d p2 = points[(i + 1) % 4];
     ret.push_back(Polygon(
         {
-            p1,
+            p1 + minOffset(center, p1, Plane::Y),
+            p2 + minOffset(center, p2, Plane::Y),
             p2,
-            p2 + minOffset(center, p2, 1),
-            p1 + minOffset(center, p1, 1),
+            p1,
         },
         Silver));
   }
@@ -151,7 +148,7 @@ const std::vector<Polygon> Cube::toPolygons() const {
 
   // top face
   ret.push_back(
-      Polygon({points[4], points[5], points[6], points[7]}, fillColor));
+      Polygon({points[7], points[6], points[5], points[4]}, fillColor));
 
   // side faces (bottom face should never be visible)
   for (int i = 0; i < 4; i++) {

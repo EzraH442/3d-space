@@ -21,6 +21,17 @@ void RenderFramework3d::clearDrawables() { toDraw.clear(); }
 
 void RenderFramework3d::drawDrawables(const std::function<void()> &f) {
   f();
+
+  for (auto it = toDraw.begin(); it != toDraw.end();) {
+    auto dist = it->get()->getVertex() - c.getPos();
+    auto test = dist * it->get()->getNormal();
+
+    if (test >= 0)
+      it = toDraw.erase(it);
+    else
+      ++it;
+  }
+
   std::sort(toDraw.begin(), toDraw.end(),
             [this](const std::unique_ptr<Drawable3d> &d1,
                    const std::unique_ptr<Drawable3d> &d2) {

@@ -61,6 +61,8 @@ class Game {
   int getScore() const;
   const Vec3d getCurrentPiecePos() const;
   const Vec3d getCurrentRotationState() const;
+  PieceType getHeldPiece() const;
+  bool isHolding() const;
 
   const TetrisPiece3d* getCurrentPiece() const;
 

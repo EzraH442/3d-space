@@ -19,6 +19,8 @@ class Drawable3d {
   virtual ~Drawable3d() = 0;
 
   virtual Vec3d getMidpoint() const = 0;
+  virtual Vec3d getNormal() const = 0;
+  virtual Vec3d getVertex() const = 0;
 
   void drawShape(const RenderFramework3d& fw, SDL_Renderer* renderer) const;
 };

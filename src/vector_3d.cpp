@@ -12,6 +12,11 @@ Vec3d operator-(Vec3d const& a, Vec3d const& b) {
 
 Vec3d operator*(Vec3d const& v, int c) { return {v.x * c, v.y * c, v.z * c}; }
 
+// dot product
+int operator*(Vec3d const& v, Vec3d const& u) {
+  return v.x * u.x + v.y * u.y + v.z * u.z;
+}
+
 Vec3d operator/(Vec3d const& v, int c) { return {v.x / c, v.y / c, v.z / c}; }
 
 // cross product

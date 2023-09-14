@@ -15,6 +15,8 @@ class Polygon : public Drawable3d {
   Polygon(const std::array<Vec3d, 4> vertices, const Color& c);
 
   Vec3d getMidpoint() const override;
+  Vec3d getNormal() const override;
+  Vec3d getVertex() const override;
   void draw(const RenderFramework3d& framework,
             SDL_Renderer* renderer) const override;
 };
