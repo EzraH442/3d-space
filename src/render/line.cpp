@@ -21,6 +21,6 @@ void Line::draw(const RenderFramework3d &fw, SDL_Renderer *renderer) const {
 
 Vec3d Line::getMidpoint() const { return (end - start) / 2; }
 
-Vec3d Line::getNormal() const { return {0, 0, 0}; }
+Vec3d Line::getNormal() const { return {0, 0, 1}; }
 
 Vec3d Line::getVertex() const { return start; }

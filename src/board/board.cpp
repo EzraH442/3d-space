@@ -16,15 +16,12 @@ Board::Board() {}
 void Board::init() {
   cubePositions.fill(0);
 
-  for (int i = 0; i < 11; i++) {
-    boardLines.push_back(
-        Line(Vec3d{0, i * 10, 0}, Vec3d{100, i * 10, 0}, Color::White));
-  }
-
-  for (int i = 0; i < 11; i++) {
-    boardLines.push_back(
-        Line(Vec3d{i * 10, 0, 0}, Vec3d{i * 10, 100, 0}, Color::White));
-  }
+  boardLines.push_back(Line(Vec3d{0, 0, 0}, Vec3d{100, 0, 0}, Color::White));
+  boardLines.push_back(
+      Line(Vec3d{100, 0, 0}, Vec3d{100, 100, 0}, Color::White));
+  boardLines.push_back(
+      Line(Vec3d{100, 100, 0}, Vec3d{0, 100, 0}, Color::White));
+  boardLines.push_back(Line(Vec3d{0, 100, 0}, Vec3d{0, 0, 0}, Color::White));
 
   int boardHeight = 200;
 
