@@ -15,6 +15,7 @@ class Color {
   static const Color Green;
   static const Color Purple;
   static const Color Red;
+  static const Color Silver;
 
   const Uint8 r, g, b, a;
 

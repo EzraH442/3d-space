@@ -5,12 +5,12 @@
 #include "render/render_framework_3d.hpp"
 #include "vector_3d.hpp"
 
-Polygon::Polygon() : Drawable3d(Color::White), vertices() {}
+Polygon::Polygon() : Drawable3d(Color::White), vertices(), layer(0) {}
 
 Polygon::~Polygon() {}
 
-Polygon::Polygon(const std::array<Vec3d, 4> vertices, const Color& c)
-    : Drawable3d(c), vertices(vertices) {}
+Polygon::Polygon(const std::array<Vec3d, 4> vertices, const Color& c, int layer)
+    : Drawable3d(c), vertices(vertices), layer(layer) {}
 
 Vec3d Polygon::getMidpoint() const {
   Vec3d sum = {0, 0, 0};
@@ -47,3 +47,5 @@ Vec3d Polygon::getNormal() const {
 }
 
 Vec3d Polygon::getVertex() const { return vertices[0]; }
+
+int Polygon::getLayer() const { return layer; }

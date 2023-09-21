@@ -83,8 +83,6 @@ Vec3d minOffset(const Vec3d &center, const Vec3d &point, Plane plane) {
   return minOffset;
 }
 
-const Color Silver(192, 192, 192);
-
 const std::vector<Polygon> Cube::toLines() const {
   std::vector<Polygon> ret;
 
@@ -103,7 +101,7 @@ const std::vector<Polygon> Cube::toLines() const {
             p2,
             p1,
         },
-        Silver));
+        Color::Silver, getLayer()));
   }
 
   for (int i = 0; i < 4; i++) {
@@ -116,7 +114,7 @@ const std::vector<Polygon> Cube::toLines() const {
             p2,
             p1,
         },
-        Silver));
+        Color::Silver, getLayer()));
   }
 
   for (int i = 0; i < 4; i++) {
@@ -129,7 +127,7 @@ const std::vector<Polygon> Cube::toLines() const {
             p2,
             p1,
         },
-        Silver));
+        Color::Silver, getLayer()));
   }
 
   return ret;
@@ -147,8 +145,8 @@ const std::vector<Polygon> Cube::toPolygons() const {
   std::vector<Polygon> ret;
 
   // top face
-  ret.push_back(
-      Polygon({points[7], points[6], points[5], points[4]}, fillColor));
+  ret.push_back(Polygon({points[7], points[6], points[5], points[4]}, fillColor,
+                        getLayer()));
 
   // side faces (bottom face should never be visible)
   for (int i = 0; i < 4; i++) {
@@ -159,10 +157,12 @@ const std::vector<Polygon> Cube::toPolygons() const {
             points[(i + 1) % 4 + 4],
             points[(i + 1) % 4],
         },
-        fillColor));
+        fillColor, getLayer()));
   }
 
   return ret;
 }
 
 const Color Cube::getFillColor() const { return fillColor; }
+
+int Cube::getLayer() const { return points[0].z / 10; }

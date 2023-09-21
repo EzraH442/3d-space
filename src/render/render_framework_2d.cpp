@@ -19,11 +19,3 @@ void RenderFramework2d::renderObjects(SDL_Renderer *renderer) {
 void RenderFramework2d::clearDrawables() { toDraw.clear(); }
 
 void RenderFramework2d::drawDrawables(const std::function<void()> &f) { f(); }
-
-void RenderFramework2d::draw_text(const Vec2d<float> &pos, std::string s,
-                                  SDL_Renderer *renderer,
-                                  const Color &c) const {
-  for (int i = 0; i < s.length(); i++) {
-    characterRGBA(renderer, pos.x + i * 7, pos.y, s[i], c.r, c.g, c.b, c.a);
-  }
-}

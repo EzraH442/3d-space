@@ -15,11 +15,9 @@ class RenderFramework3d : public RenderFramework {
   RenderFramework3d(int x, int y, int width, int height);
 
   Vec2d<float> getProjectedCoordinates(const Vec3d &v) const;
+  bool isBackface(const Drawable3d &d) const;
 
   void draw_text_3d(const Vec3d &pos, std::string s, SDL_Renderer *renderer);
-
-  void draw_text_2d(const Vec2d<float> &pos, std::string s,
-                    SDL_Renderer *renderer);
 
   void addBoard(const Board &b, SDL_Renderer *renderer);
   void addCube(const Cube &c);
@@ -36,5 +34,6 @@ class RenderFramework3d : public RenderFramework {
   virtual void clearDrawables() override;
   virtual void drawDrawables(const std::function<void()> &f) override;
 
-  std::vector<std::unique_ptr<Drawable3d>> toDraw;
+  std::array<std::vector<std::unique_ptr<Drawable3d>>, 20> toDraw;
+  std::vector<std::unique_ptr<Drawable3d>> baseLayer;
 };

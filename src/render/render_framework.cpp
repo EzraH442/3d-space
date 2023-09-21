@@ -32,3 +32,11 @@ void RenderFramework::drawFPS(SDL_Renderer* renderer) {
     characterRGBA(renderer, pos.x + i * 8, pos.y, s[i], 255, 255, 255, 255);
   }
 }
+
+void RenderFramework::draw_text_2d(const Vec2d<float>& pos, std::string s,
+                                   SDL_Renderer* renderer,
+                                   const Color& c) const {
+  for (size_t i = 0; i < s.length(); i++) {
+    characterRGBA(renderer, pos.x + i * 7, pos.y, s[i], c.r, c.g, c.b, c.a);
+  }
+}

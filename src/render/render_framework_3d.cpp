@@ -12,34 +12,43 @@ RenderFramework3d::RenderFramework3d(int x, int y, int height, int width)
     : c(100), x(x), y(y), height(height), width(width) {}
 
 void RenderFramework3d::renderObjects(SDL_Renderer *renderer) {
-  for (const auto &d : toDraw) {
+  for (auto &d : baseLayer) {
     d->drawShape(*this, renderer);
+  }
+
+  for (auto &layer : toDraw) {
+    for (auto &d : layer) {
+      d->drawShape(*this, renderer);
+    }
   }
 }
 
-void RenderFramework3d::clearDrawables() { toDraw.clear(); }
+void RenderFramework3d::clearDrawables() {
+  for (auto &layer : toDraw) {
+    layer.clear();
+  }
+}
+
+bool RenderFramework3d::isBackface(const Drawable3d &d) const {
+  auto dist = d.getVertex() - c.getPos();
+  auto test = dist * d.getNormal();
+
+  return test > 0;
+}
 
 void RenderFramework3d::drawDrawables(const std::function<void()> &f) {
   f();
 
-  for (auto it = toDraw.begin(); it != toDraw.end();) {
-    auto dist = it->get()->getVertex() - c.getPos();
-    auto test = dist * it->get()->getNormal();
+  for (auto &layer : toDraw) {
+    std::sort(layer.begin(), layer.end(),
+              [this](const std::unique_ptr<Drawable3d> &d1,
+                     const std::unique_ptr<Drawable3d> &d2) {
+                int dist1 = (d1->getMidpoint() - c.getPos()).squaredMagnitude();
+                int dist2 = (d2->getMidpoint() - c.getPos()).squaredMagnitude();
 
-    if (test >= 0)
-      it = toDraw.erase(it);
-    else
-      ++it;
+                return dist1 > dist2;
+              });
   }
-
-  std::sort(toDraw.begin(), toDraw.end(),
-            [this](const std::unique_ptr<Drawable3d> &d1,
-                   const std::unique_ptr<Drawable3d> &d2) {
-              int dist1 = (d1->getMidpoint() - c.getPos()).squaredMagnitude();
-              int dist2 = (d2->getMidpoint() - c.getPos()).squaredMagnitude();
-
-              return dist1 > dist2;
-            });
 }
 
 Vec2d<float> RenderFramework3d::getProjectedCoordinates(const Vec3d &p) const {
@@ -72,26 +81,23 @@ void RenderFramework3d::draw_text_3d(const Vec3d &pos, std::string s,
   }
 }
 
-void RenderFramework3d::draw_text_2d(const Vec2d<float> &pos, std::string s,
-                                     SDL_Renderer *renderer) {
-  for (size_t i = 0; i < s.length(); i++) {
-    characterRGBA(renderer, pos.x + i * 7, pos.y, s[i], 255, 255, 255, 255);
-  }
-}
-
 void RenderFramework3d::addCube(const Cube &c) {
   for (const auto &d : c.toPolygons()) {
-    toDraw.push_back(std::make_unique<Polygon>(d));
+    if (!isBackface(d)) {
+      toDraw[d.getLayer()].push_back(std::make_unique<Polygon>(d));
+    }
   }
 
   for (const auto &d : c.toLines()) {
-    toDraw.push_back(std::make_unique<Polygon>(d));
+    if (!isBackface(d)) {
+      toDraw[d.getLayer()].push_back(std::make_unique<Polygon>(d));
+    }
   }
 }
 
 void RenderFramework3d::addBoard(const Board &b, SDL_Renderer *renderer) {
   for (const auto &d : b.getLines()) {
-    toDraw.push_back(std::make_unique<Line>(d));
+    baseLayer.push_back(std::make_unique<Line>(d));
   }
 
   for (auto const &pair : b.getCubes()) {

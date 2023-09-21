@@ -30,8 +30,8 @@ void EndState::exit(StateMachine* m) {}
 
 void EndState::render(SDL_Renderer* renderer) {
   fw.render(renderer, [this, renderer]() {
-    fw.draw_text({100, 100}, "FINAL SCORE: " + std::to_string(endScore),
-                 renderer);
+    fw.draw_text_2d({100, 100}, "FINAL SCORE: " + std::to_string(endScore),
+                    renderer);
     playAgainButton.drawShape(fw, renderer);
     menuButton.drawShape(fw, renderer);
   });

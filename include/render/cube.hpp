@@ -17,6 +17,8 @@ class Cube {
   static Vec3d calcCenter(const std::array<Vec3d, 8> &);
   static std::array<Vec3d, 8> makePointArray(const Vec3d &center);
 
+  int getLayer() const;
+
  public:
   Cube();
   Cube(const Cube &);

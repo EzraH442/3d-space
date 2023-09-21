@@ -9,6 +9,7 @@ const Color Color::Yellow = Color(255, 255, 0);
 const Color Color::Green = Color(0, 255, 0);
 const Color Color::Purple = Color(128, 0, 128);
 const Color Color::Red = Color(255, 0, 0);
+const Color Color::Silver(192, 192, 192);
 
 Color::Color() : r(255), g(255), b(255), a(255) {}
 

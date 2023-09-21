@@ -32,10 +32,10 @@ void Button::draw(const RenderFramework2d& fw, SDL_Renderer* renderer) const {
   filledPolygonRGBA(renderer, vx, vy, vertices.size(), color.r, color.g,
                     color.b, color.a);
 
-  fw.draw_text(Vec2d<float>{static_cast<float>(pos.x + dim.x / 2 -
-                                               text.length() * 6 / 2),
-                            static_cast<float>(pos.y + dim.y / 2 - 4)},
-               text, renderer, Color::Black);
+  fw.draw_text_2d(Vec2d<float>{static_cast<float>(pos.x + dim.x / 2 -
+                                                  text.length() * 6 / 2),
+                               static_cast<float>(pos.y + dim.y / 2 - 4)},
+                  text, renderer, Color::Black);
 }
 
 void Button::handleClick(const SDL_MouseButtonEvent* e) const {
