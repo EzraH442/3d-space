@@ -21,10 +21,10 @@ MenuState::MenuState(StateMachine& m)
 void MenuState::enter(StateMachine* m) {}
 void MenuState::exit(StateMachine* m) {}
 
-void MenuState::render(SDL_Renderer* renderer) {
-  fw.render(renderer, [this, renderer]() {
-    playButton.drawShape(fw, renderer);
-    fw.draw_text_2d({115, 100}, "Tetris 3D", renderer);
+void MenuState::render(Context* context) {
+  fw.render(context, [this, context]() {
+    playButton.drawShape(fw, context);
+    fw.draw_text_2d({115, 100}, "Tetris 3D", context);
   });
 }
 

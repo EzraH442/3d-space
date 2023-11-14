@@ -20,9 +20,9 @@ class RenderFramework2d : public RenderFramework {
   int height;
   int width;
 
-  virtual void renderObjects(SDL_Renderer *renderer) override;
+  virtual void renderObjects(Context* context) override;
   virtual void clearDrawables() override;
-  virtual void drawDrawables(const std::function<void()> &f) override;
+  virtual void drawDrawables(const std::function<void()>& f) override;
 
   std::vector<std::unique_ptr<Drawable2d>> toDraw;
 };

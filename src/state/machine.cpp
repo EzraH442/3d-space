@@ -16,6 +16,6 @@ void StateMachine::changeState(State& state) {
   current->enter(this);
 }
 
-void StateMachine::render(SDL_Renderer* renderer) { current->render(renderer); }
+void StateMachine::render(Context* context) { current->render(context); }
 void StateMachine::handleEvents() { current->handleEvents(*this); }
 void StateMachine::update() { current->update(); }

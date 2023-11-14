@@ -1,7 +1,5 @@
 #include "render/polygon.hpp"
 
-#include <SDL2_gfxPrimitives.h>
-
 #include "render/render_framework_3d.hpp"
 #include "vector_3d.hpp"
 
@@ -23,7 +21,8 @@ Vec3d Polygon::getMidpoint() const {
 
   return sum;
 }
-void Polygon::draw(const RenderFramework3d& fw, SDL_Renderer* renderer) const {
+
+void Polygon::draw(const RenderFramework3d& fw, Context* context) const {
   std::array<Vec2d<float>, 4> projected;
 
   for (int i = 0; i < 4; i++) {
@@ -38,8 +37,8 @@ void Polygon::draw(const RenderFramework3d& fw, SDL_Renderer* renderer) const {
     vy[i] = (short)projected[i % 4].y;
   }
 
-  filledPolygonRGBA(renderer, vx, vy, projected.size(), color.r, color.g,
-                    color.b, color.a);
+  // filledPolygonRGBA(context, vx, vy, projected.size(), color.r, color.g,
+  //                   color.b, color.a);
 }
 
 Vec3d Polygon::getNormal() const {

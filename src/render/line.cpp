@@ -12,11 +12,11 @@ Line::Line(const Vec3d &start, const Vec3d &end, int layer)
 Line::Line(const Vec3d &start, const Vec3d &end, const Color &c, int layer)
     : Drawable3d(c), layer(layer), start(start), end(end) {}
 
-void Line::draw(const RenderFramework3d &fw, SDL_Renderer *renderer) const {
+void Line::draw(const RenderFramework3d &fw, Context *context) const {
   Vec2d<float> start = fw.getProjectedCoordinates(this->start);
   Vec2d<float> end = fw.getProjectedCoordinates(this->end);
 
-  SDL_RenderDrawLine(renderer, start.x, start.y, end.x, end.y);
+  // SDL_RenderDrawLine(context, start.x, start.y, end.x, end.y);
 }
 
 Vec3d Line::getMidpoint() const { return (end - start) / 2; }

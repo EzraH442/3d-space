@@ -21,5 +21,5 @@ class Polygon : public Drawable3d {
   int getLayer() const override;
 
   void draw(const RenderFramework3d& framework,
-            SDL_Renderer* renderer) const override;
+            Context* context) const override;
 };

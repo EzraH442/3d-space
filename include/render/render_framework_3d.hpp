@@ -17,9 +17,9 @@ class RenderFramework3d : public RenderFramework {
   Vec2d<float> getProjectedCoordinates(const Vec3d &v) const;
   bool isBackface(const Drawable3d &d) const;
 
-  void draw_text_3d(const Vec3d &pos, std::string s, SDL_Renderer *renderer);
+  void draw_text_3d(const Vec3d &pos, std::string s, Context *context);
 
-  void addBoard(const Board &b, SDL_Renderer *renderer);
+  void addBoard(const Board &b, Context *context);
   void addCube(const Cube &c);
   void addTetrisPiece(const TetrisPiece3d *piece, const Vec3d &pos);
   Camera c;
@@ -30,7 +30,7 @@ class RenderFramework3d : public RenderFramework {
   int height;
   int width;
 
-  virtual void renderObjects(SDL_Renderer *renderer) override;
+  virtual void renderObjects(Context *context) override;
   virtual void clearDrawables() override;
   virtual void drawDrawables(const std::function<void()> &f) override;
 

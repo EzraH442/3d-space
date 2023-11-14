@@ -1,7 +1,5 @@
 #include "render/render_framework_2d.hpp"
 
-#include <SDL2_gfxPrimitives.h>
-
 #include <algorithm>
 
 #include "render/drawable_2d.hpp"
@@ -10,9 +8,9 @@
 RenderFramework2d::RenderFramework2d(int x, int y, int height, int width)
     : x(x), y(y), height(height), width(width) {}
 
-void RenderFramework2d::renderObjects(SDL_Renderer *renderer) {
+void RenderFramework2d::renderObjects(Context *context) {
   for (const auto &d : toDraw) {
-    d->drawShape(*this, renderer);
+    d->drawShape(*this, context);
   }
 }
 

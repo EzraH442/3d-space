@@ -19,7 +19,7 @@ class PlayState : public State {
   PlayState& operator=(const PlayState&) = delete;
 
  public:
-  void render(SDL_Renderer* renderer) override;
+  void render(Context* context) override;
   void handleEvent(SDL_Event* event) override;
   void update() override;
 

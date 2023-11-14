@@ -20,5 +20,5 @@ class Button : public Drawable2d {
   Vec2d<size_t> dim;
   std::function<void(const SDL_MouseButtonEvent* e)> onClick;
 
-  void draw(const RenderFramework2d& fw, SDL_Renderer* renderer) const override;
+  void draw(const RenderFramework2d& fw, Context* context) const override;
 };

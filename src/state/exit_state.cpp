@@ -19,7 +19,7 @@ void ExitState::enter(StateMachine* m) {
 }
 void ExitState::exit(StateMachine* m) {}
 
-void ExitState::render(SDL_Renderer* renderer) {}
+void ExitState::render(Context* context) {}
 
 void ExitState::handleEvent(SDL_Event* event) {}
 

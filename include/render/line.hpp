@@ -19,5 +19,5 @@ class Line : public Drawable3d {
   Vec3d getNormal() const override;
   Vec3d getVertex() const override;
   int getLayer() const override;
-  void draw(const RenderFramework3d &fw, SDL_Renderer *renderer) const override;
+  void draw(const RenderFramework3d &fw, Context *context) const override;
 };

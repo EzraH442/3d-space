@@ -23,16 +23,16 @@ void PlayState::enter(StateMachine* m) {
 
 void PlayState::exit(StateMachine* m) {}
 
-void PlayState::render(SDL_Renderer* renderer) {
-  fw.render(renderer, [this, renderer]() {
+void PlayState::render(Context* context) {
+  fw.render(context, [this, context]() {
     std::string hold_string =
         (g.isHolding() ? std::to_string((int)g.getHeldPiece()) : "NONE");
 
-    fw.addBoard(b, renderer);
+    fw.addBoard(b, context);
     fw.addTetrisPiece(g.getCurrentPiece(), g.getCurrentPiecePos());
     fw.draw_text_2d({800, 800}, "score: " + std::to_string(g.getScore()),
-                    renderer);
-    fw.draw_text_2d({800, 600}, "held piece: " + hold_string, renderer);
+                    context);
+    fw.draw_text_2d({800, 600}, "held piece: " + hold_string, context);
   });
 }
 

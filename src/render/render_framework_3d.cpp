@@ -1,7 +1,5 @@
 #include "render/render_framework_3d.hpp"
 
-#include <SDL2_gfxPrimitives.h>
-
 #include <algorithm>
 
 #include "render/drawable_3d.hpp"
@@ -11,14 +9,14 @@
 RenderFramework3d::RenderFramework3d(int x, int y, int height, int width)
     : c(100), x(x), y(y), height(height), width(width) {}
 
-void RenderFramework3d::renderObjects(SDL_Renderer *renderer) {
+void RenderFramework3d::renderObjects(Context *context) {
   for (auto &d : baseLayer) {
-    d->drawShape(*this, renderer);
+    d->drawShape(*this, context);
   }
 
   for (auto &layer : toDraw) {
     for (auto &d : layer) {
-      d->drawShape(*this, renderer);
+      d->drawShape(*this, context);
     }
   }
 }
@@ -72,13 +70,14 @@ Vec2d<float> RenderFramework3d::getProjectedCoordinates(const Vec3d &p) const {
 }
 
 void RenderFramework3d::draw_text_3d(const Vec3d &pos, std::string s,
-                                     SDL_Renderer *renderer) {
-  for (size_t i = 0; i < s.length(); i++) {
-    Vec2d<float> projectedPos =
-        getProjectedCoordinates(pos + Vec3d{static_cast<int>(i * 10), 0, 0});
-    characterRGBA(renderer, projectedPos.x, projectedPos.y, s[i], 255, 255, 255,
-                  255);
-  }
+                                     Context *context) {
+  // for (size_t i = 0; i < s.length(); i++) {
+  //   Vec2d<float> projectedPos =
+  //       getProjectedCoordinates(pos + Vec3d{static_cast<int>(i * 10), 0, 0});
+  //   characterRGBA(renderer, projectedPos.x, projectedPos.y, s[i], 255, 255,
+  //   255,
+  //                 255);
+  // }
 }
 
 void RenderFramework3d::addCube(const Cube &c) {
@@ -95,7 +94,7 @@ void RenderFramework3d::addCube(const Cube &c) {
   }
 }
 
-void RenderFramework3d::addBoard(const Board &b, SDL_Renderer *renderer) {
+void RenderFramework3d::addBoard(const Board &b, Context *context) {
   for (const auto &d : b.getLines()) {
     baseLayer.push_back(std::make_unique<Line>(d));
   }
@@ -104,10 +103,10 @@ void RenderFramework3d::addBoard(const Board &b, SDL_Renderer *renderer) {
     addCube(pair.second);
   }
 
-  draw_text_3d(Board::sideN, "N", renderer);
-  draw_text_3d(Board::sideE, "E", renderer);
-  draw_text_3d(Board::sideS, "S", renderer);
-  draw_text_3d(Board::sideW, "W", renderer);
+  draw_text_3d(Board::sideN, "N", context);
+  draw_text_3d(Board::sideE, "E", context);
+  draw_text_3d(Board::sideS, "S", context);
+  draw_text_3d(Board::sideW, "W", context);
 }
 
 void RenderFramework3d::addTetrisPiece(const TetrisPiece3d *piece,

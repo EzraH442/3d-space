@@ -1,5 +1,6 @@
 #pragma once
 
+#include "render/context.hpp"
 #include "state.hpp"
 
 class StateMachine {
@@ -8,11 +9,13 @@ class StateMachine {
   ~StateMachine();
   void changeState(State& state);
 
-  void render(SDL_Renderer* renderer);
+  void render(Context* context);
   void handleEvents();
   void update();
 
   int score;
+
+  Context ctx;
 
  private:
   State* current;

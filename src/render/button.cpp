@@ -1,7 +1,5 @@
 #include "render/button.hpp"
 
-#include <SDL2_gfxPrimitives.h>
-
 #include "render/drawable_2d.hpp"
 #include "render/render_framework_2d.hpp"
 
@@ -14,7 +12,7 @@ Button::Button(
       dim(dim),
       onClick(onClick) {}
 
-void Button::draw(const RenderFramework2d& fw, SDL_Renderer* renderer) const {
+void Button::draw(const RenderFramework2d& fw, Context* context) const {
   std::array<Vec2d<size_t>, 4> vertices;
   vertices[0] = pos;
   vertices[1] = Vec2d<size_t>{pos.x + dim.x, pos.y};
@@ -29,13 +27,14 @@ void Button::draw(const RenderFramework2d& fw, SDL_Renderer* renderer) const {
     vy[i] = (short)vertices[i % 4].y;
   }
 
-  filledPolygonRGBA(renderer, vx, vy, vertices.size(), color.r, color.g,
-                    color.b, color.a);
+  // filledPolygonRGBA(context, vx, vy, vertices.size(), color.r, color.g,
+  // color.b,
+  //                   color.a);
 
   fw.draw_text_2d(Vec2d<float>{static_cast<float>(pos.x + dim.x / 2 -
                                                   text.length() * 6 / 2),
                                static_cast<float>(pos.y + dim.y / 2 - 4)},
-                  text, renderer, Color::Black);
+                  text, context, Color::Black);
 }
 
 void Button::handleClick(const SDL_MouseButtonEvent* e) const {
