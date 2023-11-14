@@ -25,10 +25,14 @@ void PlayState::exit(StateMachine* m) {}
 
 void PlayState::render(SDL_Renderer* renderer) {
   fw.render(renderer, [this, renderer]() {
+    std::string hold_string =
+        (g.isHolding() ? std::to_string((int)g.getHeldPiece()) : "NONE");
+
     fw.addBoard(b, renderer);
     fw.addTetrisPiece(g.getCurrentPiece(), g.getCurrentPiecePos());
     fw.draw_text_2d({800, 800}, "score: " + std::to_string(g.getScore()),
                     renderer);
+    fw.draw_text_2d({800, 600}, "held piece: " + hold_string, renderer);
   });
 }
 
@@ -68,6 +72,11 @@ void PlayState::handleEvent(SDL_Event* event) {
         g.tryMove({0, -1, 0}, b);
       } else if (key == SDLK_l) {
         g.tryMove({-1, 0, 0}, b);
+      }
+
+      // hold
+      else if (key == SDLK_h) {
+        g.tryHold();
       }
 
       // hard drop

@@ -13,20 +13,22 @@ Game::~Game() {}
 void Game::reset() {
   bag.reset();
   score = 0;
-  currentlyHolding = false;
   currentPieceId = bag.getNextPieceType();
   currentPiece = tpf.createPiece(currentPieceId);
   currentPiecePos = {5, 5, 18};
   currentRotationState = {0, 0, 0};
+
+  currentlyHolding = false;
   canHold = true;
 }
 
 void Game::init() {
   currentPieceId = bag.getNextPieceType();
   currentPiece = tpf.createPiece(currentPieceId);
-  currentlyHolding = false;
   currentPiecePos = {5, 5, 18};
   currentRotationState = {0, 0, 0};
+
+  currentlyHolding = false;
   canHold = true;
 }
 
@@ -55,8 +57,16 @@ void Game::hardDrop(Board& b, StateMachine& m) {
     m.changeState(EndState::getInstance(m));
   }
 
-  canHold = true;
-  getNewPiece();
+  if (currentlyHolding) {
+    currentPieceId = currentHeldId;
+    currentlyHolding = false;
+    canHold = true;
+    currentPiece.reset(tpf.createPiece(currentPieceId).release());
+    currentPiecePos = {5, 5, 18};
+    currentRotationState = {0, 0, 0};
+  } else {
+    getNewPiece();
+  }
 }
 
 const Vec3d Game::getCurrentPiecePos() const { return currentPiecePos; }
@@ -69,19 +79,19 @@ const TetrisPiece3d* Game::getCurrentPiece() const {
 }
 
 int Game::tryHold() {
-  if (!currentlyHolding) {
-    currentHeldId = currentPieceId;
-
-    getNewPiece();
-
-    return 0;
-  } else if (!currentlyHolding && canHold) {
-    currentlyHolding = true;
-    swapPiece();
-    return 1;
-  } else {
-    return 2;
+  if (canHold) {
+    if (currentlyHolding) {
+      swapPiece();
+      canHold = false;
+      return 1;
+    } else {
+      currentHeldId = currentPieceId;
+      getNewPiece();
+      currentlyHolding = true;
+      return 0;
+    }
   }
+  return 2;
 }
 
 bool Game::tryMove(const Vec3d& v, const Board& board) {
