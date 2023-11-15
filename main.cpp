@@ -2,6 +2,8 @@
 #include <SDL.h>
 
 #include <ctime>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <unordered_map>
 
@@ -25,33 +27,6 @@ struct main_loop_data_t {
 };
 
 typedef enum t_attrib_id { attrib_position, attrib_color } t_attrib_id;
-
-void mat4x4_ortho(t_mat4x4 out, float left, float right, float bottom,
-                  float top, float znear, float zfar) {
-#define T(a, b) (a * 4 + b)
-
-  out[T(0, 0)] = 2.0f / (right - left);
-  out[T(0, 1)] = 0.0f;
-  out[T(0, 2)] = 0.0f;
-  out[T(0, 3)] = 0.0f;
-
-  out[T(1, 1)] = 2.0f / (top - bottom);
-  out[T(1, 0)] = 0.0f;
-  out[T(1, 2)] = 0.0f;
-  out[T(1, 3)] = 0.0f;
-
-  out[T(2, 2)] = -2.0f / (zfar - znear);
-  out[T(2, 0)] = 0.0f;
-  out[T(2, 1)] = 0.0f;
-  out[T(2, 3)] = 0.0f;
-
-  out[T(3, 0)] = -(right + left) / (right - left);
-  out[T(3, 1)] = -(top + bottom) / (top - bottom);
-  out[T(3, 2)] = -(zfar + znear) / (zfar - znear);
-  out[T(3, 3)] = 1.0f;
-
-#undef T
-}
 
 void main_loop(void* d) {
   main_loop_data_t* data = reinterpret_cast<main_loop_data_t*>(d);
@@ -84,46 +59,70 @@ int main() {
                                         SDL_WINDOWPOS_UNDEFINED, width, height,
                                         SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
   SDL_GLContext context = SDL_GL_CreateContext(window);
+  StateMachine machine;
 
   glewInit();
-  StateMachine machine;
 
   GLuint program = LoadShaders("shaders/vertex_shader.vertexshader",
                                "shaders/fragment_shader.fragmentshader");
 
-  glDisable(GL_DEPTH_TEST);
-  glClearColor(0.5, 0.0, 0.0, 0.0);
-  glViewport(0, 0, width, height);
+  // set machine.ctx;
 
-  GLuint vao, vbo;
+  glClearColor(0.0, 0.05, 0.3, 1.0);
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
 
-  glGenVertexArrays(1, &vao);
-  glGenBuffers(1, &vbo);
-  glBindVertexArray(vao);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  GLuint VertexArrayID;
+  glGenVertexArrays(1, &VertexArrayID);
+  glBindVertexArray(VertexArrayID);
 
-  glEnableVertexAttribArray(attrib_position);
-  glEnableVertexAttribArray(attrib_color);
+  GLuint MatrixID = glGetUniformLocation(program, "MVP");
 
-  glVertexAttribPointer(attrib_color, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 6,
-                        0);
-  glVertexAttribPointer(attrib_position, 2, GL_FLOAT, GL_FALSE,
-                        sizeof(float) * 6, (void*)(4 * sizeof(float)));
+  // Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive
+  // vertices give a triangle. A cube has 6 faces with 2 triangles each, so this
+  // makes 6*2=12 triangles, and 12*3 vertices
+  static const GLfloat g_vertex_buffer_data[] = {
+      // the cube
+      -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+      -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f, -1.0f,
+      -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f,
+      -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f,
+      -1.0f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
+      1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+      -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
+      1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f,
+      -1.0f, 1.0f, 1.0f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
+      1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 1.0f, -1.0f, 1.0f,
 
-  const GLfloat g_vertex_buffer_data[] = {
-      /*  R, G, B, A, X, Y  */
-      1, 0, 0, 1, 0, 0, 0, 1, 0, 1, width, 0,      0, 0, 1, 1, width, height,
+      // a triangle
+      2, 2, 2, 2, 1, 2, 1, 1, 2};
 
-      1, 0, 0, 1, 0, 0, 0, 0, 1, 1, width, height, 1, 1, 1, 1, 0,     height};
+  // One color for each vertex. They were generated randomly.
+  static GLfloat g_color_buffer_data[12 * 3 * 3 + 3];
+  for (int v = 0; v < 12 * 3; v++) {
+    g_color_buffer_data[3 * v + 0] =
+        0.5 + (float)rand() / (float)(RAND_MAX / 0.2);
+    g_color_buffer_data[3 * v + 1] =
+        0 + (float)rand() / (float)(RAND_MAX / 0.2);
+    g_color_buffer_data[3 * v + 2] =
+        0.5 + (float)rand() / (float)(RAND_MAX / 0.2);
+  }
+  g_color_buffer_data[12 * 3 * 3 + 1] = 1;
+  g_color_buffer_data[12 * 3 * 3 + 1] = 1;
+  g_color_buffer_data[12 * 3 * 3 + 1] = 1;
 
+  GLuint vertexbuffer;
+  glGenBuffers(1, &vertexbuffer);
+  glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
   glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data),
                g_vertex_buffer_data, GL_STATIC_DRAW);
 
-  t_mat4x4 projection_matrix;
-  mat4x4_ortho(projection_matrix, 0.0f, (float)width, (float)height, 0.0f, 0.0f,
-               100.0f);
-  glUniformMatrix4fv(glGetUniformLocation(program, "u_projection_matrix"), 1,
-                     GL_FALSE, projection_matrix);
+  GLuint colorbuffer;
+  glGenBuffers(1, &colorbuffer);
+  glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data),
+               g_color_buffer_data, GL_STATIC_DRAW);
+
   main_loop_data_t data = {machine};
 
   start_time = SDL_GetTicks();
@@ -133,11 +132,43 @@ int main() {
 #else
 
   while (1) {
+    glm::mat4 Projection = glm::perspective(
+        glm::radians(90.0f), (float)width / (float)height, 0.1f, 100.0f);
+    glm::mat4 View =
+        glm::lookAt(glm::vec3(3, 5, 4), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+    glm::mat4 Model = glm::mat4(1.0f);
+    glm::mat4 MVP = Projection * View * Model;
     // do stuff
     main_loop(&data);
-    glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
 
+    // Clear the screen
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Use our shader
+    glUseProgram(program);
+
+    // Send our transformation to the currently bound shader,
+    // in the "MVP" uniform
+    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+
+    // 1rst attribute buffer : vertices
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+    // 2nd attribute buffer : colors
+    glEnableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+    // Draw the triangle !
+    glDrawArrays(GL_TRIANGLES, 0,
+                 13 * 3);  // 12*3 indices starting at 0 -> 12 triangles
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+
+    // Swap buffers
     SDL_GL_SwapWindow(window);
     SDL_Delay(1);
   }
